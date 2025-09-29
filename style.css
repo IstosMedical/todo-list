@@ -49,6 +49,14 @@ h1 {
   min-width: 0;
 }
 
+.input-row input[type="text"] {
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 button {
   padding: 0.5rem 1rem;
   background: #4f46e5;
