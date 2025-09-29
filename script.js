@@ -34,8 +34,8 @@ function createTask(text) {
     id: Date.now(),
     text,
     done: false,
-        urgent: /urgent|asap|now|follow up|call|email|remind|confirm|reorder/i.test(text),
-        important: /important|goal|project|strategy|prepare|review|plan|deck|report|summary|quote|quotation/i.test(text)
+    urgent: /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text),
+    important: /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text)  
   };
 }
 
