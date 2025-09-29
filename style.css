@@ -169,10 +169,10 @@ li.done span {
 
 .tag-options {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  margin-top: 1rem; /* adds the line gap */
+  font-size: 0.85rem;
   color: #555;
 }
 
