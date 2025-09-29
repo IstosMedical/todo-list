@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Todo_list</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>ISTOS Todo List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- android App Settings -->
-  <link rel="manifest" href="manifest.json">
+  <!-- Android App Settings -->
+  <link rel="manifest" href="manifest.json" />
 
   <!-- iOS App Settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="todo_list">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Todo List" />
 
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
@@ -27,7 +28,7 @@
           <input type="text" id="task-input" placeholder="Add a task..." required />
           <button type="submit">Add</button>
         </div>
-      
+
         <div class="tag-options">
           <label><input type="checkbox" id="urgent-tag" /> 🔥 Urgent</label>
           <label><input type="checkbox" id="important-tag" /> 🎯 Important</label>
@@ -37,10 +38,10 @@
     </section>
 
     <section id="matrix" aria-label="Eisenhower Matrix">
-      <div id="Q1" class="quadrant"><h3>Do Now</h3></div>
-      <div id="Q2" class="quadrant"><h3>Schedule</h3></div>
-      <div id="Q3" class="quadrant"><h3>Delegate</h3></div>
-      <div id="Q4" class="quadrant"><h3>can wait</h3></div>
+      <div id="Q1" class="quadrant"><h2>Do Now</h2></div>
+      <div id="Q2" class="quadrant"><h2>Schedule</h2></div>
+      <div id="Q3" class="quadrant"><h2>Delegate</h2></div>
+      <div id="Q4" class="quadrant"><h2>Can Wait</h2></div>
     </section>
   </main>
 
