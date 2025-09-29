@@ -7,6 +7,16 @@ if (task.done) {
   li.classList.add('completed');
 }
 
+const span = document.createElement('span');
+span.textContent = task.text;
+
+if (task.done) {
+  span.classList.add('completed');
+}
+
+li.appendChild(span);
+li.appendChild(del); // your delete button
+
 const del = document.createElement('button');
 del.textContent = '✕';
 del.className = 'delete-btn';
