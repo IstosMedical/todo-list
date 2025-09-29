@@ -54,3 +54,8 @@ li.done span {
   text-decoration: line-through;
   color: #aaa;
 }
+
+.urgent {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+}
