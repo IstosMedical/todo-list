@@ -110,7 +110,7 @@ button:hover {
 .task-list ul,
 #task-list {
   list-style: none;
-  padding: 0;
+  padding: 2;
 }
 
 li {
@@ -168,29 +168,58 @@ li.done span {
   color: #888;
 }
 
-.input-row {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+/* Container padding for mobile */
+.container {
+  padding: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
+/* Input and button row */
+.input-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.input-row input,
+.input-row button {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+/* Checkbox row */
 .tag-options {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 0.5rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
   color: #555;
 }
 
-.tag-options label {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
+/* Quadrant layout */
+#matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-.preview-text {
-  font-style: italic;
-  color: #888;
+/* Responsive tweak for mobile */
+@media (max-width: 600px) {
+  .input-row {
+    flex-direction: column;
+  }
+
+  #matrix {
+    grid-template-columns: 1fr;
+  }
+
+  .tag-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
