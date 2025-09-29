@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Q1: 'Do Now',
       Q2: 'Schedule',
       Q3: 'Delegate',
-      Q4: 'can wait'
+      Q4: 'Can Wait'
     }[q];
   }
 
