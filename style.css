@@ -140,3 +140,17 @@ li.done span {
     grid-template-columns: 1fr;
   }
 }
+
+.tag-options {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.preview-text {
+  font-style: italic;
+  color: #888;
+}
