@@ -97,13 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function handleToggle(task) {
-    task.done = !task.done;
-    updateLocalStorage();
-    renderTasks();
-    sync('toggle', task);
-  }
-
   function handleDelete(task) {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
