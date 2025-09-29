@@ -186,10 +186,3 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
-
-.completed {
-  text-decoration: line-through;
-  color: #999;
-  opacity: 0.7;
-}
-
