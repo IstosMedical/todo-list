@@ -1,0 +1,26 @@
+{
+  "name": "Itudo | ISTOS Medical",
+  "short_name": "todo_list",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0055a5",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "mini.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "mini.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "stock.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
