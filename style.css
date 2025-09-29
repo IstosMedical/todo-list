@@ -12,12 +12,6 @@ body {
   padding: 2rem;
 }
 
-form {
-  display: block;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
 /* Container */
 .container {
   max-width: 600px;
@@ -41,6 +35,20 @@ h1 {
   font-style: italic;
   color: #888;
   margin-bottom: 1.5rem;
+}
+
+/* Form */
+form {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .input-row input,
@@ -70,7 +78,8 @@ button:hover {
   background: #4338ca;
 }
 
-.delete-btn {
+.delete-btn,
+.quadrant li button {
   font-size: 0.8rem;
   color: #888;
   background: none;
@@ -81,7 +90,8 @@ button:hover {
   line-height: 1;
 }
 
-.delete-btn:hover {
+.delete-btn:hover,
+.quadrant li button:hover {
   color: #555;
 }
 
@@ -128,7 +138,6 @@ button:hover {
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
-/* Quadrant Colors */
 #Q1.quadrant { background-color: #ffe5e5; }
 #Q2.quadrant { background-color: #e5f4ff; }
 #Q3.quadrant { background-color: #fff9e5; }
@@ -157,46 +166,23 @@ button:hover {
     max-width: 100%;
   }
 
-.input-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
+  .input-row {
+    flex-direction: column;
+  }
 
-.tag-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  color: #555;
-}
+  .input-row button {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    width: 50%;
+    align-self: center;
+  }
+
+  .tag-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
   #matrix {
     grid-template-columns: 1fr;
-  }
-}
-
-.quadrant li button {
-  font-size: 0.8rem;         /* Smaller size */
-  color: #888;               /* Soft grey */
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 0.5rem;
-  padding: 0;
-  line-height: 1;
-}
-
-.quadrant li button:hover {
-  color: #555;               /* Slightly darker on hover */
-}
-
-@media (max-width: 600px) {
-  .input-row button {
-    font-size: 0.75rem;       /* Smaller text */
-    padding: 0.4rem 0.8rem;   /* Reduced padding */
-    width: 50%;               /* Half width on mobile */
-    align-self: center;       /* Centered in column layout */
   }
 }
