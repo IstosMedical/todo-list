@@ -28,11 +28,14 @@ form.addEventListener('submit', e => {
   input.value = '';
 });
 
+
 function createTask(text) {
   return {
     id: Date.now(),
     text,
-    done: false
+    done: false,
+    urgent: /urgent|asap|now/i.test(text),
+    important: /important|goal|project/i.test(text)
   };
 }
 
@@ -66,6 +69,37 @@ function renderTasks() {
   });
 }
 
+function getQuadrant(task) {
+  if (task.urgent && task.important) return 'Q1';
+  if (!task.urgent && task.important) return 'Q2';
+  if (task.urgent && !task.important) return 'Q3';
+  return 'Q4';
+}
+
+function renderTasks() {
+  ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
+    document.getElementById(q).innerHTML = `<h2>${getLabel(q)}</h2>`;
+  });
+
+  tasks.forEach(task => {
+    const quadrant = getQuadrant(task);
+    const container = document.getElementById(quadrant);
+
+    const li = document.createElement('li');
+    li.className = task.done ? 'done' : '';
+    li.textContent = task.text;
+    container.appendChild(li);
+  });
+}
+
+function getLabel(q) {
+  return {
+    Q1: 'Do Now',
+    Q2: 'Schedule',
+    Q3: 'Delegate',
+    Q4: 'Ignore'
+  }[q];
+}
 
 function handleToggle(task) {
   task.done = !task.done;
@@ -78,6 +112,7 @@ function handleDelete(task) {
   renderTasks();
   syncTask('delete', task);
 }
+
 
 function syncTask(action, task) {
   fetch(ENDPOINT, {
