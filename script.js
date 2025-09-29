@@ -1,5 +1,15 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
+const form = document.getElementById('task-form');
+const input = document.getElementById('task-input');
+const list = document.getElementById('task-list');
+const urgentTag = document.getElementById('urgent-tag');
+const importantTag = document.getElementById('important-tag');
+const preview = document.getElementById('quadrant-preview');
+const toast = document.getElementById('toast');
+
+let tasks = [];
+
 window.onload = () => {
   fetch(ENDPOINT)
     .then(res => res.json())
@@ -7,14 +17,11 @@ window.onload = () => {
       tasks = data;
       renderTasks();
     })
-    .catch(err => console.error('Failed to load tasks:', err));
+    .catch(err => {
+      console.error('❌ Failed to load tasks:', err);
+      showToast('❌ Failed to load tasks');
+    });
 };
-
-const form = document.getElementById('task-form');
-const input = document.getElementById('task-input');
-const list = document.getElementById('task-list');
-
-let tasks = [];
 
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -26,35 +33,56 @@ form.addEventListener('submit', e => {
   renderTasks();
   syncTask('add', task);
   input.value = '';
+  urgentTag.checked = false;
+  importantTag.checked = false;
+  updatePreview();
 });
 
+input.addEventListener('input', updatePreview);
+urgentTag.addEventListener('change', updatePreview);
+importantTag.addEventListener('change', updatePreview);
 
 function createTask(text) {
+  const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
+  const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
+
   return {
     id: Date.now(),
     text,
     done: false,
-    urgent: /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text),
-    important: /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text)  
+    urgent: urgentTag.checked || autoUrgent,
+    important: importantTag.checked || autoImportant
   };
 }
 
+function getQuadrant(task) {
+  if (task.urgent && task.important) return 'Q1';
+  if (!task.urgent && task.important) return 'Q2';
+  if (task.urgent && !task.important) return 'Q3';
+  return 'Q4';
+}
+
+function getLabel(q) {
+  return {
+    Q1: 'Do Now',
+    Q2: 'Schedule',
+    Q3: 'Delegate',
+    Q4: 'can wait'
+  }[q];
+}
 
 function renderTasks() {
-  list.innerHTML = '';
-  const now = Date.now();
+  ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
+    const container = document.getElementById(q);
+    container.innerHTML = `<h2>${getLabel(q)}</h2>`;
+  });
 
   tasks.forEach(task => {
+    const quadrant = getQuadrant(task);
+    const container = document.getElementById(quadrant);
+
     const li = document.createElement('li');
     li.className = task.done ? 'done' : '';
-
-    const age = now - task.id;
-    const isUrgentKeyword = /urgent|asap|important/i.test(task.text);
-    const isOld = age > 3 * 24 * 60 * 60 * 1000;
-
-    if (!task.done && (isUrgentKeyword || isOld)) {
-      li.classList.add('urgent');
-    }
 
     const span = document.createElement('span');
     span.textContent = task.text;
@@ -65,40 +93,8 @@ function renderTasks() {
     del.onclick = () => handleDelete(task);
 
     li.append(span, del);
-    list.appendChild(li);
-  });
-}
-
-function getQuadrant(task) {
-  if (task.urgent && task.important) return 'Q1';
-  if (!task.urgent && task.important) return 'Q2';
-  if (task.urgent && !task.important) return 'Q3';
-  return 'Q4';
-}
-
-function renderTasks() {
-  ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
-    document.getElementById(q).innerHTML = `<h2>${getLabel(q)}</h2>`;
-  });
-
-  tasks.forEach(task => {
-    const quadrant = getQuadrant(task);
-    const container = document.getElementById(quadrant);
-
-    const li = document.createElement('li');
-    li.className = task.done ? 'done' : '';
-    li.textContent = task.text;
     container.appendChild(li);
   });
-}
-
-function getLabel(q) {
-  return {
-    Q1: 'Do Now',
-    Q2: 'Schedule',
-    Q3: 'Delegate',
-    Q4: 'Can wait'
-  }[q];
 }
 
 function handleToggle(task) {
@@ -113,11 +109,40 @@ function handleDelete(task) {
   syncTask('delete', task);
 }
 
-
 function syncTask(action, task) {
   fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action, task })
-  }).catch(err => console.error('Sync failed:', err));
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === 'success') {
+      showToast(`✅ ${action} successful`);
+    } else {
+      showToast(`⚠️ ${action} failed`);
+    }
+  })
+  .catch(err => {
+    console.error('❌ Sync error:', err);
+    showToast('❌ Sync error');
+  });
+}
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function updatePreview() {
+  const text = input.value.trim();
+  const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
+  const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
+
+  const urgent = urgentTag.checked || autoUrgent;
+  const important = importantTag.checked || autoImportant;
+
+  const quadrant = getQuadrant({ urgent, important });
+  preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
 }
