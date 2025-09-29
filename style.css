@@ -37,14 +37,6 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
-/* Form Layout */
-.input-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
 .input-row input,
 .input-row button {
   flex: 1 1 100%;
