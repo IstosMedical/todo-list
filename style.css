@@ -59,3 +59,23 @@ li.done span {
   background-color: #fff3cd;
   border-left: 4px solid #ffc107;
 }
+
+#matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+.quadrant {
+  background: #f0f4f8;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.quadrant h2 {
+  margin-top: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
