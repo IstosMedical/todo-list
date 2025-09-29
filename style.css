@@ -112,15 +112,6 @@ button:hover {
   }
 }
 
-.tag-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 1rem; /* adds the line gap */
-  font-size: 0.85rem;
-  color: #555;
-}
-
 .preview-text {
   font-style: italic;
   color: #888;
@@ -176,8 +167,25 @@ button:hover {
     grid-template-columns: 1fr;
   }
 
-  .tag-options {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+.tag-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.tag-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.4;
+  padding-left: 0.25rem;
+}
+
+.tag-options input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
