@@ -171,11 +171,26 @@ li.done span {
 .input-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.tag-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #555;
 }
 
 .tag-options label {
   display: flex;
   align-items: center;
   gap: 0.3rem;
+}
+
+.preview-text {
+  font-style: italic;
+  color: #888;
 }
