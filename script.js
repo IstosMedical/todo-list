@@ -1,3 +1,13 @@
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
+
+function syncTask(action, task) {
+  fetch(ENDPOINT, {
+    method: 'POST',
+    body: JSON.stringify({ action, task }),
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
 const form = document.getElementById('task-form');
 const input = document.getElementById('task-input');
 const list = document.getElementById('task-list');
