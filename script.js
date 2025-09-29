@@ -36,11 +36,22 @@ function createTask(text) {
   };
 }
 
+
 function renderTasks() {
   list.innerHTML = '';
+  const now = Date.now();
+
   tasks.forEach(task => {
     const li = document.createElement('li');
     li.className = task.done ? 'done' : '';
+
+    const age = now - task.id;
+    const isUrgentKeyword = /urgent|asap|important/i.test(task.text);
+    const isOld = age > 3 * 24 * 60 * 60 * 1000;
+
+    if (!task.done && (isUrgentKeyword || isOld)) {
+      li.classList.add('urgent');
+    }
 
     const span = document.createElement('span');
     span.textContent = task.text;
@@ -54,6 +65,7 @@ function renderTasks() {
     list.appendChild(li);
   });
 }
+
 
 function handleToggle(task) {
   task.done = !task.done;
