@@ -174,11 +174,8 @@ li.done span {
   margin-bottom: 2rem;
 }
 
-.tag-options {
+.tag-options label {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  font-size: 0.85rem;
-  color: #555;
+  align-items: center;
+  gap: 0.3rem;
 }
