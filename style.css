@@ -31,10 +31,12 @@ h1 {
 
 .subtitle {
   text-align: center;
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #888;
   margin-bottom: 1.5rem;
 }
+
 
 /* Form */
 form {
