@@ -111,8 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function handleToggle(task) {
     task.done = !task.done;
+    updateLocalStorage();
     renderTasks();
-    syncTask('toggle', task);
+    sync('toggle', task);
   }
 
   function handleDelete(task) {
