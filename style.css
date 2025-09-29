@@ -12,6 +12,12 @@ body {
   padding: 2rem;
 }
 
+form {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 /* Container */
 .container {
   max-width: 600px;
@@ -141,14 +147,20 @@ button:hover {
     max-width: 100%;
   }
 
-  .input-row {
-    flex-direction: column;
-  }
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
 
-  .tag-options {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+.tag-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: #555;
+}
 
   #matrix {
     grid-template-columns: 1fr;
