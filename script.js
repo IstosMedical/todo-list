@@ -1,27 +1,5 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
-const li = document.createElement('li');
-li.textContent = task.text;
-
-if (task.done) {
-  li.classList.add('completed');
-}
-
-const span = document.createElement('span');
-span.textContent = task.text;
-
-if (task.done) {
-  span.classList.add('completed');
-}
-
-li.appendChild(span);
-li.appendChild(del); // your delete button
-
-const del = document.createElement('button');
-del.textContent = '✕';
-del.className = 'delete-btn';
-del.onclick = () => handleDelete(task);
-
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
