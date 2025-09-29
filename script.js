@@ -34,8 +34,8 @@ function createTask(text) {
     id: Date.now(),
     text,
     done: false,
-    urgent: /urgent|asap|now/i.test(text),
-    important: /important|goal|project/i.test(text)
+        urgent: /urgent|asap|now|follow up|call|email|remind|confirm|reorder/i.test(text),
+        important: /important|goal|project|strategy|prepare|review|plan|deck|report|summary|quote|quotation/i.test(text)
   };
 }
 
@@ -97,7 +97,7 @@ function getLabel(q) {
     Q1: 'Do Now',
     Q2: 'Schedule',
     Q3: 'Delegate',
-    Q4: 'Ignore'
+    Q4: 'Can wait'
   }[q];
 }
 
