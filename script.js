@@ -1,5 +1,15 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
+window.onload = () => {
+  fetch(ENDPOINT)
+    .then(res => res.json())
+    .then(data => {
+      tasks = data;
+      renderTasks();
+    })
+    .catch(err => console.error('Failed to load tasks:', err));
+};
+
 const form = document.getElementById('task-form');
 const input = document.getElementById('task-input');
 const list = document.getElementById('task-list');
