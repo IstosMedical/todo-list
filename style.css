@@ -183,3 +183,12 @@ button:hover {
 .quadrant li button:hover {
   color: #555;               /* Slightly darker on hover */
 }
+
+@media (max-width: 600px) {
+  .input-row button {
+    font-size: 0.75rem;       /* Smaller text */
+    padding: 0.4rem 0.8rem;   /* Reduced padding */
+    width: 50%;               /* Half width on mobile */
+    align-self: center;       /* Centered in column layout */
+  }
+}
