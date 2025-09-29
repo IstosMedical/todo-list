@@ -1,5 +1,12 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
+const li = document.createElement('li');
+li.textContent = task.text;
+
+if (task.done) {
+  li.classList.add('completed');
+}
+
 const del = document.createElement('button');
 del.textContent = '✕';
 del.className = 'delete-btn';
