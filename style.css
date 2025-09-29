@@ -1,28 +1,43 @@
-
-/* Quadrant Colors */
-#Q1 { background-color: #ffe5e5; }     /* 🔴 Do Now – Urgent & Important */
-#Q2 { background-color: #e5f4ff; }     /* 🔵 Schedule – Important but Not Urgent */
-#Q3 { background-color: #fff9e5; }     /* 🟡 Delegate – Urgent but Not Important */
-#Q4 { background-color: #f0f0f0; }     /* ⚪ Can Wait – Neither Urgent nor Important */
-
-#Q1 h2 { color: #d32f2f; }
-#Q2 h2 { color: #1976d2; }
-#Q3 h2 { color: #f9a825; }
-#Q4 h2 { color: #616161; }
-
-.quadrant li {
-  background: #fff;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border-left: 4px solid transparent;
+/* Eisenhower Matrix */
+#matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
-/* Optional: Color-coded task borders */
-#Q1 li { border-left-color: #d32f2f; }
-#Q2 li { border-left-color: #1976d2; }
-#Q3 li { border-left-color: #f9a825; }
-#Q4 li { border-left-color: #9e9e9e; }
+/* Eisenhower Matrix Quadrants */
+#Q1.quadrant {
+  background-color: #ffe5e5;
+}
+#Q2.quadrant {
+  background-color: #e5f4ff;
+}
+#Q3.quadrant {
+  background-color: #fff9e5;
+}
+#Q4.quadrant {
+  background-color: #f0f0f0;
+}
+
+#Q1 h2 {
+  color: #d32f2f;
+}
+#Q2 h2 {
+  color: #1976d2;
+}
+#Q3 h2 {
+  color: #f9a825;
+}
+#Q4 h2 {
+  color: #616161;
+}
+
+#Q1 li { border-left: 4px solid #d32f2f; }
+#Q2 li { border-left: 4px solid #1976d2; }
+#Q3 li { border-left: 4px solid #f9a825; }
+#Q4 li { border-left: 4px solid #9e9e9e; }
+
 
 /* Base Reset */
 * {
@@ -110,34 +125,6 @@ li.done span {
   color: #aaa;
 }
 
-/* Eisenhower Matrix */
-#matrix {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.quadrant {
-  background: #eef2ff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-.quadrant h2 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: #4f46e5;
-}
-
-.quadrant li {
-  background: #fff;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 4px;
-  border-left: 4px solid #4f46e5;
-}
 
 /* Toast Notification */
 .toast {
