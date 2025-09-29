@@ -171,14 +171,14 @@ li.done span {
 .input-row {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .tag-options {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   font-size: 0.85rem;
   color: #555;
 }
