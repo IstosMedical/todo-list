@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const urgentTag = document.getElementById('urgent-tag');
   const importantTag = document.getElementById('important-tag');
   const preview = document.getElementById('quadrant-preview');
-  const toast = document.getElementById('toast');
-
+  
   let tasks = [];
 
   // Load tasks from backend
@@ -124,32 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
     syncTask('delete', task);
-  }
-
-  function syncTask(action, task) {
-    fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, task })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 'success') {
-        showToast(`✅ ${action} successful`);
-      } else {
-        showToast(`⚠️ ${action} failed`);
-      }
-    })
-    .catch(err => {
-      console.error('❌ Sync error:', err);
-      showToast('❌ Sync error');
-    });
-  }
-
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
   function updatePreview() {
