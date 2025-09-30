@@ -1,14 +1,8 @@
-const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
-
-const del = document.createElement('button');
-del.textContent = '✕';
-del.className = 'delete-btn';
-del.onclick = () => handleDelete(task);
+const ENDPOINT = 'https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
-  const list = document.getElementById('task-list');
   const urgentTag = document.getElementById('urgent-tag');
   const importantTag = document.getElementById('important-tag');
   const preview = document.getElementById('quadrant-preview');
@@ -16,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let tasks = [];
 
-  // Load tasks from backend
   fetch(ENDPOINT)
     .then(res => res.json())
     .then(data => {
@@ -28,15 +21,33 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('❌ Failed to load tasks');
     });
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
 
     const task = createTask(text);
-    tasks.push(task);
-    renderTasks();
-    syncTask('add', task);
+
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'add', task })
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        tasks.push(task);
+        renderTasks();
+        showToast('✅ Task added');
+      } else {
+        showToast('⚠️ Sync failed');
+      }
+    } catch (err) {
+      console.error('❌ Sync error:', err);
+      showToast('❌ Sync error');
+    }
+
     input.value = '';
     urgentTag.checked = false;
     importantTag.checked = false;
