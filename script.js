@@ -3,7 +3,6 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0t
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
-  const list = document.getElementById('task-list');
   const urgentTag = document.getElementById('urgent-tag');
   const importantTag = document.getElementById('important-tag');
   const preview = document.getElementById('quadrant-preview');
@@ -23,39 +22,38 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('❌ Failed to load tasks');
     });
 
-form.addEventListener('submit', async e => {
-  e.preventDefault();
-  const text = input.value.trim();
-  if (!text) return;
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
 
-  const task = createTask(text);
+    const task = createTask(text);
 
-  try {
-    const res = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'add', task })
-    });
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'add', task })
+      });
 
-    const data = await res.json();
-    if (data.status === 'success') {
-      tasks.push(task);
-      renderTasks();
-      showToast('✅ Task added');
-    } else {
-      showToast('⚠️ Sync failed');
+      const data = await res.json();
+      if (data.status === 'success') {
+        tasks.push(task);
+        renderTasks();
+        showToast('✅ Task added');
+      } else {
+        showToast('⚠️ Sync failed');
+      }
+    } catch (err) {
+      console.error('❌ Sync error:', err);
+      showToast('❌ Sync error');
     }
-  } catch (err) {
-    console.error('❌ Sync error:', err);
-    showToast('❌ Sync error');
-  }
 
-  input.value = '';
-  urgentTag.checked = false;
-  importantTag.checked = false;
-  updatePreview();
-});
-
+    input.value = '';
+    urgentTag.checked = false;
+    importantTag.checked = false;
+    updatePreview();
+  });
 
   input.addEventListener('input', updatePreview);
   urgentTag.addEventListener('change', updatePreview);
@@ -116,6 +114,12 @@ form.addEventListener('submit', async e => {
     });
   }
 
+  function handleToggle(task) {
+    task.done = !task.done;
+    renderTasks();
+    syncTask('toggle', task);
+  }
+
   function handleDelete(task) {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
@@ -160,18 +164,3 @@ form.addEventListener('submit', async e => {
     preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
   }
 });
-
-
-export default async function handler(req, res) { ... }
-  const response = await fetch("https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(req.body)
-  });
-
-  const data = await response.text();
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.status(200).send(data);
-}
