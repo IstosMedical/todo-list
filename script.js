@@ -1,4 +1,4 @@
-const ENDPOINT = 'https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec';
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
