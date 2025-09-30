@@ -141,3 +141,18 @@ document.addEventListener('DOMContentLoaded', () => {
     preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
   }
 });
+
+
+export default async function handler(req, res) {
+  const response = await fetch("https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(req.body)
+  });
+
+  const data = await response.text();
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.status(200).send(data);
+}
