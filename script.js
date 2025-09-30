@@ -1,12 +1,19 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0tGaoIgKvmJiLHOJNNz2z3dJQ4CF2Kmvh6niSMo-3792qJyjw/exec';
 
+const del = document.createElement('button');
+del.textContent = '✕';
+del.className = 'delete-btn';
+del.onclick = () => handleDelete(task);
+
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
+  const list = document.getElementById('task-list');
   const urgentTag = document.getElementById('urgent-tag');
   const importantTag = document.getElementById('important-tag');
   const preview = document.getElementById('quadrant-preview');
-  
+  const toast = document.getElementById('toast');
+
   let tasks = [];
 
   // Load tasks from backend
@@ -21,33 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('❌ Failed to load tasks');
     });
 
-  form.addEventListener('submit', async e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
 
     const task = createTask(text);
-
-    try {
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'add', task })
-      });
-
-      const data = await res.json();
-      if (data.status === 'success') {
-        tasks.push(task);
-        renderTasks();
-        showToast('✅ Task added');
-      } else {
-        showToast('⚠️ Sync failed');
-      }
-    } catch (err) {
-      console.error('❌ Sync error:', err);
-      showToast('❌ Sync error');
-    }
-
+    tasks.push(task);
+    renderTasks();
+    syncTask('add', task);
     input.value = '';
     urgentTag.checked = false;
     importantTag.checked = false;
@@ -123,6 +112,32 @@ document.addEventListener('DOMContentLoaded', () => {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
     syncTask('delete', task);
+  }
+
+  function syncTask(action, task) {
+    fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, task })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === 'success') {
+        showToast(`✅ ${action} successful`);
+      } else {
+        showToast(`⚠️ ${action} failed`);
+      }
+    })
+    .catch(err => {
+      console.error('❌ Sync error:', err);
+      showToast('❌ Sync error');
+    });
+  }
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
   function updatePreview() {
