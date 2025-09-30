@@ -23,20 +23,39 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('❌ Failed to load tasks');
     });
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const text = input.value.trim();
-    if (!text) return;
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
 
-    const task = createTask(text);
-    tasks.push(task);
-    renderTasks();
-    syncTask('add', task);
-    input.value = '';
-    urgentTag.checked = false;
-    importantTag.checked = false;
-    updatePreview();
-  });
+  const task = createTask(text);
+
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'add', task })
+    });
+
+    const data = await res.json();
+    if (data.status === 'success') {
+      tasks.push(task);
+      renderTasks();
+      showToast('✅ Task added');
+    } else {
+      showToast('⚠️ Sync failed');
+    }
+  } catch (err) {
+    console.error('❌ Sync error:', err);
+    showToast('❌ Sync error');
+  }
+
+  input.value = '';
+  urgentTag.checked = false;
+  importantTag.checked = false;
+  updatePreview();
+});
+
 
   input.addEventListener('input', updatePreview);
   urgentTag.addEventListener('change', updatePreview);
