@@ -35,25 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ action: 'add', task })
       });
 
-      const data = await res.json();
-      if (data.status === 'success') {
-        tasks.push(task);
-        renderTasks();
-        showToast('✅ Task added');
-      } else {
-        showToast('⚠️ Sync failed');
-      }
-    } catch (err) {
-      console.error('❌ Sync error:', err);
-      showToast('❌ Sync error');
-    }
-
-    input.value = '';
-    urgentTag.checked = false;
-    importantTag.checked = false;
-    updatePreview();
-  });
-
   input.addEventListener('input', updatePreview);
   urgentTag.addEventListener('change', updatePreview);
   importantTag.addEventListener('change', updatePreview);
@@ -123,32 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
     syncTask('delete', task);
-  }
-
-  function syncTask(action, task) {
-    fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, task })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === 'success') {
-        showToast(`✅ ${action} successful`);
-      } else {
-        showToast(`⚠️ ${action} failed`);
-      }
-    })
-    .catch(err => {
-      console.error('❌ Sync error:', err);
-      showToast('❌ Sync error');
-    });
-  }
-
-  function showToast(message) {
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
   function updatePreview() {
