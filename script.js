@@ -10,18 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let tasks = [];
 
-  fetch(ENDPOINT)
-    .then(res => res.json())
-    .then(data => {
-      tasks = data;
+  // Load tasks from backend
+  loadTasks();
+
+  // Event listeners
+  form.addEventListener('submit', handleSubmit);
+  input.addEventListener('input', updatePreview);
+  urgentTag.addEventListener('change', updatePreview);
+  importantTag.addEventListener('change', updatePreview);
+
+  async function loadTasks() {
+    try {
+      const res = await fetch(ENDPOINT);
+      tasks = await res.json();
       renderTasks();
-    })
-    .catch(err => {
+    } catch (err) {
       console.error('❌ Failed to load tasks:', err);
       showToast('❌ Failed to load tasks');
-    });
+    }
+  }
 
-  form.addEventListener('submit', async e => {
+  async function handleSubmit(e) {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
@@ -35,9 +44,24 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ action: 'add', task })
       });
 
-  input.addEventListener('input', updatePreview);
-  urgentTag.addEventListener('change', updatePreview);
-  importantTag.addEventListener('change', updatePreview);
+      const data = await res.json();
+      if (data.status === 'success') {
+        tasks.push(task);
+        renderTasks();
+        showToast('✅ Task added');
+      } else {
+        showToast('⚠️ Sync failed');
+      }
+    } catch (err) {
+      console.error('❌ Sync error:', err);
+      showToast('❌ Sync error');
+    }
+
+    input.value = '';
+    urgentTag.checked = false;
+    importantTag.checked = false;
+    updatePreview();
+  }
 
   function createTask(text) {
     const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
@@ -106,6 +130,32 @@ document.addEventListener('DOMContentLoaded', () => {
     syncTask('delete', task);
   }
 
+  async function syncTask(action, task) {
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, task })
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        showToast(`✅ ${action} successful`);
+      } else {
+        showToast(`⚠️ ${action} failed`);
+      }
+    } catch (err) {
+      console.error('❌ Sync error:', err);
+      showToast('❌ Sync error');
+    }
+  }
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
   function updatePreview() {
     const text = input.value.trim();
     const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
@@ -115,6 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const important = importantTag.checked || autoImportant;
 
     const quadrant = getQuadrant({ urgent, important });
-    preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
+    if (preview) {
+      preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
+    }
   }
 });
