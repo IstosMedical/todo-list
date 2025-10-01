@@ -4,139 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ISTOS Todo List</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f9f9f9;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
-    }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    form {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    input[type="text"] {
-      flex: 1;
-      padding: 0.5rem;
-      font-size: 1rem;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fff;
-      padding: 0.5rem;
-      margin-bottom: 0.5rem;
-      border-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    }
-
-    li.completed span {
-      text-decoration: line-through;
-      color: #999;
-      opacity: 0.7;
-    }
-
-    span {
-      flex: 1;
-      cursor: pointer;
-    }
-
-    button {
-      background: transparent;
-      border: none;
-      color: #d00;
-      font-size: 1.2rem;
-    }
-
-    #toast {
-      position: fixed;
-      bottom: 1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: #fff;
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      display: none;
-    }
-
-    #toast.show {
-      display: block;
-    }
-
-    #sync-error {
-      color: red;
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .tagging {
-      margin-top: 1.5rem;
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 1rem;
-      font-size: 0.95rem;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    
-    .tagging label {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    
-    .tag-label {
-      font-weight: bold;
-      color: #333;
-    }
-
-  </style>
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="app">
     <h2>📝 ISTOS Todo List</h2>
 
-<form id="task-form">
-  <input type="text" id="task-input" placeholder="Add a task..." />
-  <button type="submit">Add</button>
-</form>
+    <!-- Task Input Form -->
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Add a task..." />
+      <button type="submit">Add</button>
+    </form>
 
-<div class="task-list">
-  <ul id="task-list"></ul>
-</div>
+    <!-- Category Tagging -->
+    <div class="tagging">
+      <span class="tag-label">Assign category:</span>
+      <label><input type="checkbox" id="urgent" /> Urgent</label>
+      <label><input type="checkbox" id="important" /> Important</label>
+    </div>
 
-<!-- ⬇️ Add this block two lines below -->
-<div class="tagging">
-  <span class="tag-label">Assign category:</span>
-  <label><input type="checkbox" id="urgent"> Urgent</label>
-  <label><input type="checkbox" id="important"> Important</label>
-</div>
+    <!-- Task Display List -->
+    <div class="task-list">
+      <ul id="task-list"></ul>
+    </div>
 
+    <!-- Floating Quadrant Legend -->
+    <div id="quadrant-legend">
+      <strong>🧭 Quadrant Legend</strong>
+      <ul>
+        <li style="background:#e74c3c">🔴 Urgent & Important — Do Now</li>
+        <li style="background:#e67e22">🟠 Urgent & Not Important — Delegate</li>
+        <li style="background:#27ae60">🟢 Not Urgent & Important — Schedule</li>
+        <li style="background:#3498db">🔵 Not Urgent & Not Important — Eliminate</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Script -->
   <script src="script.js"></script>
-
 </body>
 </html>
