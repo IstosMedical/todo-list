@@ -49,13 +49,13 @@ function handleSubmit(e) {
 
       // Apply quadrant color
       if (task.urgent && task.important) {
-        li.style.backgroundColor = '#e74c3c'; // Red
+        li.style.backgroundColor = '#ffe5e5'; // Red
       } else if (task.urgent && !task.important) {
-        li.style.backgroundColor = '#e67e22'; // Orange
+        li.style.backgroundColor = '#e5f4ff'; // Orange
       } else if (!task.urgent && task.important) {
-        li.style.backgroundColor = '#27ae60'; // Green
+        li.style.backgroundColor = '#f0f0f0'; // Green
       } else {
-        li.style.backgroundColor = '#3498db'; // Blue
+        li.style.backgroundColor = '#CCF7FF'; // Blue
       }
 
       const span = document.createElement('span');
