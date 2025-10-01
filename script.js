@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const task = {
       id: Date.now(),
       text,
-      done: false
+      done: false,
+      user: 'Mazhar'
     };
 
     try {
@@ -66,11 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
       span.textContent = task.text;
       span.onclick = () => toggleTask(task);
 
+      const userTag = document.createElement('small');
+      userTag.textContent = `👤 ${task.user || 'Unassigned'}`;
+
       const del = document.createElement('button');
       del.textContent = '✕';
       del.onclick = () => deleteTask(task);
 
-      li.append(span, del);
+      li.append(span, userTag, del);
       list.appendChild(li);
     });
   }
