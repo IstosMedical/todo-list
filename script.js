@@ -46,23 +46,25 @@ function renderTasks() {
     li.textContent = task.text;
 
     // 🧠 Quadrant logic with matching font color
-    if (task.urgent && task.important) {
-      li.style.backgroundColor = '#f0f0f0'; // Neither Urgent nor Important
-      li.style.color = '#080808';
-      li.dataset.quadrant = 'do-now';
-    } else if (task.urgent && !task.important) {
-      li.style.backgroundColor = '#fff9e5'; // Urgent but Not Important
-      li.style.color = '#080808';
-      li.dataset.quadrant = 'delegate';
-    } else if (!task.urgent && task.important) {
-      li.style.backgroundColor = '#e5f4ff'; // Important but Not Urgent
-      li.style.color = '#080808';
-      li.dataset.quadrant = 'schedule';
-    } else {
-      li.style.backgroundColor = '#ecf0f1'; // Light gray
-      li.style.color = '#080808';
-      li.dataset.quadrant = 'eliminate';
-    }
+li.style.color = '#000'; // Default black text
+
+if (task.urgent && task.important) {
+  li.style.backgroundColor = '#e74c3c'; // Red
+  li.style.color = '#fff'; // Override for contrast
+  li.dataset.quadrant = 'do-now';
+} else if (task.urgent && !task.important) {
+  li.style.backgroundColor = '#e67e22'; // Orange
+  li.style.color = '#fff';
+  li.dataset.quadrant = 'delegate';
+} else if (!task.urgent && task.important) {
+  li.style.backgroundColor = '#27ae60'; // Green
+  li.style.color = '#fff';
+  li.dataset.quadrant = 'schedule';
+} else {
+  li.style.backgroundColor = '#ecf0f1'; // Light gray
+  // li.style.color = '#000'; ← already set above
+  li.dataset.quadrant = 'eliminate';
+}
 
     // Optional: Add user and delete button
     const meta = document.createElement('small');
