@@ -2,14 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>ISTOS Todo list</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ISTOS Todo List</title>
 
-  <!-- Link to external stylesheet -->
+  <!-- Android App Settings -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- iOS App Settings -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="ISTOS todo list" />
+  <link rel="apple-touch-icon" href="icons/istos_logo.png" />
+
+  <!-- External Styles -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app">
+  <div class="container">
+    <img src="icons/istos_logo.png" alt="ISTOS Logo" class="logo" />
     <h2>📝 ISTOS Todo List</h2>
 
     <!-- Task Input Form -->
@@ -30,7 +40,9 @@
       <ul id="task-list"></ul>
     </div>
 
+    <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
+  </div>
 
   <!-- Script -->
   <script src="script.js"></script>
