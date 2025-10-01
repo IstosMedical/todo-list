@@ -10,30 +10,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', handleSubmit);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const text = input.value.trim();
-    const urgent = urgentCheckbox.checked;
-    const important = importantCheckbox.checked;
+function handleSubmit(e) {
+  e.preventDefault();
 
-    if (!text) return;
+  const text = input.value.trim();
+  const urgent = urgentCheckbox.checked;
+  const important = importantCheckbox.checked;
 
-    const task = {
-      id: Date.now(),
-      text,
-      done: false,
-      user: 'Naushad',
-      urgent,
-      important
-    };
+  if (!text) return;
 
-    tasks.push(task);
-    renderTasks();
-    showToast('✅ Task added');
-    input.value = '';
-    urgentCheckbox.checked = false;
-    importantCheckbox.checked = false;
-  }
+  const task = {
+    id: Date.now(),
+    text,
+    done: false,
+    user: 'Naushad',
+    urgent,
+    important
+  };
+
+  tasks.push(task);
+  renderTasks();
+  showToast('✅ Task added');
+
+  // 🧹 Reset form for next task
+  form.reset(); // clears input and checkboxes
+  input.focus(); // puts cursor back in the input field
+}
 
   function renderTasks() {
     list.innerHTML = '';
