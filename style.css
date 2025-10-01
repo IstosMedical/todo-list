@@ -119,38 +119,3 @@ button:hover {
   font-size: 1rem;
   cursor: pointer;
 }
-
-/* Quadrant Colors */
-li[data-quadrant="do-now"] { background-color: #e74c3c; }      /* Red */
-li[data-quadrant="delegate"] { background-color: #e67e22; }    /* Orange */
-li[data-quadrant="schedule"] { background-color: #27ae60; }    /* Green */
-li[data-quadrant="eliminate"] { background-color: #3498db; }   /* Blue */
-
-/* Floating Legend */
-#quadrant-legend {
-  position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  padding: 0.8rem 1rem;
-  font-size: 0.85rem;
-  z-index: 999;
-  max-width: 220px;
-}
-
-#quadrant-legend ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 0.5rem;
-}
-
-#quadrant-legend li {
-  margin-bottom: 0.4rem;
-  padding: 0.3rem 0.5rem;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: 500;
-}
