@@ -49,19 +49,19 @@ function renderTasks() {
 li.style.color = '#000'; // Default black text
 
 if (task.urgent && task.important) {
-  li.style.backgroundColor = '#e74c3c'; // Red
+  li.style.backgroundColor = '#ffe5e5'; // Red
   li.style.color = '#fff'; // Override for contrast
   li.dataset.quadrant = 'do-now';
 } else if (task.urgent && !task.important) {
-  li.style.backgroundColor = '#e67e22'; // Orange
+  li.style.backgroundColor = '#e5f4ff'; // Orange
   li.style.color = '#fff';
   li.dataset.quadrant = 'delegate';
 } else if (!task.urgent && task.important) {
-  li.style.backgroundColor = '#27ae60'; // Green
+  li.style.backgroundColor = '#fff9e5'; // Green
   li.style.color = '#fff';
   li.dataset.quadrant = 'schedule';
 } else {
-  li.style.backgroundColor = '#ecf0f1'; // Light gray
+  li.style.backgroundColor = '#f0f0f0'; // Light gray
   // li.style.color = '#000'; ← already set above
   li.dataset.quadrant = 'eliminate';
 }
