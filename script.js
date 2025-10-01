@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       id: Date.now(),
       text,
       done: false,
-      user: 'Mazhar'
+      user: 'Naushad'
     };
 
     tasks.push(task);
