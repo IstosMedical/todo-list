@@ -81,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTasks();
   }
 
+  const urgentCheckbox = document.getElementById('urgent');
+  const importantCheckbox = document.getElementById('important');
+
   function deleteTask(task) {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
