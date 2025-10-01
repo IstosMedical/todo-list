@@ -83,7 +83,6 @@ function handleSubmit(e) {
     renderTasks();
   }
 
-  const importantCheckbox = document.getElementById('important');
 
   function deleteTask(task) {
     tasks = tasks.filter(t => t.id !== task.id);
