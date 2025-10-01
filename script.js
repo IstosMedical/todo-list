@@ -3,45 +3,13 @@ const ENDPOINT = 'https://script.google.com/macros/s/AKfycbxZ3swqODa7c2iLPgSkB0t
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
-  const urgentTag = document.getElementById('urgent-tag');
-  const importantTag = document.getElementById('important-tag');
-  const preview = document.getElementById('quadrant-preview');
+  const list = document.getElementById('task-list');
   const toast = document.getElementById('toast');
 
   let tasks = [];
 
   form.addEventListener('submit', handleSubmit);
-  input.addEventListener('input', updatePreview);
-  urgentTag.addEventListener('change', updatePreview);
-  importantTag.addEventListener('change', updatePreview);
-
   loadTasks();
-
-  function getQuadrant(task) {
-    if (task.urgent && task.important) return 'Q1';
-    if (!task.urgent && task.important) return 'Q2';
-    if (task.urgent && !task.important) return 'Q3';
-    return 'Q4';
-  }
-
-  function getLabel(q) {
-    return {
-      Q1: 'Do Now',
-      Q2: 'Schedule',
-      Q3: 'Delegate',
-      Q4: 'Can Wait'
-    }[q];
-  }
-
-  function createTask(text) {
-    return {
-      id: Date.now(),
-      text,
-      done: false,
-      urgent: urgentTag.checked,
-      important: importantTag.checked
-    };
-  }
 
   async function loadTasks() {
     try {
@@ -59,7 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = input.value.trim();
     if (!text) return;
 
-    const task = createTask(text);
+    const task = {
+      id: Date.now(),
+      text,
+      done: false
+    };
 
     try {
       const res = await fetch(ENDPOINT, {
@@ -82,64 +54,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     input.value = '';
-    urgentTag.checked = false;
-    importantTag.checked = false;
-    updatePreview();
   }
 
   function renderTasks() {
-    ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
-      const container = document.getElementById(q);
-      container.innerHTML = `<h2>${getLabel(q)}</h2>`;
-    });
-
+    list.innerHTML = '';
     tasks.forEach(task => {
-      const quadrant = getQuadrant(task);
-      const container = document.getElementById(quadrant);
-
       const li = document.createElement('li');
       li.className = task.done ? 'completed' : '';
 
       const span = document.createElement('span');
       span.textContent = task.text;
-      span.onclick = () => handleToggle(task);
-
-      const urgentCheckbox = document.createElement('input');
-      urgentCheckbox.type = 'checkbox';
-      urgentCheckbox.checked = task.urgent;
-      urgentCheckbox.title = 'Urgent';
-      urgentCheckbox.onchange = () => {
-        task.urgent = urgentCheckbox.checked;
-        renderTasks();
-        sync('toggle', task);
-      };
-
-      const importantCheckbox = document.createElement('input');
-      importantCheckbox.type = 'checkbox';
-      importantCheckbox.checked = task.important;
-      importantCheckbox.title = 'Important';
-      importantCheckbox.onchange = () => {
-        task.important = importantCheckbox.checked;
-        renderTasks();
-        sync('toggle', task);
-      };
+      span.onclick = () => toggleTask(task);
 
       const del = document.createElement('button');
       del.textContent = '✕';
-      del.onclick = () => handleDelete(task);
+      del.onclick = () => deleteTask(task);
 
-      li.append(urgentCheckbox, importantCheckbox, span, del);
-      container.appendChild(li);
+      li.append(span, del);
+      list.appendChild(li);
     });
   }
 
-  function handleToggle(task) {
+  function toggleTask(task) {
     task.done = !task.done;
     renderTasks();
     sync('toggle', task);
   }
 
-  function handleDelete(task) {
+  function deleteTask(task) {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
     sync('delete', task);
@@ -165,12 +107,5 @@ document.addEventListener('DOMContentLoaded', () => {
     toast.textContent = message;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
-  }
-
-  function updatePreview() {
-    const urgent = urgentTag.checked;
-    const important = importantTag.checked;
-    const quadrant = getQuadrant({ urgent, important });
-    preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
   }
 });
