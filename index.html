@@ -1,13 +1,113 @@
-<div id="app">
-  <h1>📝 ISTOS Todo List</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ISTOS Todo List</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
 
-  <form id="task-form">
-    <input type="text" id="task-input" placeholder="Add a task..." />
-    <button type="submit">Add</button>
-  </form>
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
 
-  <ul id="task-list"></ul>
+    form {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
 
-  <div id="toast"></div>
-  <div id="sync-error" style="display:none;">❌ Sync error</div>
-</div>
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    li.completed span {
+      text-decoration: line-through;
+      color: #999;
+      opacity: 0.7;
+    }
+
+    span {
+      flex: 1;
+      cursor: pointer;
+    }
+
+    button {
+      background: transparent;
+      border: none;
+      color: #d00;
+      font-size: 1.2rem;
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      display: none;
+    }
+
+    #toast.show {
+      display: block;
+    }
+
+    #sync-error {
+      color: red;
+      text-align: center;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>📝 ISTOS Todo List</h2>
+
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Add a task..." />
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="task-list"></ul>
+
+    <div id="toast"></div>
+    <div id="sync-error" style="display:none;">❌ Sync error</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
