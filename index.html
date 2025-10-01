@@ -1,55 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>ISTOS Todo List</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<div id="app">
+  <h1>📝 ISTOS Todo List</h1>
 
-  <!-- Android App Settings -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="mobile-web-app-capable" content="yes" />
+  <form id="task-form">
+    <input type="text" id="task-input" placeholder="Add a task..." />
+    <button type="submit">Add</button>
+  </form>
 
-  <!-- iOS App Settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Todo List" />
+  <ul id="task-list"></ul>
 
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="container">
-    <header>
-      <h2>📝 Todo List</h2>
-      <p class="subtitle">Prioritize tasks with urgency and importance</p>
-    </header>
-
-    <section class="task-entry">
-      <form id="task-form">
-        <div id="quadrant-preview"></div>
-
-        <div class="input-row">
-          <input type="text" id="task-input" placeholder="Add a task..." required />
-          <button type="submit">Add</button>
-        </div>
-
-        <div class="tag-options">
-          <label><input type="checkbox" id="urgent-tag" /> 🔥 Urgent</label>
-          <label><input type="checkbox" id="important-tag" /> 🎯 Important</label>
-          
-        </div>
-      </form>
-    </section>
-
-    <section id="matrix" aria-label="Eisenhower Matrix">
-      <div id="Q1" class="quadrant"><h2>Do Now</h2></div>
-      <div id="Q2" class="quadrant"><h2>Schedule</h2></div>
-      <div id="Q3" class="quadrant"><h2>Delegate</h2></div>
-      <div id="Q4" class="quadrant"><h2>Can Wait</h2></div>
-    </section>
-  </main>
-
-  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  <div id="toast"></div>
+  <div id="sync-error" style="display:none;">❌ Sync error</div>
+</div>
