@@ -10,14 +10,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let tasks = [];
 
-  // Load tasks from backend
-  loadTasks();
-
-  // Event listeners
   form.addEventListener('submit', handleSubmit);
   input.addEventListener('input', updatePreview);
   urgentTag.addEventListener('change', updatePreview);
   importantTag.addEventListener('change', updatePreview);
+
+  loadTasks();
+
+  function getQuadrant(task) {
+    if (task.urgent && task.important) return 'Q1';
+    if (!task.urgent && task.important) return 'Q2';
+    if (task.urgent && !task.important) return 'Q3';
+    return 'Q4';
+  }
+
+  function getLabel(q) {
+    return {
+      Q1: 'Do Now',
+      Q2: 'Schedule',
+      Q3: 'Delegate',
+      Q4: 'Can Wait'
+    }[q];
+  }
+
+  function createTask(text) {
+    const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
+    const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
+
+    return {
+      id: Date.now(),
+      text,
+      done: false,
+      urgent: urgentTag.checked || autoUrgent,
+      important: importantTag.checked || autoImportant
+    };
+  }
 
   async function loadTasks() {
     try {
@@ -63,35 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePreview();
   }
 
-  function createTask(text) {
-    const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
-    const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
-
-    return {
-      id: Date.now(),
-      text,
-      done: false,
-      urgent: urgentTag.checked || autoUrgent,
-      important: importantTag.checked || autoImportant
-    };
-  }
-
-  function getQuadrant(task) {
-    if (task.urgent && task.important) return 'Q1';
-    if (!task.urgent && task.important) return 'Q2';
-    if (task.urgent && !task.important) return 'Q3';
-    return 'Q4';
-  }
-
-  function getLabel(q) {
-    return {
-      Q1: 'Do Now',
-      Q2: 'Schedule',
-      Q3: 'Delegate',
-      Q4: 'Can Wait'
-    }[q];
-  }
-
   function renderTasks() {
     ['Q1', 'Q2', 'Q3', 'Q4'].forEach(q => {
       const container = document.getElementById(q);
@@ -103,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const container = document.getElementById(quadrant);
 
       const li = document.createElement('li');
-      li.className = task.done ? 'done' : '';
+      li.className = task.done ? 'completed' : '';
 
       const span = document.createElement('span');
       span.textContent = task.text;
@@ -121,16 +119,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleToggle(task) {
     task.done = !task.done;
     renderTasks();
-    syncTask('toggle', task);
+    sync('toggle', task);
   }
 
   function handleDelete(task) {
     tasks = tasks.filter(t => t.id !== task.id);
     renderTasks();
-    syncTask('delete', task);
+    sync('delete', task);
   }
 
-  async function syncTask(action, task) {
+  async function sync(action, task) {
     try {
       const res = await fetch(ENDPOINT, {
         method: 'POST',
@@ -138,15 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify({ action, task })
       });
 
-      const data = await res.json();
-      if (data.status === 'success') {
-        showToast(`✅ ${action} successful`);
-      } else {
-        showToast(`⚠️ ${action} failed`);
-      }
+      const result = await res.json();
+      if (!result || result.status !== 'success') throw new Error('Sync failed');
     } catch (err) {
       console.error('❌ Sync error:', err);
-      showToast('❌ Sync error');
+      document.getElementById('sync-error').style.display = 'block';
     }
   }
 
@@ -165,8 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const important = importantTag.checked || autoImportant;
 
     const quadrant = getQuadrant({ urgent, important });
-    if (preview) {
-      preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
-    }
+    preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
   }
 });
