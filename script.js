@@ -37,46 +37,50 @@ function handleSubmit(e) {
   input.focus(); // puts cursor back in the input field
 }
 
-  function renderTasks() {
-    list.innerHTML = '';
-    tasks.forEach(task => {
-      const li = document.createElement('li');
-      li.className = task.done ? 'completed' : '';
-      li.style.padding = '10px';
-      li.style.marginBottom = '8px';
-      li.style.borderRadius = '6px';
-      li.style.color = '#fff';
+function renderTasks() {
+  const list = document.getElementById('task-list');
+  list.innerHTML = '';
 
-      // Apply quadrant color
-      if (task.urgent && task.important) {
-        li.style.backgroundColor = '#ffe5e5'; // Red
-      } else if (task.urgent && !task.important) {
-        li.style.backgroundColor = '#e5f4ff'; // Orange
-      } else if (!task.urgent && task.important) {
-        li.style.backgroundColor = '#f0f0f0'; // Green
-      } else {
-        li.style.backgroundColor = '#CCF7FF'; // Blue
-      }
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.textContent = task.text;
 
-      const span = document.createElement('span');
-      span.textContent = task.text;
-      span.style.cursor = 'pointer';
-      span.onclick = () => toggleTask(task);
+    // 🧠 Quadrant logic with matching font color
+    if (task.urgent && task.important) {
+      li.style.backgroundColor = '#f0f0f0'; // Neither Urgent nor Important
+      li.style.color = '#080808';
+      li.dataset.quadrant = 'do-now';
+    } else if (task.urgent && !task.important) {
+      li.style.backgroundColor = '#fff9e5'; // Urgent but Not Important
+      li.style.color = '#080808';
+      li.dataset.quadrant = 'delegate';
+    } else if (!task.urgent && task.important) {
+      li.style.backgroundColor = '#e5f4ff'; // Important but Not Urgent
+      li.style.color = '#080808';
+      li.dataset.quadrant = 'schedule';
+    } else {
+      li.style.backgroundColor = '#ecf0f1'; // Light gray
+      li.style.color = '#080808';
+      li.dataset.quadrant = 'eliminate';
+    }
 
-      const userTag = document.createElement('small');
-      userTag.textContent = `👤 ${task.user || 'Unassigned'}`;
-      userTag.style.display = 'block';
-      userTag.style.marginTop = '4px';
+    // Optional: Add user and delete button
+    const meta = document.createElement('small');
+    meta.textContent = `👤 ${task.user || 'Unknown'}`;
+    li.appendChild(meta);
 
-      const del = document.createElement('button');
-      del.textContent = '✕';
-      del.style.marginLeft = '10px';
-      del.onclick = () => deleteTask(task);
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '✕';
+    delBtn.onclick = () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      renderTasks();
+    };
+    li.appendChild(delBtn);
 
-      li.append(span, userTag, del);
-      list.appendChild(li);
-    });
-  }
+    list.appendChild(li);
+  });
+}
+
 
   function toggleTask(task) {
     task.done = !task.done;
