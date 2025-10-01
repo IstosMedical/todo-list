@@ -34,15 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function createTask(text) {
-    const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
-    const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
-
     return {
       id: Date.now(),
       text,
       done: false,
-      urgent: urgentTag.checked || autoUrgent,
-      important: importantTag.checked || autoImportant
+      urgent: urgentTag.checked,
+      important: importantTag.checked
     };
   }
 
@@ -107,11 +104,31 @@ document.addEventListener('DOMContentLoaded', () => {
       span.textContent = task.text;
       span.onclick = () => handleToggle(task);
 
+      const urgentCheckbox = document.createElement('input');
+      urgentCheckbox.type = 'checkbox';
+      urgentCheckbox.checked = task.urgent;
+      urgentCheckbox.title = 'Urgent';
+      urgentCheckbox.onchange = () => {
+        task.urgent = urgentCheckbox.checked;
+        renderTasks();
+        sync('toggle', task);
+      };
+
+      const importantCheckbox = document.createElement('input');
+      importantCheckbox.type = 'checkbox';
+      importantCheckbox.checked = task.important;
+      importantCheckbox.title = 'Important';
+      importantCheckbox.onchange = () => {
+        task.important = importantCheckbox.checked;
+        renderTasks();
+        sync('toggle', task);
+      };
+
       const del = document.createElement('button');
       del.textContent = '✕';
       del.onclick = () => handleDelete(task);
 
-      li.append(span, del);
+      li.append(urgentCheckbox, importantCheckbox, span, del);
       container.appendChild(li);
     });
   }
@@ -151,13 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updatePreview() {
-    const text = input.value.trim();
-    const autoUrgent = /urgent|asap|now|follow up|call|email|remind|confirm|schedule|reorder/i.test(text);
-    const autoImportant = /important|goal|project|strategy|prepare|review|plan|deck|report|quotation|proposal|client|hospital|invoice/i.test(text);
-
-    const urgent = urgentTag.checked || autoUrgent;
-    const important = importantTag.checked || autoImportant;
-
+    const urgent = urgentTag.checked;
+    const important = importantTag.checked;
     const quadrant = getQuadrant({ urgent, important });
     preview.textContent = `Quadrant: ${getLabel(quadrant)}`;
   }
