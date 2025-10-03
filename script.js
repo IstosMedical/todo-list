@@ -144,14 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // 🏷️ Label mapping
   const labelize = (key) => {
     const map = {
-      urgent: 'Urgent',
-      important: 'Priority',
-      service: 'Service',
-      orders: 'Orders',
-      payments: 'Payments',
-      office: 'Office',
-      reminder: 'Reminder',
-      other: 'Other'
+      urgent: ' ⏰Urgent',
+      important: '⚡Priority',
+      service: '🛠️Service',
+      orders: '📦Orders',
+      payments: '💳Payments',
+      office: '🏢Office',
+      reminder: '🔔Reminder',
+      other: '🗂Other'
     };
     return map[key] || key;
   };
