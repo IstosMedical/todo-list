@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const li = document.createElement('li');
       applyResponsiveLayout(li);
       li.style.color = '#000';
-      li.style.backgroundColor = index % 2 === 0 ? '#adf2ef' : '#fff1c8';
+      li.style.backgroundColor = index % 2 === 0 ? '#f5cef0' : '#E7D4FF';
 
       const leftDiv = buildLeftBlock(task);
       const rightDiv = buildRightBlock(task);
