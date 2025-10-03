@@ -1,4 +1,21 @@
 /* App Container */
+
+/* Wrap urgent and important checkboxes in a flex container */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Ensure labels don’t break awkwardly */
+.checkbox-group label {
+  white-space: nowrap;
+  font-size: 0.95rem;
+}
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f9f9f9;
