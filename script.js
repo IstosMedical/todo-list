@@ -46,50 +46,63 @@ document.addEventListener('DOMContentLoaded', () => {
     input.focus();
   }
 
-  function renderTasks() {
-    list.innerHTML = '';
+function renderTasks() {
+  list.innerHTML = '';
 
-    tasks.forEach(task => {
-      const li = document.createElement('li');
-      li.textContent = task.text;
+  tasks.forEach(task => {
+    // Create the task container with flex layout
+    const li = document.createElement('li');
+    li.style.display = 'flex';
+    li.style.alignItems = 'center';
+    li.style.justifyContent = 'space-between'; // Title left, timestamp right
 
-      // Append timestamp
-      const timeMeta = document.createElement('small');
-      timeMeta.textContent = ` 🕒 ${task.timestamp}`;
-      li.appendChild(timeMeta);
+    // Create left section (task text)
+    const leftSpan = document.createElement('span');
+    leftSpan.textContent = task.text;
 
-      // 🧠 Quadrant logic with matching font color
-      li.style.color = '#000';
-      if (task.urgent && task.important) {
-        li.style.backgroundColor = '#77cfff';
-        li.dataset.quadrant = 'do-now';
-      } else if (task.urgent && !task.important) {
-        li.style.backgroundColor = '#ece5dd';
-        li.dataset.quadrant = 'delegate';
-      } else if (!task.urgent && task.important) {
-        li.style.backgroundColor = '#fff9e5';
-        li.dataset.quadrant = 'schedule';
-      } else {
-        li.style.backgroundColor = '#f0f0f0';
-        li.dataset.quadrant = 'eliminate';
-      }
+    // Create right section (timestamp)
+    const rightSpan = document.createElement('span');
+    rightSpan.textContent = `🕒 ${task.timestamp}`;
+    rightSpan.style.marginLeft = '16px'; // Extra spacing
+    rightSpan.style.fontSize = 'smaller';
+    rightSpan.style.color = '#555';
 
-      // Optional: Add user and delete button
-      const meta = document.createElement('small');
-      meta.textContent = ` 👤 ${task.user || 'Unknown'}`;
-      li.appendChild(meta);
+    li.appendChild(leftSpan);
+    li.appendChild(rightSpan);
 
-      const delBtn = document.createElement('button');
-      delBtn.textContent = '✕';
-      delBtn.onclick = () => {
-        tasks = tasks.filter(t => t.id !== task.id);
-        renderTasks();
-      };
-      li.appendChild(delBtn);
+    // 🧠 Quadrant logic with matching font color
+    li.style.color = '#000';
+    if (task.urgent && task.important) {
+      li.style.backgroundColor = '#77cfff';
+      li.dataset.quadrant = 'do-now';
+    } else if (task.urgent && !task.important) {
+      li.style.backgroundColor = '#ece5dd';
+      li.dataset.quadrant = 'delegate';
+    } else if (!task.urgent && task.important) {
+      li.style.backgroundColor = '#fff9e5';
+      li.dataset.quadrant = 'schedule';
+    } else {
+      li.style.backgroundColor = '#f0f0f0';
+      li.dataset.quadrant = 'eliminate';
+    }
 
-      list.appendChild(li);
-    });
-  }
+    // User and delete button
+    const meta = document.createElement('small');
+    meta.textContent = ` 👤 ${task.user || 'Unknown'}`;
+    meta.style.marginLeft = '8px';
+    li.appendChild(meta);
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '✕';
+    delBtn.onclick = () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      renderTasks();
+    };
+    li.appendChild(delBtn);
+
+    list.appendChild(li);
+  });
+}
 
   function toggleTask(task) {
     task.done = !task.done;
