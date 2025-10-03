@@ -203,3 +203,12 @@ button:hover {
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.dashed-divider {
+  border: none;
+  border-top: 1.5px dashed #bbbbbb;
+  margin: 1rem 0 0.7rem 0;
+  width: 100%;
+  opacity: 0.6;
+}
+
