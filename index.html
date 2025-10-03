@@ -30,15 +30,21 @@
       <input type="text" id="task-input" placeholder="Add a task..." required />
       <button type="submit">Add</button>
       <div class="tagging">
-        <span class="tag-label">Type:</span>
-        <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
-        <label><input type="checkbox" id="important" /> ⚡ Important</label>
-        <label><input type="checkbox" id="service" /> 🛠️ Service</label>
-        <label><input type="checkbox" id="orders" /> 📦 Orders</label>
-        <label><input type="checkbox" id="payments" /> 💳 Payments</label>
-        <label><input type="checkbox" id="office" /> 🏢 Office todo</label>
-        <label><input type="checkbox" id="reminder" /> 🔔 Reminder</label>
-        <label><input type="checkbox" id="other" /> 🗂 Other todo</label>
+        <div class="tag-title">Assign / Type:</div>
+        <div class="tag-grid">
+          <div class="tag-col">
+            <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
+            <label><input type="checkbox" id="important" /> ⚡ Important</label>
+            <label><input type="checkbox" id="service" /> 🛠️ Service</label>
+            <label><input type="checkbox" id="orders" /> 📦 Orders</label>
+          </div>
+          <div class="tag-col">
+            <label><input type="checkbox" id="payments" /> 💳 Payments</label>
+            <label><input type="checkbox" id="office" /> 🏢 Office todo</label>
+            <label><input type="checkbox" id="reminder" /> 🔔 Reminder</label>
+            <label><input type="checkbox" id="other" /> 🗂 Other todo</label>
+          </div>
+        </div>
       </div>
     </form>
 
