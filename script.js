@@ -65,14 +65,20 @@ document.addEventListener('DOMContentLoaded', () => {
       li.style.color = '#000';
       li.style.backgroundColor = (index % 2 === 0) ? '#adf2ef' : '#fff1c8';
 
-      // --- Left: task text + categories + user meta ---
+      // --- Left: task text + categories + user meta (on new line) ---
       const leftDiv = document.createElement('div');
       leftDiv.style.display = 'flex';
-      leftDiv.style.alignItems = 'center';
-
+      leftDiv.style.flexDirection = 'column'; // Stack vertically
+      leftDiv.style.alignItems = 'flex-start'; // Left align
+      
+      // Row: task text [categories]
+      const titleRow = document.createElement('div');
+      titleRow.style.display = 'flex';
+      titleRow.style.alignItems = 'center';
+      
       const leftSpan = document.createElement('span');
       leftSpan.textContent = task.text;
-
+      
       // Categories dynamically
       const catList = [];
       if (task.urgent) catList.push('Urgent');
@@ -83,17 +89,27 @@ document.addEventListener('DOMContentLoaded', () => {
       if (task.office) catList.push('Office');
       if (task.reminder) catList.push('Reminder');
       if (task.other) catList.push('Other');
+      
       if (catList.length) {
         const catSpan = document.createElement('span');
         catSpan.textContent = ' [' + catList.join(', ') + ']';
         catSpan.style.fontSize = 'smaller';
         catSpan.style.color = '#888';
         catSpan.style.marginLeft = '8px';
-        leftDiv.appendChild(leftSpan);
-        leftDiv.appendChild(catSpan);
+        titleRow.appendChild(leftSpan);
+        titleRow.appendChild(catSpan);
       } else {
-        leftDiv.appendChild(leftSpan);
+        titleRow.appendChild(leftSpan);
       }
+      leftDiv.appendChild(titleRow);
+      
+      // User meta (always below, left-aligned)
+      const meta = document.createElement('small');
+      meta.textContent = `👤 ${task.user || 'Unknown'}`;
+      meta.style.marginTop = '4px';
+      meta.style.color = '#333';
+      leftDiv.appendChild(meta);
+
 
       // User meta
       const meta = document.createElement('small');
