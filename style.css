@@ -180,3 +180,26 @@ button:hover {
 .toast.show {
   opacity: 1;
 }
+
+.tagging-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.tag-title {
+  font-weight: bold;
+  min-width: 120px;
+  margin-top: 8px;
+}
+
+.tag-checkbox-columns {
+  display: flex;
+  gap: 2rem;
+}
+
+.tag-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
