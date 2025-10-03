@@ -10,81 +10,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', handleSubmit);
 
-function handleSubmit(e) {
-  e.preventDefault();
+  function getTimestamp() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][now.getDay()];
+    return `${hours}:${minutes} - ${dayName}`;
+  }
 
-  const text = input.value.trim();
-  const urgent = urgentCheckbox.checked;
-  const important = importantCheckbox.checked;
+  function handleSubmit(e) {
+    e.preventDefault();
 
-  if (!text) return;
+    const text = input.value.trim();
+    const urgent = urgentCheckbox.checked;
+    const important = importantCheckbox.checked;
 
-  const task = {
-    id: Date.now(),
-    text,
-    done: false,
-    user: 'Naushad',
-    urgent,
-    important
-  };
+    if (!text) return;
 
-  tasks.push(task);
-  renderTasks();
-  showToast('✅ Task added');
-
-  // 🧹 Reset form for next task
-  form.reset(); // clears input and checkboxes
-  input.focus(); // puts cursor back in the input field
-}
-
-function renderTasks() {
-  const list = document.getElementById('task-list');
-  list.innerHTML = '';
-
-  tasks.forEach(task => {
-    const li = document.createElement('li');
-    li.textContent = task.text;
-
-    // 🧠 Quadrant logic with matching font color
-li.style.color = '#000'; // Set once for all tasks
-
-if (task.urgent && task.important) {
-  li.style.backgroundColor = '#77cfff'; // Nice blue
-  li.dataset.quadrant = 'do-now';
-} else if (task.urgent && !task.important) {
-  li.style.backgroundColor = '#ece5dd'; // Beige
-  li.dataset.quadrant = 'delegate';
-} else if (!task.urgent && task.important) {
-  li.style.backgroundColor = '#fff9e5'; // Green
-  li.dataset.quadrant = 'schedule';
-} else {
-  li.style.backgroundColor = '#f0f0f0'; // Light gray
-  li.dataset.quadrant = 'eliminate';
-}
-
-    // Optional: Add user and delete button
-    const meta = document.createElement('small');
-    meta.textContent = `👤 ${task.user || 'Unknown'}`;
-    li.appendChild(meta);
-
-    const delBtn = document.createElement('button');
-    delBtn.textContent = '✕';
-    delBtn.onclick = () => {
-      tasks = tasks.filter(t => t.id !== task.id);
-      renderTasks();
+    const task = {
+      id: Date.now(),
+      text,
+      done: false,
+      user: 'Naushad',
+      urgent,
+      important,
+      timestamp: getTimestamp() // <-- Add timestamp here
     };
-    li.appendChild(delBtn);
 
-    list.appendChild(li);
-  });
-}
+    tasks.push(task);
+    renderTasks();
+    showToast('✅ Task added');
 
+    // 🧹 Reset form for next task
+    form.reset();
+    input.focus();
+  }
+
+  function renderTasks() {
+    list.innerHTML = '';
+
+    tasks.forEach(task => {
+      const li = document.createElement('li');
+      li.textContent = task.text;
+
+      // Append timestamp
+      const timeMeta = document.createElement('small');
+      timeMeta.textContent = ` 🕒 ${task.timestamp}`;
+      li.appendChild(timeMeta);
+
+      // 🧠 Quadrant logic with matching font color
+      li.style.color = '#000';
+      if (task.urgent && task.important) {
+        li.style.backgroundColor = '#77cfff';
+        li.dataset.quadrant = 'do-now';
+      } else if (task.urgent && !task.important) {
+        li.style.backgroundColor = '#ece5dd';
+        li.dataset.quadrant = 'delegate';
+      } else if (!task.urgent && task.important) {
+        li.style.backgroundColor = '#fff9e5';
+        li.dataset.quadrant = 'schedule';
+      } else {
+        li.style.backgroundColor = '#f0f0f0';
+        li.dataset.quadrant = 'eliminate';
+      }
+
+      // Optional: Add user and delete button
+      const meta = document.createElement('small');
+      meta.textContent = ` 👤 ${task.user || 'Unknown'}`;
+      li.appendChild(meta);
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '✕';
+      delBtn.onclick = () => {
+        tasks = tasks.filter(t => t.id !== task.id);
+        renderTasks();
+      };
+      li.appendChild(delBtn);
+
+      list.appendChild(li);
+    });
+  }
 
   function toggleTask(task) {
     task.done = !task.done;
     renderTasks();
   }
-
 
   function deleteTask(task) {
     tasks = tasks.filter(t => t.id !== task.id);
