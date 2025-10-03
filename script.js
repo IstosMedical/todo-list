@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Left: Task info (title + categories + user)
       const leftDiv = document.createElement('div');
       leftDiv.style.display = 'flex';
-      leftDiv.style.alignItems = 'center';
+      leftDiv.style.flexDirection = 'column';
+      leftDiv.style.alignItems = 'flex-start'; // Align content to the left
 
       const leftSpan = document.createElement('span');
       leftSpan.textContent = task.text;
