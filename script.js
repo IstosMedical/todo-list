@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Alternate background colors
       li.style.color = '#000';
-      li.style.backgroundColor = (index % 2 === 0) ? '#8fefea' : '#fff3d0';
+      li.style.backgroundColor = (index % 2 === 0) ? '#adf2ef' : '#fff3d0';
 
       // Left: Task info (title + categories + user)
       const leftDiv = document.createElement('div');
