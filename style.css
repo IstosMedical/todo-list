@@ -181,21 +181,17 @@ button:hover {
   opacity: 1;
 }
 
-.tagging-grid {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-}
-
-.tag-title {
+.tagging-grid h5 {
+  margin: 0 0 0.5rem 0;        /* Space below the title */
+  font-size: 1.1rem;
   font-weight: bold;
-  min-width: 120px;
-  margin-top: 8px;
+  color: #333;
+  text-align: left;
 }
 
 .tag-checkbox-columns {
   display: flex;
-  gap: 2rem;
+  gap: 2rem;          /* Space between columns */
 }
 
 .tag-col {
