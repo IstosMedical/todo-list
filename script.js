@@ -46,23 +46,19 @@ function renderTasks() {
     li.textContent = task.text;
 
     // 🧠 Quadrant logic with matching font color
-li.style.color = '#000'; // Default black text
+li.style.color = '#000'; // Set once for all tasks
 
 if (task.urgent && task.important) {
   li.style.backgroundColor = '#77cfff'; // Nice blue
-  li.style.color = '#000'; // Override for contrast
   li.dataset.quadrant = 'do-now';
 } else if (task.urgent && !task.important) {
   li.style.backgroundColor = '#ece5dd'; // Beige
-  li.style.color = '#000';
   li.dataset.quadrant = 'delegate';
 } else if (!task.urgent && task.important) {
   li.style.backgroundColor = '#fff9e5'; // Green
-  li.style.color = '#000';
   li.dataset.quadrant = 'schedule';
 } else {
   li.style.backgroundColor = '#f0f0f0'; // Light gray
-  // li.style.color = '#000'; ← already set above
   li.dataset.quadrant = 'eliminate';
 }
 
