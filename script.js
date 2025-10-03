@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
-  const urgentCheckbox = document.getElementById('urgent');
-  const importantCheckbox = document.getElementById('important');
-  const serviceCheckbox = document.getElementById('service');
-  const ordersCheckbox = document.getElementById('orders');
-  const paymentsCheckbox = document.getElementById('payments');
-  const officeCheckbox = document.getElementById('office');
-  const reminderCheckbox = document.getElementById('reminder');
-  const otherCheckbox = document.getElementById('other');
+  const urgentCheckbox = document.getElementById('Urgent');
+  const importantCheckbox = document.getElementById('Priority');
+  const serviceCheckbox = document.getElementById('Service');
+  const ordersCheckbox = document.getElementById('Orders');
+  const paymentsCheckbox = document.getElementById('Payments');
+  const officeCheckbox = document.getElementById('Office');
+  const reminderCheckbox = document.getElementById('Reminder');
+  const otherCheckbox = document.getElementById('Others');
   const list = document.getElementById('task-list');
   const toast = document.getElementById('toast');
 
@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const text = input.value.trim();
     const urgent = urgentCheckbox.checked;
-    const important = importantCheckbox.checked;
+    const important = priorityCheckbox.checked;
     const service = serviceCheckbox.checked;
     const orders = ordersCheckbox.checked;
     const payments = paymentsCheckbox.checked;
     const office = officeCheckbox.checked;
     const reminder = reminderCheckbox.checked;
-    const other = otherCheckbox.checked;
+    const other = othersCheckbox.checked;
 
     if (!text) return;
 
@@ -88,13 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Show selected categories
       const categories = [];
       if (task.urgent) categories.push('Urgent');
-      if (task.important) categories.push('Important');
+      if (task.important) categories.push('Priority');
       if (task.service) categories.push('Service');
       if (task.orders) categories.push('Orders');
       if (task.payments) categories.push('Payments');
       if (task.office) categories.push('Office');
       if (task.reminder) categories.push('Reminder');
-      if (task.other) categories.push('Other');
+      if (task.other) categories.push('Others');
       if (categories.length) {
         const catSpan = document.createElement('span');
         catSpan.textContent = ' [' + categories.join(', ') + ']';
