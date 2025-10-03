@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');
-  const descInput = document.getElementById('task-desc');
   const urgentCheckbox = document.getElementById('urgent');
   const importantCheckbox = document.getElementById('important');
   const serviceCheckbox = document.getElementById('service');
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     const text = input.value.trim();
-    const description = descInput.value.trim();
     const urgent = urgentCheckbox.checked;
     const important = importantCheckbox.checked;
     const service = serviceCheckbox.checked;
@@ -44,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const task = {
       id: Date.now(),
       text,
-      description,
       done: false,
       user: 'Naushad',
       urgent,
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTasks();
     showToast('✅ Task added');
 
-    // 🧹 Reset form for next task
     form.reset();
     input.focus();
   }
@@ -70,28 +66,28 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderTasks() {
     list.innerHTML = '';
 
-    tasks.forEach(task => {
-      // Flex container for row layout
+    tasks.forEach((task, index) => {
       const li = document.createElement('li');
       li.style.display = 'flex';
       li.style.alignItems = 'center';
       li.style.justifyContent = 'space-between';
 
-      // LEFT: Task info (text, categories, meta, description)
+      // Alternate background colors
+      li.style.color = '#000';
+      li.style.backgroundColor = (index % 2 === 0) ? '#50c9c3' : '#ffecb3';
+
+      // Left: Task info (title + categories + user)
       const leftDiv = document.createElement('div');
       leftDiv.style.display = 'flex';
-      leftDiv.style.flexDirection = 'column';
-
-      // Main row: title + categories
-      const titleRow = document.createElement('div');
-      titleRow.style.display = 'flex';
-      titleRow.style.alignItems = 'center';
+      leftDiv.style.alignItems = 'center';
 
       const leftSpan = document.createElement('span');
       leftSpan.textContent = task.text;
 
       // Show selected categories
       const categories = [];
+      if (task.urgent) categories.push('Urgent');
+      if (task.important) categories.push('Important');
       if (task.service) categories.push('Service');
       if (task.orders) categories.push('Orders');
       if (task.payments) categories.push('Payments');
@@ -104,36 +100,23 @@ document.addEventListener('DOMContentLoaded', () => {
         catSpan.style.fontSize = 'smaller';
         catSpan.style.color = '#888';
         catSpan.style.marginLeft = '8px';
-        titleRow.appendChild(leftSpan);
-        titleRow.appendChild(catSpan);
+        leftDiv.appendChild(leftSpan);
+        leftDiv.appendChild(catSpan);
       } else {
-        titleRow.appendChild(leftSpan);
-      }
-
-      leftDiv.appendChild(titleRow);
-
-      // Description/Notes (show if present)
-      if (task.description) {
-        const descDiv = document.createElement('div');
-        descDiv.textContent = task.description;
-        descDiv.style.fontSize = 'smaller';
-        descDiv.style.color = '#555';
-        descDiv.style.marginTop = '3px';
-        leftDiv.appendChild(descDiv);
+        leftDiv.appendChild(leftSpan);
       }
 
       // User meta
       const meta = document.createElement('small');
       meta.textContent = `👤 ${task.user || 'Unknown'}`;
-      meta.style.marginTop = '3px';
+      meta.style.marginLeft = '8px';
       leftDiv.appendChild(meta);
 
-      // RIGHT: Timestamp, edit, delete
+      // Right: Timestamp + delete button
       const rightDiv = document.createElement('div');
       rightDiv.style.display = 'flex';
       rightDiv.style.alignItems = 'center';
 
-      // Timestamp right
       const rightSpan = document.createElement('span');
       rightSpan.textContent = `🕒 ${task.timestamp}`;
       rightSpan.style.marginLeft = '12px';
@@ -141,21 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       rightSpan.style.color = '#555';
       rightDiv.appendChild(rightSpan);
 
-      // Edit button for description
-      const editBtn = document.createElement('button');
-      editBtn.textContent = '✎';
-      editBtn.title = 'Edit task notes/description';
-      editBtn.style.marginLeft = '8px';
-      editBtn.onclick = () => {
-        const newDesc = prompt('Edit notes/links:', task.description || '');
-        if (newDesc !== null) {
-          task.description = newDesc;
-          renderTasks();
-        }
-      };
-      rightDiv.appendChild(editBtn);
-
-      // Delete button
       const delBtn = document.createElement('button');
       delBtn.textContent = '✕';
       delBtn.title = 'Delete task';
@@ -166,37 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       rightDiv.appendChild(delBtn);
 
-      // Set quadrant color logic
-      li.style.color = '#000';
-      if (task.urgent && task.important) {
-        li.style.backgroundColor = '#77cfff';
-        li.dataset.quadrant = 'do-now';
-      } else if (task.urgent && !task.important) {
-        li.style.backgroundColor = '#ece5dd';
-        li.dataset.quadrant = 'delegate';
-      } else if (!task.urgent && task.important) {
-        li.style.backgroundColor = '#fff9e5';
-        li.dataset.quadrant = 'schedule';
-      } else {
-        li.style.backgroundColor = '#f0f0f0';
-        li.dataset.quadrant = 'eliminate';
-      }
-
       li.appendChild(leftDiv);
       li.appendChild(rightDiv);
 
       list.appendChild(li);
     });
-  }
-
-  function toggleTask(task) {
-    task.done = !task.done;
-    renderTasks();
-  }
-
-  function deleteTask(task) {
-    tasks = tasks.filter(t => t.id !== task.id);
-    renderTasks();
   }
 
   function showToast(message) {
