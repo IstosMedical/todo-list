@@ -27,16 +27,21 @@
   <div class="container">
     <!-- Task Input Form -->
     <form id="task-form">
-      <input type="text" id="task-input" placeholder="Add a task..." />
+      <input type="text" id="task-input" placeholder="Add a task..." required />
+      <textarea id="task-desc" placeholder="Add notes or links here..."></textarea>
       <button type="submit">Add</button>
+      <div class="tagging">
+        <span class="tag-label">Assign:</span>
+        <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
+        <label><input type="checkbox" id="important" /> ⚡ Important</label>
+        <label><input type="checkbox" id="service" /> 🛠️ Service</label>
+        <label><input type="checkbox" id="orders" /> 📦 Orders</label>
+        <label><input type="checkbox" id="payments" /> 💳 Payments</label>
+        <label><input type="checkbox" id="office" /> 🏢 Office todo</label>
+        <label><input type="checkbox" id="reminder" /> 🔔 Reminder</label>
+        <label><input type="checkbox" id="other" /> 📋 Other todo</label>
+      </div>
     </form>
-
-    <!-- Category Tagging -->
-    <div class="tagging">
-      <span class="tag-label">Assign:</span>
-      <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
-      <label><input type="checkbox" id="important" /> ⚡ Important</label>
-    </div>
 
     <!-- Task Display List -->
     <div class="task-list">
