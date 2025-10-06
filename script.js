@@ -177,7 +177,7 @@ async function submitTask() {
   };
 
   try {
-    const response = await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbwyaIYFQ8JaNqS5Ts7Uig8McWXViBTohz8vkK8WM3f7LIGKoe8t8MCfb0mtq5ghTDf5Ag/exec", {
       method: "POST",
       body: JSON.stringify(task),
       headers: {
