@@ -29,14 +29,13 @@
     <form id="task-form">
       <input type="text" id="task-input" placeholder="Add a task..." required />
       <button type="submit">Add</button>
-
       <hr class="dashed-divider">
-      <div class="tagging-grid">
-        <h5>Assign Task:</h5>
+        <div class="tagging-grid">
+         <h5>Assign Task:</h5>
         <div class="tag-checkbox-columns">
           <div class="tag-col">
             <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
-            <label><input type="checkbox" id="priority" /> ⚡ Priority</label>
+            <label><input type="checkbox" id="important" /> ⚡ Priority</label>
             <label><input type="checkbox" id="service" /> 🛠️ Service</label>
             <label><input type="checkbox" id="orders" /> 📦 Orders</label>
           </div>
@@ -60,53 +59,6 @@
   </div>
 
   <!-- Script -->
-  <script>
-    // Toast logic
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3000);
-    }
-
-    // Submit task to backend
-    async function submitTask() {
-      const task = {
-        title: document.getElementById("task-input").value,
-        urgent: document.getElementById("urgent").checked,
-        priority: document.getElementById("priority").checked,
-        service: document.getElementById("service").checked,
-        orders: document.getElementById("orders").checked,
-        payments: document.getElementById("payments").checked,
-        office: document.getElementById("office").checked,
-        reminder: document.getElementById("reminder").checked,
-        other: document.getElementById("other").checked,
-        completed: false
-      };
-
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbwyaIYFQ8JaNqS5Ts7Uig8McWXViBTohz8vkK8WM3f7LIGKoe8t8MCfb0mtq5ghTDf5Ag/exec", {
-          method: "POST",
-          body: JSON.stringify(task),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        const result = await response.text();
-        showToast("✅ Task synced to NAS");
-        document.getElementById("task-form").reset();
-      } catch (error) {
-        console.error("❌ Sync failed:", error);
-        showToast("❌ Failed to sync task");
-      }
-    }
-
-    // Hook form submission
-    document.getElementById("task-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      submitTask();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
