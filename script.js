@@ -165,3 +165,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', handleSubmit);
 });
+
+
+
+async function submitTask() {
+  const task = {
+    title: document.getElementById("taskInput").value,
+    urgent: document.getElementById("urgentCheckbox").checked,
+    priority: document.getElementById("priorityCheckbox").checked,
+    completed: false
+  };
+
+  try {
+    const response = await fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+      method: "POST",
+      body: JSON.stringify(task),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    const result = await response.text();
+    console.log("✅ Synced:", result);
+    alert("Task synced to NAS!");
+  } catch (error) {
+    console.error("❌ Sync failed:", error);
+    alert("Failed to sync task.");
+  }
+}
