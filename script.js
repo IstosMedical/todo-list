@@ -4,18 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('task-list');
   const toast = document.getElementById('toast');
 
-  const checkboxIds = [
-    'urgent', 'priority', 'service', 'orders',
+  const checkboxes = [
+    'urgent', 'important', 'service', 'orders',
     'payments', 'office', 'reminder', 'other'
-  ];
-
-  const checkboxes = checkboxIds.reduce((acc, id) => {
+  ].reduce((acc, id) => {
     acc[id] = document.getElementById(id);
     return acc;
   }, {});
 
   let tasks = [];
 
+  // 🕒 Format timestamp
   const getTimestamp = () => {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
@@ -24,26 +23,52 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${hours}:${minutes} - ${dayName}`;
   };
 
-  const labelize = (key) => {
-    const map = {
-      urgent: '⏰Urgent',
-      priority: '⚡Priority',
-      service: '🛠️Service',
-      orders: '📦Orders',
-      payments: '💳Payments',
-      office: '🏢Office',
-      reminder: '🔔Reminder',
-      other: '🗂Other'
+  // ✅ Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+
+    const task = {
+      id: Date.now(),
+      text,
+      done: false,
+      user: 'Naushad',
+      timestamp: getTimestamp()
     };
-    return map[key] || key;
+
+    checkboxesKeys().forEach(key => {
+      task[key] = checkboxes[key].checked;
+    });
+
+    tasks.push(task);
+    renderTasks();
+    showToast('✅ Task added');
+    form.reset();
+    input.focus();
   };
 
-  const showToast = (message) => {
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+  const checkboxesKeys = () => Object.keys(checkboxes);
+
+  // 🧠 Render all tasks
+  const renderTasks = () => {
+    list.innerHTML = '';
+    tasks.forEach((task, index) => {
+      const li = document.createElement('li');
+      applyResponsiveLayout(li);
+      li.style.color = '#000';
+      li.style.backgroundColor = index % 2 === 0 ? '#f5cef0' : '#E7D4FF';
+
+      const leftDiv = buildLeftBlock(task);
+      const rightDiv = buildRightBlock(task);
+
+      li.appendChild(leftDiv);
+      li.appendChild(rightDiv);
+      list.appendChild(li);
+    });
   };
 
+  // 📱 Responsive layout
   const applyResponsiveLayout = (li) => {
     const isMobile = window.innerWidth < 600;
     li.style.display = 'flex';
@@ -53,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
     li.style.gap = isMobile ? '0.5rem' : '0';
   };
 
+  // 🧩 Build left block (text + categories + user)
   const buildLeftBlock = (task) => {
     const leftDiv = document.createElement('div');
     leftDiv.style.display = 'flex';
@@ -66,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const leftSpan = document.createElement('span');
     leftSpan.textContent = task.text;
 
-    const categories = checkboxIds.filter(key => task[key]);
+    const categories = checkboxesKeys().filter(key => task[key]);
     if (categories.length) {
       const catSpan = document.createElement('span');
       catSpan.textContent = ' [' + categories.map(labelize).join(', ') + ']';
@@ -89,6 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return leftDiv;
   };
 
+  // ⏱️ Build right block (timestamp + delete)
   const buildRightBlock = (task) => {
     const rightDiv = document.createElement('div');
     rightDiv.style.display = 'flex';
@@ -114,62 +141,26 @@ document.addEventListener('DOMContentLoaded', () => {
     return rightDiv;
   };
 
-  const renderTasks = () => {
-    list.innerHTML = '';
-    tasks.forEach((task, index) => {
-      const li = document.createElement('li');
-      applyResponsiveLayout(li);
-      li.style.color = '#000';
-      li.style.backgroundColor = index % 2 === 0 ? '#f5cef0' : '#E7D4FF';
-
-      const leftDiv = buildLeftBlock(task);
-      const rightDiv = buildRightBlock(task);
-
-      li.appendChild(leftDiv);
-      li.appendChild(rightDiv);
-      list.appendChild(li);
-    });
+  // 🏷️ Label mapping
+  const labelize = (key) => {
+    const map = {
+      urgent: ' ⏰Urgent',
+      important: '⚡Priority',
+      service: '🛠️Service',
+      orders: '📦Orders',
+      payments: '💳Payments',
+      office: '🏢Office',
+      reminder: '🔔Reminder',
+      other: '🗂Other'
+    };
+    return map[key] || key;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const text = input.value.trim();
-    if (!text) return;
-
-    const task = {
-      id: Date.now(),
-      text,
-      done: false,
-      user: 'Naushad',
-      timestamp: getTimestamp(),
-      completed: false
-    };
-
-    checkboxIds.forEach(key => {
-      task[key] = checkboxes[key].checked;
-    });
-
-    try {
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwyaIYFQ8JaNqS5Ts7Uig8McWXViBTohz8vkK8WM3f7LIGKoe8t8MCfb0mtq5ghTDf5Ag/exec", {
-        method: "POST",
-        body: JSON.stringify(task),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      const result = await response.text();
-      console.log("✅ Synced:", result);
-      showToast("✅ Task synced to NAS");
-    } catch (error) {
-      console.error("❌ Sync failed:", error);
-      showToast("❌ Failed to sync task");
-    }
-
-    tasks.push(task);
-    renderTasks();
-    form.reset();
-    input.focus();
+  // 🔔 Toast message
+  const showToast = (message) => {
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
   };
 
   form.addEventListener('submit', handleSubmit);
