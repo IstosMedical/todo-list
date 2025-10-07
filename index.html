@@ -115,7 +115,7 @@
         <label><input type="checkbox" id="paymentsCheckbox">💳 Payments</label>
         <label><input type="checkbox" id="officeCheckbox">🏢 Office</label>
         <label><input type="checkbox" id="reminderCheckbox">🔔 Reminder</label>
-        <label><input type="checkbox" id="OthersCheckbox">🗂 Others</label>
+        <label><input type="checkbox" id="OthersCheckbox">🗂 others</label>
     </div>
 </div>
 <div class="todo-grid">
@@ -126,7 +126,7 @@
     <div class="todo-box" id="paymentsBox"><div class="box-title">💳 Payments</div><div class="tasks"></div></div>
     <div class="todo-box" id="officeBox"><div class="box-title">🏢 Office</div><div class="tasks"></div></div>
     <div class="todo-box" id="reminderBox"><div class="box-title">🔔 Reminder</div><div class="tasks"></div></div>
-    <div class="todo-box" id="othersBox"><div class="box-title">🗂 Others</div><div class="tasks"></div></div>
+    <div class="todo-box" id="othersBox"><div class="box-title">🗂 others</div><div class="tasks"></div></div>
 </div>
 
 
@@ -137,20 +137,26 @@ function addTask() {
 
     const boxes = [
         'urgent', 'priority', 'service', 'orders',
-        'payments', 'office', 'reminder', 'others'
+        'payments', 'office', 'reminder'
     ];
     let assignedBox = 'others';
 
+    // Check if any box or the "Others" checkbox is selected
     for (const box of boxes) {
         if (document.getElementById(`${box}Checkbox`).checked) {
             assignedBox = box;
             break;
         }
     }
+    // Check if OthersCheckbox is selected specifically
+    if (document.getElementById('OthersCheckbox').checked) {
+        assignedBox = 'others';
+    }
+
     const tasksContainer = document.querySelector(`#${assignedBox}Box .tasks`);
     const taskDiv = document.createElement('div');
     taskDiv.className = 'task-item';
-    
+
     // Create the span "x" remove button
     const removeBtn = document.createElement('span');
     removeBtn.textContent = '✕';
@@ -173,9 +179,13 @@ function addTask() {
     tasksContainer.appendChild(taskDiv);
 
     document.getElementById('taskInput').value = "";
+
+    // Clear all checkboxes including OthersCheckbox
     boxes.forEach(box => document.getElementById(`${box}Checkbox`).checked = false);
+    document.getElementById('OthersCheckbox').checked = false;
 }
 </script>
+
 
 </body>
 </html>
