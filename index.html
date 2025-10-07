@@ -1,64 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>ISTOS Todo List</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- Android App Settings -->
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- iOS App Settings -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="ISTOS Todo List" />
-  <link rel="apple-touch-icon" href="istos-logo.png" />
-
-  <!-- External Styles -->
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <title>ISTOS Todo List Grid</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Logo and Title -->
-  <div class="logo-wrapper">
-    <img src="istos-logo.png" alt="ISTOS Logo" class="form-logo" />
-  </div>
-  <h2>Todo List</h2>
-
-  <div class="container">
-    <!-- Task Input Form -->
-    <form id="task-form">
-      <input type="text" id="task-input" placeholder="Add a task..." required />
-      <button type="submit">Add</button>
-      <hr class="dashed-divider">
-        <div class="tagging-grid">
-         <h5>Assign Task:</h5>
-        <div class="tag-checkbox-columns">
-          <div class="tag-col">
-            <label><input type="checkbox" id="urgent" /> ⏰ Urgent</label>
-            <label><input type="checkbox" id="important" /> ⚡ Priority</label>
-            <label><input type="checkbox" id="service" /> 🛠️ Service</label>
-            <label><input type="checkbox" id="orders" /> 📦 Orders</label>
-          </div>
-          <div class="tag-col">
-            <label><input type="checkbox" id="payments" /> 💳 Payments</label>
-            <label><input type="checkbox" id="office" /> 🏢 Office</label>
-            <label><input type="checkbox" id="reminder" /> 🔔 Reminder</label>
-            <label><input type="checkbox" id="other" /> 🗂 Others</label>
-          </div>
+    <div class="add-task-container">
+        <input type="text" id="taskInput" placeholder="Enter new task">
+        <div class="checkbox-group">
+            <label><input type="checkbox" id="urgentCheckbox">Urgent</label>
+            <label><input type="checkbox" id="priorityCheckbox">Priority</label>
+            <label><input type="checkbox" id="serviceCheckbox">Service</label>
+            <label><input type="checkbox" id="ordersCheckbox">Orders</label>
+            <label><input type="checkbox" id="paymentsCheckbox">Payments</label>
+            <label><input type="checkbox" id="officeCheckbox">Office</label>
+            <label><input type="checkbox" id="reminderCheckbox">Reminder</label>
         </div>
-      </div>
-    </form>
-
-    <!-- Task Display List -->
-    <div class="task-list">
-      <ul id="task-list"></ul>
+        <button onclick="addTask()">Add</button>
     </div>
+    <div class="todo-grid">
+        <div class="todo-box" id="urgentBox"><div class="box-title">Urgent</div><div class="tasks"></div></div>
+        <div class="todo-box" id="priorityBox"><div class="box-title">Priority</div><div class="tasks"></div></div>
+        <div class="todo-box" id="serviceBox"><div class="box-title">Service</div><div class="tasks"></div></div>
+        <div class="todo-box" id="ordersBox"><div class="box-title">Orders</div><div class="tasks"></div></div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-  </div>
-
-  <!-- Script -->
-  <script src="script.js"></script>
+        <div class="todo-box" id="paymentsBox"><div class="box-title">Payments</div><div class="tasks"></div></div>
+        <div class="todo-box" id="officeBox"><div class="box-title">Office</div><div class="tasks"></div></div>
+        <div class="todo-box" id="reminderBox"><div class="box-title">Reminder</div><div class="tasks"></div></div>
+        <div class="todo-box" id="othersBox"><div class="box-title">Others</div><div class="tasks"></div></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
