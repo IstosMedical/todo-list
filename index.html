@@ -77,6 +77,20 @@
             padding: 4px 8px;
             border-radius: 2px;
             font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .remove-btn {
+            color: #d32f2f;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+        .remove-btn:hover {
+            color: #333;
+        }
+
         }
         @media (max-width: 600px) {
             .todo-grid {
@@ -133,6 +147,8 @@
     <div class="todo-box" id="reminderBox"><div class="box-title">🔔 Reminder</div><div class="tasks"></div></div>
     <div class="todo-box" id="othersBox"><div class="box-title">🗂 Others</div><div class="tasks"></div></div>
 </div>
+
+
 <script>
 function addTask() {
     const taskText = document.getElementById('taskInput').value.trim();
@@ -153,12 +169,32 @@ function addTask() {
     const tasksContainer = document.querySelector(`#${assignedBox}Box .tasks`);
     const taskDiv = document.createElement('div');
     taskDiv.className = 'task-item';
-    taskDiv.textContent = taskText;
+    
+    // Create the span "x" remove button
+    const removeBtn = document.createElement('span');
+    removeBtn.textContent = '✕';
+    removeBtn.className = 'remove-btn';
+    removeBtn.title = 'Remove task';
+    removeBtn.style.cursor = 'pointer';
+    removeBtn.style.marginLeft = '12px';
+    removeBtn.onclick = function() {
+        taskDiv.remove();
+    };
+
+    // Add the task text
+    const taskContent = document.createElement('span');
+    taskContent.textContent = taskText;
+
+    // Arrange: text + remove button
+    taskDiv.appendChild(taskContent);
+    taskDiv.appendChild(removeBtn);
+
     tasksContainer.appendChild(taskDiv);
 
     document.getElementById('taskInput').value = "";
     boxes.forEach(box => document.getElementById(`${box}Checkbox`).checked = false);
 }
 </script>
+
 </body>
 </html>
