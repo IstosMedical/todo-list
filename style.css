@@ -89,16 +89,13 @@ body {
 }
 
 .todo-box {
-  width: 95%;
-  min-height: 350px;
-  margin: 1%;
-  padding: 12px;
+  width: 700px; /* or 800px, depending on your screen */
+  min-height: 340px;
+  margin: 16px auto;
+  padding: 16px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background: linear-gradient(135deg, #ffffff, #f9f9f9);
-  display: inline-block;
-  vertical-align: top;
-  transition: transform 0.3s ease;
 }
 
 .box-title {
