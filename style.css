@@ -6,11 +6,12 @@ body {
 .logo-container {
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-bottom: 2em;
 }
 
 .logo {
-  max-width: 110px; /* Reduced from 220px */
+  max-width: 110px; /* Already reduced by 50% */
   height: auto;
 }
 
