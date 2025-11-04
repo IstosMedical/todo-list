@@ -98,14 +98,6 @@ body {
   flex-direction: column;
 }
 
-.todo-box:nth-child(-n+4) {
-  background: #f5cef0;
-}
-
-.todo-box:nth-child(n+5) {
-  background: #E7D4FF;
-}
-
 .box-title {
   font-weight: bold;
 }
