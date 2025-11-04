@@ -147,12 +147,21 @@ body {
 }
 
 .task-item {
-  background: #fff;
+  font-size: 13px;
   margin-bottom: 6px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  font-size: 15px;
-  box-shadow: 1px 1px 4px rgba(0,0,0,0.05);
+  padding-left: 16px;
+  position: relative;
+  color: #333;
+}
+
+/* Subtle bullet using pseudo-element */
+.task-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #888; /* soft gray bullet */
+  font-size: 16px;
+  line-height: 1;
 }
 
 .centered-container {
