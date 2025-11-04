@@ -3,6 +3,11 @@ body {
   background: #f9f9f9;
 }
 
+#taskForm {
+  display: flex;
+  justify-content: center;
+}
+
 .title {
   text-align: center;
   font-size: 2em;
