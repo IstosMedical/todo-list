@@ -59,9 +59,16 @@ body {
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  gap: 10px;
-  margin-bottom: 8px;
+  justify-content: center;
+  gap: 12px;
+}
+
+.checkbox-group label {
+  flex: 0 0 22%; /* ~25% minus gap for 4 per row */
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+  margin-bottom: 12px;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -70,13 +77,10 @@ body {
   cursor: pointer;
 }
 
-.checkbox-group label {
-  font-size: 1.1em;
-  margin: 0.5em;
-  display: flex;
-  align-items: center;
-  flex: 0 0 24%;
-  margin-bottom: 8px;
+@media (max-width: 768px) {
+  .checkbox-group label {
+    flex: 0 0 48%; /* 2 per row on mobile */
+  }
 }
 
 .todo-grid {
