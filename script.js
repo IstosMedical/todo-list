@@ -9,7 +9,6 @@ const categories = [
   { id: "do", title: "💰 Payments to Do", color: "#E1F5FE" }
 ];
 
-// Create boxes on page load
 window.onload = () => {
   const grid = document.getElementById("todoGrid");
   categories.forEach(cat => {
@@ -17,12 +16,13 @@ window.onload = () => {
     grid.appendChild(box);
   });
 
-  // Load saved tasks
   const savedTasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
   savedTasks.forEach(({ text, category }) => {
     const container = document.querySelector(`#${category}Box .tasks`);
-    const taskElement = createTaskElement(text, category);
-    container.appendChild(taskElement);
+    if (container) {
+      const taskElement = createTaskElement(text, category);
+      container.appendChild(taskElement);
+    }
   });
 };
 
@@ -37,19 +37,23 @@ function addTask() {
 
   let assignedBox = "others";
   categories.forEach(cat => {
-    if (document.getElementById(`${cat.id}Checkbox`).checked) {
+    const checkbox = document.getElementById(`${cat.id}Checkbox`);
+    if (checkbox && checkbox.checked) {
       assignedBox = cat.id;
     }
   });
 
   const container = document.querySelector(`#${assignedBox}Box .tasks`);
+  if (!container) return;
+
   const taskElement = createTaskElement(taskText, assignedBox);
   container.appendChild(taskElement);
   saveTask(taskText, assignedBox);
 
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
-    document.getElementById(`${cat.id}Checkbox`).checked = false;
+    const checkbox = document.getElementById(`${cat.id}Checkbox`);
+    if (checkbox) checkbox.checked = false;
   });
 }
 
