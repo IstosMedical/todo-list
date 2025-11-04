@@ -3,6 +3,15 @@ body {
   background: #f9f9f9;
 }
 
+.title {
+  text-align: center;
+  font-size: 2em;
+  font-weight: 600;
+  color: #1976d2;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.5px;
+}
+
 .logo-container {
   display: flex;
   justify-content: center;
