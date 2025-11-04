@@ -1,12 +1,12 @@
 const categories = [
-  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
-  { id: "get", title: "💵 Payments to Get", color: "#E8F5E9" },
-  { id: "service", title: "🛠️ Service", color: "#FFF3E0" },
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
   { id: "office", title: "🏢 Office", color: "#F3E5F5" },
-  { id: "reminder", title: "🔔 Personal", color: "#FFEBEE" },
-  { id: "do", title: "💰 Payments to Do", color: "#E1F5FE" }
+  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
+  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
+  { id: "do", title: "💰 Do-Payments", color: "#E1F5FE" },
+  { id: "get", title: "💵 Get-Payments", color: "#E8F5E9" },
+  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
+  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
 window.onload = () => {
