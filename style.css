@@ -47,13 +47,13 @@ body {
   flex: 1;
   margin-right: 8px;
   padding: 12px;
-  font-size: 16px;
+  font-size: 14px;
   box-sizing: border-box;
 }
 
 .input-row button {
   padding: 12px 16px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .add-task-container input,
