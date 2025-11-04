@@ -3,6 +3,17 @@ body {
     background: #f9f9f9;
 }
 
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.logo {
+  max-width: 220px;
+  height: auto;
+}
+
 .add-task-container {
     margin: 20px;
     display: flex;
