@@ -93,99 +93,160 @@
 
     </style>
 </head>
+
 <body>
-
-    <body>
-    <h2 style="text-align: center; margin-bottom: 0.5em;">Todo List</h2>
-    <div style="display: flex; justify-content: center; margin-bottom: 2em;">
-        <img src="istos-logo.png" alt="ISTOS Logo" style="max-width: 220px; height: auto;">
+  <header class="header">
+    <h2 class="title">Todo List</h2>
+    <div class="logo-container">
+      <img src="istos-logo.png" alt="ISTOS Logo" class="logo" />
     </div>
+  </header>
 
-<div class="add-task-container">
+  <section class="task-input-section">
     <div class="input-row">
-        <input type="text" id="taskInput" placeholder="Enter new task">
-        <button onclick="addTask()">Add</button>
+      <input type="text" id="taskInput" placeholder="Enter new task" />
+      <button onclick="addTask()">Add</button>
     </div>
-    <hr class="divider">
+    <hr class="divider" />
     <div class="checkbox-group">
-        <label><input type="checkbox" id="urgentCheckbox">⏰ Urgent</label>
-        <label><input type="checkbox" id="priorityCheckbox">⚡ Priority</label>
-        <label><input type="checkbox" id="serviceCheckbox">🛠️ Service</label>
-        <label><input type="checkbox" id="ordersCheckbox">📦 Orders</label>
-        <label><input type="checkbox" id="paymentsCheckbox">💳 Payments</label>
-        <label><input type="checkbox" id="officeCheckbox">🏢 Office</label>
-        <label><input type="checkbox" id="reminderCheckbox">🔔 Reminder</label>
-        <label><input type="checkbox" id="OthersCheckbox">🗂 others</label>
+      <label><input type="checkbox" id="urgentCheckbox" /> ⏰ Urgent</label>
+      <label><input type="checkbox" id="priorityCheckbox" /> ⚡ Priority</label>
+      <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
+      <label><input type="checkbox" id="ordersCheckbox" /> 📦 Orders</label>
+      <label><input type="checkbox" id="paymentsCheckbox" /> 💳 Payments</label>
+      <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
+      <label><input type="checkbox" id="reminderCheckbox" /> 🔔 Reminder</label>
+      <label><input type="checkbox" id="OthersCheckbox" /> 🗂 others</label>
     </div>
-</div>
-<div class="todo-grid">
-    <div class="todo-box" id="urgentBox"><div class="box-title">⏰ Urgent</div><div class="tasks"></div></div>
-    <div class="todo-box" id="priorityBox"><div class="box-title">⚡ Priority</div><div class="tasks"></div></div>
-    <div class="todo-box" id="serviceBox"><div class="box-title">🛠️ Service</div><div class="tasks"></div></div>
-    <div class="todo-box" id="ordersBox"><div class="box-title">📦 Orders</div><div class="tasks"></div></div>
-    <div class="todo-box" id="paymentsBox"><div class="box-title">💳 Payments</div><div class="tasks"></div></div>
-    <div class="todo-box" id="officeBox"><div class="box-title">🏢 Office</div><div class="tasks"></div></div>
-    <div class="todo-box" id="reminderBox"><div class="box-title">🔔 Reminder</div><div class="tasks"></div></div>
-    <div class="todo-box" id="othersBox"><div class="box-title">🗂 others</div><div class="tasks"></div></div>
-</div>
+  </section>
+
+  <section class="todo-grid">
+    <div class="todo-box" id="urgentBox">
+      <div class="box-title">⏰ Urgent</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="priorityBox">
+      <div class="box-title">⚡ Priority</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="serviceBox">
+      <div class="box-title">🛠️ Service</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="ordersBox">
+      <div class="box-title">📦 Orders</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="paymentsBox">
+      <div class="box-title">💳 Payments</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="officeBox">
+      <div class="box-title">🏢 Office</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="reminderBox">
+      <div class="box-title">🔔 Reminder</div>
+      <div class="tasks"></div>
+    </div>
+    <div class="todo-box" id="othersBox">
+      <div class="box-title">🗂 others</div>
+      <div class="tasks"></div>
+    </div>
+  </section>
+</body>
 
 
 <script>
+const categoryBoxes = [
+  'urgent', 'priority', 'service', 'orders',
+  'payments', 'office', 'reminder'
+];
+
+// Load tasks from localStorage on page load
+window.onload = () => {
+  const savedTasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
+  savedTasks.forEach(({ text, category }) => {
+    const container = document.querySelector(`#${category}Box .tasks`);
+    const taskElement = createTaskElement(text, category);
+    container.appendChild(taskElement);
+  });
+};
+
 function addTask() {
-    const taskText = document.getElementById('taskInput').value.trim();
-    if (!taskText) return; // ignore empty tasks
+  const taskText = getTaskInput();
+  if (!taskText) return;
 
-    const boxes = [
-        'urgent', 'priority', 'service', 'orders',
-        'payments', 'office', 'reminder'
-    ];
-    let assignedBox = 'others';
+  const assignedBox = getSelectedCategory();
+  const tasksContainer = document.querySelector(`#${assignedBox}Box .tasks`);
+  const taskElement = createTaskElement(taskText, assignedBox);
 
-    // Check if any box or the "Others" checkbox is selected
-    for (const box of boxes) {
-        if (document.getElementById(`${box}Checkbox`).checked) {
-            assignedBox = box;
-            break;
-        }
+  tasksContainer.appendChild(taskElement);
+  saveTask(taskText, assignedBox);
+  clearTaskInput();
+  clearCategorySelection();
+}
+
+function getTaskInput() {
+  return document.getElementById('taskInput').value.trim();
+}
+
+function clearTaskInput() {
+  document.getElementById('taskInput').value = '';
+}
+
+function getSelectedCategory() {
+  for (const box of categoryBoxes) {
+    if (document.getElementById(`${box}Checkbox`).checked) {
+      return box;
     }
-    // Check if OthersCheckbox is selected specifically
-    if (document.getElementById('OthersCheckbox').checked) {
-        assignedBox = 'others';
-    }
+  }
+  return document.getElementById('OthersCheckbox').checked ? 'others' : 'others';
+}
 
-    const tasksContainer = document.querySelector(`#${assignedBox}Box .tasks`);
-    const taskDiv = document.createElement('div');
-    taskDiv.className = 'task-item';
+function clearCategorySelection() {
+  categoryBoxes.forEach(box => {
+    document.getElementById(`${box}Checkbox`).checked = false;
+  });
+  document.getElementById('OthersCheckbox').checked = false;
+}
 
-    // Create the span "x" remove button
-    const removeBtn = document.createElement('span');
-    removeBtn.textContent = '✕';
-    removeBtn.className = 'remove-btn';
-    removeBtn.title = 'Remove task';
-    removeBtn.style.cursor = 'pointer';
-    removeBtn.style.marginLeft = '12px';
-    removeBtn.onclick = function() {
-        taskDiv.remove();
-    };
+function createTaskElement(text, category) {
+  const taskDiv = document.createElement('div');
+  taskDiv.className = 'task-item';
 
-    // Add the task text
-    const taskContent = document.createElement('span');
-    taskContent.textContent = taskText;
+  const taskContent = document.createElement('span');
+  taskContent.textContent = text;
 
-    // Arrange: text + remove button
-    taskDiv.appendChild(taskContent);
-    taskDiv.appendChild(removeBtn);
+  const removeBtn = document.createElement('span');
+  removeBtn.textContent = '✕';
+  removeBtn.className = 'remove-btn';
+  removeBtn.title = 'Remove task';
+  removeBtn.style.cursor = 'pointer';
+  removeBtn.style.marginLeft = '12px';
+  removeBtn.onclick = () => {
+    taskDiv.remove();
+    deleteTask(text, category);
+  };
 
-    tasksContainer.appendChild(taskDiv);
+  taskDiv.appendChild(taskContent);
+  taskDiv.appendChild(removeBtn);
 
-    document.getElementById('taskInput').value = "";
+  return taskDiv;
+}
 
-    // Clear all checkboxes including OthersCheckbox
-    boxes.forEach(box => document.getElementById(`${box}Checkbox`).checked = false);
-    document.getElementById('OthersCheckbox').checked = false;
+function saveTask(text, category) {
+  const tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
+  tasks.push({ text, category });
+  localStorage.setItem("istosTasks", JSON.stringify(tasks));
+}
+
+function deleteTask(text, category) {
+  let tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
+  tasks = tasks.filter(task => !(task.text === text && task.category === category));
+  localStorage.setItem("istosTasks", JSON.stringify(tasks));
 }
 </script>
-
 
 </body>
 </html>
