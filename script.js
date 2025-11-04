@@ -9,12 +9,32 @@ const categories = [
   { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
+function createTodoBox({ id, title, color }) {
+  const box = document.createElement("div");
+  box.className = "todo-box";
+  box.id = `${id}Box`;
+  box.style.background = `linear-gradient(135deg, ${color}, #ffffff)`;
+  box.setAttribute("data-emoji", title.trim().split(" ")[0]);
+
+  const boxTitle = document.createElement("div");
+  boxTitle.className = "box-title";
+  boxTitle.textContent = title;
+
+  const tasks = document.createElement("div");
+  tasks.className = "tasks";
+
+  box.appendChild(boxTitle);
+  box.appendChild(tasks);
+  return box;
+}
+
 window.onload = () => {
   const grid = document.getElementById("todoGrid");
   categories.forEach(cat => {
     const box = createTodoBox(cat);
     grid.appendChild(box);
   });
+};
 
   const savedTasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
   savedTasks.forEach(({ text, category }) => {
