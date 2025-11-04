@@ -118,14 +118,9 @@ body {
   font-size: 11px;
 }
 
-@media (max-width: 600px) {
-  .todo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .checkbox-group label {
-    flex: 0 0 48%;
-    margin-bottom: 8px;
+.checkbox-group label {
+  flex: 0 0 48%;
+  margin-bottom: 8px;
   }
 }
 
@@ -176,4 +171,44 @@ body {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .todo-grid {
+    grid-template-columns: 1fr; /* ✅ Single column on mobile */
+    padding: 0 12px;
+  }
+
+  .todo-box {
+    width: 100%;
+    min-height: 220px;
+    margin: 12px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .input-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input-row input[type="text"],
+  .input-row button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 8px;
+  }
+
+  .task-item {
+    font-size: 12px;
+  }
+
+  .box-title {
+    font-size: 1em;
+  }
 }
