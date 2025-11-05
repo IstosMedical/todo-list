@@ -124,8 +124,9 @@ body {
 
 .todo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px; /* ⬅️ Increased from 16px to give a full line gap */
+  grid-template-columns: repeat(4, 1fr); /* ✅ Exactly 4 columns */
+  gap: 24px;
+  align-items: start;
   padding: 0 1rem;
 }
 
