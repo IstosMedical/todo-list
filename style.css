@@ -117,14 +117,14 @@ body {
 
 .todo-grid-container {
   max-width: 1200px;
-  margin-left: 0;
+  margin-left: 40px;
   margin-right: auto;
 }
 
 .todo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 /* Task box styling */
