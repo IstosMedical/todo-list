@@ -115,3 +115,22 @@ function deleteTask(text, category) {
   tasks = tasks.filter(task => !(task.text === text && task.category === category));
   localStorage.setItem("istosTasks", JSON.stringify(tasks));
 }
+
+// Dynamic Task Count Logic
+
+function updateTaskCount() {
+  const tbody = document.getElementById('taskCountBody');
+  tbody.innerHTML = '';
+
+  categories.forEach(cat => {
+    const box = document.getElementById(`${cat.id}Box`);
+    const tasks = box ? box.querySelectorAll('.task-item').length : 0;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${cat.label}</td><td>${tasks}</td>`;
+    tbody.appendChild(row);
+  });
+}
+
+// Call this after adding/removing tasks
+setInterval(updateTaskCount, 1000); // Or call manually after each update
