@@ -124,14 +124,16 @@ body {
 .todo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 18px;
+  gap: 24px; /* ⬅️ Increased from 16px to give a full line gap */
+  padding: 0 1rem;
 }
 
 /* Task box styling */
+
 .todo-box {
   width: 100%;
-  min-height: 140px;
   padding: 16px;
+  margin-bottom: 16px;
   border: 2px solid #1976d2;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -139,6 +141,7 @@ body {
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  /* ✅ Remove min-height or height if present */
 }
 
 .todo-box:hover {
