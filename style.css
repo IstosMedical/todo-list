@@ -1,6 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   background: #f9f9f9;
+  padding: 8px;
 }
 
 .title {
@@ -24,11 +25,14 @@ body {
   height: auto;
 }
 
-.add-task-container {
-  margin: 20px;
+.centered-container {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
+  justify-content: center;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .input-row {
@@ -51,11 +55,6 @@ body {
   font-size: 14px;
 }
 
-.add-task-container input,
-.add-task-container button {
-  margin-bottom: 8px;
-}
-
 .checkbox-group {
   display: flex;
   flex-wrap: wrap;
@@ -64,7 +63,7 @@ body {
 }
 
 .checkbox-group label {
-  flex: 0 0 22%; /* ~25% minus gap for 4 per row */
+  flex: 0 0 22%;
   display: flex;
   align-items: center;
   font-size: 1em;
@@ -77,59 +76,66 @@ body {
   cursor: pointer;
 }
 
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .checkbox-group label {
-    flex: 0 0 48%; /* 2 per row on mobile */
+    flex: 0 0 48%;
   }
+
+  .input-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .input-row input[type="text"],
+  .input-row button {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .todo-box {
+    width: 100%;
+    min-height: 120px;
+    margin: 12px 0;
+  }
+
+  .task-item {
+    font-size: 12px;
+  }
+
+  .box-title {
+    font-size: 1em;
+  }
+}
+
+/* Grid wrapper and container */
+.todo-grid-wrapper {
+  width: 100%;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.todo-grid-container {
+  max-width: 1200px;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 .todo-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
-  max-width: 400px;
-  margin: 30px auto;
-  align-items: start;
 }
 
+/* Task box styling */
 .todo-box {
-  width: 400px; /* or 800px, depending on your screen */
-  min-height: 340px;
-  margin: 16px auto;
+  width: 100%;
+  min-height: 140px;
   padding: 16px;
+  border: 2px solid #1976d2;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background: linear-gradient(135deg, #ffffff, #f9f9f9);
-}
-
-.box-title {
-  font-weight: bold;
-}
-
-.tasks {
-  margin-top: 7px;
-}
-
-.task-item {
-  background: #e3f2fd;
-  margin-bottom: 6px;
-  padding: 8px 12px;
-  border-radius: 2px;
-  font-size: 14px;
-}
-
-.checkbox-group label {
-  flex: 0 0 48%;
-  margin-bottom: 8px;
-  }
-}
-
-.todo-box {
-  border: 2px solid #1976d2;
-  border-radius: 8px;
-  padding: 12px;
-  min-height: 140px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
@@ -145,70 +151,26 @@ body {
   margin-bottom: 6px;
 }
 
-.task-item {
-  font-size: 14px;
-  margin-bottom: 6px;
-  padding-left: 16px;
-  position: relative;
-  color: #333;
+.tasks {
+  margin-top: 7px;
 }
 
-/* Subtle bullet using pseudo-element */
+.task-item {
+  background: #e3f2fd;
+  margin-bottom: 6px;
+  padding: 8px 12px;
+  border-radius: 2px;
+  font-size: 14px;
+  color: #333;
+  position: relative;
+  padding-left: 16px;
+}
+
 .task-item::before {
   content: "•";
   position: absolute;
   left: 0;
-  color: #888; /* soft gray bullet */
+  color: #888;
   font-size: 16px;
   line-height: 1;
-}
-
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-@media (max-width: 768px) {
-  .todo-grid {
-    grid-template-columns: 1fr; /* ✅ Single column on mobile */
-    padding: 0 12px;
-  }
-
-  .todo-box {
-    width: 60%;
-    min-height: 120px;
-    margin: 12px 0;
-  }
-}
-
-@media (max-width: 768px) {
-  .input-row {
-    flex-direction: column;
-    width: 50%;
-  }
-
-  .input-row input[type="text"],
-  .input-row button {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    padding: 8px;
-  }
-
-  .task-item {
-    font-size: 12px;
-  }
-
-  .box-title {
-    font-size: 1em;
-  }
 }
