@@ -133,7 +133,7 @@ body {
 .todo-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* ✅ Exactly 4 columns */
-  gap: 24px;
+  gap: 28px;
   align-items: start;
   padding: 0 1rem;
 }
