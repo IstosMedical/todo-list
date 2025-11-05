@@ -225,3 +225,50 @@ body {
   color: #333;
 }
 
+.task-count-panel {
+  margin: 20px auto;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 600px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.task-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.task-summary-header h3 {
+  font-size: 18px;
+  color: #007bff;
+  margin: 0;
+}
+
+.task-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.task-count-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-count-table th,
+.task-count-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.task-count-table th {
+  background-color: #e3f2fd;
+  font-weight: bold;
+}
+
