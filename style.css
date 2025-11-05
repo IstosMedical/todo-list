@@ -182,3 +182,46 @@ body {
   font-size: 16px;
   line-height: 1;
 }
+
+.task-count-panel {
+  position: absolute;
+  top: 100px;
+  right: 40px;
+  width: 240px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.task-count-panel h3 {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  color: #1976d2;
+  text-align: center;
+}
+
+.task-count-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-count-table th,
+.task-count-table td {
+  padding: 8px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
+
+.task-count-table th {
+  color: #555;
+  font-weight: 600;
+}
+
+.task-count-table td {
+  color: #333;
+}
+
