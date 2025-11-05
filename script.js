@@ -118,6 +118,17 @@ function deleteTask(text, category) {
 
 // Dynamic Task Count Logic
 
+const categories = [
+  { id: 'leads', label: '🎯 Leads' },
+  { id: 'office', label: '🏢 Office' },
+  { id: 'order', label: '🚚 Orders' },
+  { id: 'personal', label: '🔔 Personal' },
+  { id: 'do', label: '💰 Do-Payments' },
+  { id: 'get', label: '💵 Get-Payments' },
+  { id: 'tobeorder', label: '🧾 To be ordered' },
+  { id: 'service', label: '🛠️ Service' }
+];
+
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
   tbody.innerHTML = '';
