@@ -13,6 +13,14 @@ body {
   letter-spacing: 0.5px;
 }
 
+.section-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, #1976d2, #42a5f5);
+  margin: 24px 0;
+  opacity: 0.6;
+}
+
 .logo-container {
   display: flex;
   justify-content: center;
