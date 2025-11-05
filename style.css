@@ -180,8 +180,8 @@ body {
   }
 
   .todo-box {
-    width: 100%;
-    min-height: 220px;
+    width: 60%;
+    min-height: 120px;
     margin: 12px 0;
   }
 }
