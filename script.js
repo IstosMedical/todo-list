@@ -119,14 +119,14 @@ function deleteTask(text, category) {
 // Dynamic Task Count Logic
 
 const categories = [
-  { id: 'leads', label: '🎯 Leads' },
-  { id: 'office', label: '🏢 Office' },
-  { id: 'order', label: '🚚 Orders' },
-  { id: 'personal', label: '🔔 Personal' },
-  { id: 'do', label: '💰 Do-Payments' },
-  { id: 'get', label: '💵 Get-Payments' },
-  { id: 'tobeorder', label: '🧾 To be ordered' },
-  { id: 'service', label: '🛠️ Service' }
+  { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
+  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
+  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
+  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
+  { id: "do", title: "💰 Do-Payments", color: "#E1F5FE" },
+  { id: "get", title: "💵 Get-Payments", color: "#E8F5E9" },
+  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
+  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
 function updateTaskCount() {
