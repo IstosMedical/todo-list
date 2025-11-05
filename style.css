@@ -109,6 +109,7 @@ body {
 }
 
 /* Grid wrapper and container */
+
 .todo-grid-wrapper {
   width: 100%;
   padding: 0 1rem;
@@ -117,7 +118,7 @@ body {
 
 .todo-grid-container {
   max-width: 1200px;
-  margin-left: 40px;
+  margin-left: 80px;
   margin-right: auto;
 }
 
