@@ -116,32 +116,24 @@ function deleteTask(text, category) {
   localStorage.setItem("istosTasks", JSON.stringify(tasks));
 }
 
-// Dynamic Task Count Logic
 
-const categories = [
-  { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
-  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
-  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
-  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
-  { id: "do", title: "💰 Do-Payments", color: "#E1F5FE" },
-  { id: "get", title: "💵 Get-Payments", color: "#E8F5E9" },
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
-  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
-];
-
+// Category definitions with ID, label, and color
+// Updates the task count table based on current tasks in each category
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
+  if (!tbody) return;
+
   tbody.innerHTML = '';
 
   categories.forEach(cat => {
     const box = document.getElementById(`${cat.id}Box`);
-    const tasks = box ? box.querySelectorAll('.task-item').length : 0;
+    const taskCount = box ? box.querySelectorAll('.task-item').length : 0;
 
     const row = document.createElement('tr');
-    row.innerHTML = `<td>${cat.label}</td><td>${tasks}</td>`;
+    row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
   });
 }
 
-// Call this after adding/removing tasks
-setInterval(updateTaskCount, 1000); // Or call manually after each update
+// Auto-refresh task count every second
+setInterval(updateTaskCount, 1000);
