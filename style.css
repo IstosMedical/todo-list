@@ -249,8 +249,8 @@ body {
 }
 
 .task-icon {
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 22px;
   object-fit: contain;
   vertical-align: middle;
 }
