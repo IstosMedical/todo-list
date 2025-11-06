@@ -179,7 +179,7 @@ showCard(currentIndex);
 function addTaskToMobileCard(taskText, category) {
   const cards = document.querySelectorAll('#cardStack .card');
   for (let card of cards) {
-    if (card.textContent.includes(category)) {
+    if (card.dataset.category === category) {
       const taskItem = document.createElement('div');
       taskItem.className = 'task-item';
       taskItem.textContent = taskText;
