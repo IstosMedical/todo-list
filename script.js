@@ -137,3 +137,25 @@ function updateTaskCount() {
 
 // Auto-refresh task count every second
 setInterval(updateTaskCount, 1000);
+
+
+// Swipe-to-Dismiss the cards on mobile device
+
+document.querySelectorAll('.card').forEach(card => {
+  let startX = 0;
+
+  card.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  });
+
+  card.addEventListener('touchend', e => {
+    const endX = e.changedTouches[0].clientX;
+    const deltaX = endX - startX;
+
+    if (Math.abs(deltaX) > 100) {
+      card.style.transform = `translateX(${deltaX > 0 ? '100%' : '-100%'})`;
+      card.style.opacity = '0';
+      setTimeout(() => card.remove(), 300);
+    }
+  });
+});
