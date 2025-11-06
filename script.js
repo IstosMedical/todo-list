@@ -48,19 +48,24 @@ function addTask() {
     return;
   }
 
+  // Desktop grid
   const container = document.querySelector(`#${assignedBox}Box .tasks`);
-  if (!container) return;
+  if (container) {
+    const taskElement = createTaskElement(taskText, assignedBox);
+    container.appendChild(taskElement);
+  }
 
-  const taskElement = createTaskElement(taskText, assignedBox);
-  container.appendChild(taskElement);
+  // Mobile stacked card
+  addTaskToMobileCard(taskText, assignedBox);
+
   saveTask(taskText, assignedBox);
-
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
     const checkbox = document.getElementById(`${cat.id}Checkbox`);
     if (checkbox) checkbox.checked = false;
   });
 }
+
 
 function createTodoBox({ id, title, color }) {
   const box = document.createElement("div");
