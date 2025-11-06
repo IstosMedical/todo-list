@@ -1,21 +1,31 @@
-.card-carousel {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 16px;
-  padding: 16px;
-  -webkit-overflow-scrolling: touch;
+.mobile-only {
+  display: none;
 }
 
-.card {
-  flex: 0 0 80%;
-  scroll-snap-align: center;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 24px;
-  font-size: 18px;
-  transition: transform 0.3s ease;
+@media screen and (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .card-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding: 16px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card {
+    flex: 0 0 80%;
+    scroll-snap-align: center;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 24px;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
 }
 
 /* === Hide Carousel effect on larger screen === */
