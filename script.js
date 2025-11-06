@@ -34,10 +34,21 @@ window.onload = () => {
       const taskItem = document.createElement("div");
       taskItem.className = "task-item";
       taskItem.textContent = text;
+
+      const closeBtn = document.createElement("span");
+      closeBtn.textContent = "❌";
+      closeBtn.className = "close-btn";
+      closeBtn.onclick = () => {
+        taskItem.remove();
+        removeTaskFromStorage(text, category);
+      };
+
+      taskItem.appendChild(closeBtn);
       mobileCard.appendChild(taskItem);
     }
   });
 };
+
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -217,10 +228,14 @@ function addTaskToMobileCard(taskText, category) {
       taskItem.textContent = taskText;
       taskItem.appendChild(closeBtn);
       card.appendChild(taskItem);
+
+      // ✅ Save to localStorage
+      saveTask(taskText, category);
       break;
     }
   }
 }
+
 
 const cards = document.querySelectorAll('#cardStack .card');
 
