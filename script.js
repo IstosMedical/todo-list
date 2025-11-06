@@ -11,17 +11,30 @@ const categories = [
 
 window.onload = () => {
   const grid = document.getElementById("todoGrid");
+
+  // Create desktop boxes
   categories.forEach(cat => {
     const box = createTodoBox(cat);
     grid.appendChild(box);
   });
 
+  // Load saved tasks
   const savedTasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
   savedTasks.forEach(({ text, category }) => {
+    // Desktop grid
     const container = document.querySelector(`#${category}Box .tasks`);
     if (container) {
       const taskElement = createTaskElement(text, category);
       container.appendChild(taskElement);
+    }
+
+    // Mobile stacked card
+    const mobileCard = document.querySelector(`#cardStack .card[data-category="${category}"]`);
+    if (mobileCard) {
+      const taskItem = document.createElement("div");
+      taskItem.className = "task-item";
+      taskItem.textContent = text;
+      mobileCard.appendChild(taskItem);
     }
   });
 };
