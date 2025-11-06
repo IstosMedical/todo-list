@@ -52,6 +52,15 @@
 .card:nth-child(7) { background: linear-gradient(135deg, #ff512f, #dd2476); }     /* Service */
 .card:nth-child(8) { background: linear-gradient(135deg, #fc5c7d, #6a82fb); }     /* Personal */
 
+.task-item {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.2);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #fff;
+}
+
 
 /* === Hide Carousel effect on larger screen === */
 
