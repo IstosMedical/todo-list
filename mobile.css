@@ -17,3 +17,16 @@
   font-size: 18px;
   transition: transform 0.3s ease;
 }
+
+/* === Hide Carousel effect on larger screen === */
+
+.card-carousel {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .card-carousel {
+    display: flex;
+  }
+}
+
