@@ -16,59 +16,6 @@
   </header>
 
   <main>
-    <!-- Desktop layout -->
-    <div class="desktop-only">
-      <form id="taskForm" onsubmit="handleSubmit(event)">
-        <section class="task-input-section centered-container">
-          <div class="input-row">
-            <input type="text" id="taskInput" placeholder="Enter new task" required />
-            <button type="submit">Add</button>
-          </div>
-          <hr class="divider" />
-          <div class="checkbox-group">
-            <label><input type="checkbox" id="orderCheckbox" /> 🚚 Process Orders</label>
-            <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
-            <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
-            <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>          
-            <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
-            <label><input type="checkbox" id="doCheckbox" /> 💰 Payments to Do</label>
-            <label><input type="checkbox" id="getCheckbox" /> 💵 Payments to Get</label>
-            <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>          
-          </div>
-        </section>  
-      </form>
-
-      <hr class="section-divider" />
-      
-      <div class="desktop-only">
-        <aside class="task-count-panel">
-          <div class="task-summary-header">
-            <img src="istosmini.png" alt="Task Icon" class="task-icon" />
-            <h3>Task Summary</h3>
-          </div>
-          <table class="task-count-table">
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Tasks</th>
-              </tr>
-            </thead>
-            <tbody id="taskCountBody">
-              <!-- Rows will be injected dynamically -->
-            </tbody>
-          </table>
-        </aside>
-      </div>
-
-      <section class="todo-grid-wrapper">
-        <div class="todo-grid-container">
-          <section class="todo-grid" id="todoGrid"></section>
-        </div>
-      </section>
-    </div>
-
-  <!-- Mobile layout -->
-  <div class="mobile-only">
     <form id="taskForm" onsubmit="handleSubmit(event)">
       <section class="task-input-section centered-container">
         <div class="input-row">
@@ -80,25 +27,41 @@
           <label><input type="checkbox" id="orderCheckbox" /> 🚚 Process Orders</label>
           <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
           <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
-          <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>          
+          <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
           <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
           <label><input type="checkbox" id="doCheckbox" /> 💰 Payments to Do</label>
           <label><input type="checkbox" id="getCheckbox" /> 💵 Payments to Get</label>
-          <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>          
+          <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
         </div>
-      </section>  
+      </section>
     </form>
-  
-    <div class="card-stack mobile-only" id="cardStack">
-      <div class="card">🚚 Process Orders</div>
-      <div class="card">🎯 Leads</div>
-      <div class="card">🛠️ Service</div>
-      <div class="card">🏢 Office</div>
-      <div class="card">🔔 Personal</div>
-      <div class="card">💰 Payments to Do</div>
-      <div class="card">💵 Payments to Get</div>
-      <div class="card">🧾 To be ordered</div>
-    </div>
+
+    <hr class="section-divider" />
+
+    <aside class="task-count-panel">
+      <div class="task-summary-header">
+        <img src="istosmini.png" alt="Task Icon" class="task-icon" />
+        <h3>Task Summary</h3>
+      </div>
+      <table class="task-count-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Tasks</th>
+          </tr>
+        </thead>
+        <tbody id="taskCountBody">
+          <!-- Rows will be injected dynamically -->
+        </tbody>
+      </table>
+    </aside>
+
+    <!-- Responsive padded container for grid -->
+    <section class="todo-grid-wrapper">
+      <div class="todo-grid-container">
+        <section class="todo-grid" id="todoGrid"></section>
+      </div>
+    </section>
 
   <script src="script.js"></script>
 </body>
