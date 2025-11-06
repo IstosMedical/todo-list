@@ -344,3 +344,10 @@ body {
 .card[data-category="service"]   { background: linear-gradient(135deg, #ff512f, #dd2476); }
 .card[data-category="personal"]  { background: linear-gradient(135deg, #fc5c7d, #6a82fb); }
 
+@media screen and (max-width: 768px) {
+  .todo-grid-wrapper {
+    display: none;
+  }
+}
+
+
