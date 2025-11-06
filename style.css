@@ -142,22 +142,40 @@ body {
 .task-item {
   background: #e3f2fd;
   margin-bottom: 6px;
-  padding: 8px 12px;
-  border-radius: 2px;
+  padding: 8px 36px 8px 20px; /* extra right padding for close button */
+  border-radius: 4px;
   font-size: 14px;
   color: #333;
   position: relative;
-  padding-left: 16px;
+  line-height: 1.4;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .task-item::before {
   content: "•";
   position: absolute;
-  left: 0;
+  left: 8px;
   color: #888;
   font-size: 16px;
   line-height: 1;
 }
+
+/* Optional: Close button styling */
+.task-item .close-btn {
+  margin-left: auto;
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+  padding-left: 12px;
+}
+
+.task-item .close-btn:hover {
+  color: #d32f2f;
+}
+
 
 /* === Task Summary Panel === */
 
