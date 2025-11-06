@@ -48,26 +48,13 @@ function addTask() {
     return;
   }
 
-  // === Desktop Grid Update ===
-  const desktopContainer = document.querySelector(`#${assignedBox}Box .tasks`);
-  if (desktopContainer) {
-    const taskElement = createTaskElement(taskText, assignedBox);
-    desktopContainer.appendChild(taskElement);
-  }
+  const container = document.querySelector(`#${assignedBox}Box .tasks`);
+  if (!container) return;
 
-  // === Mobile Card Update ===
-  const mobileCards = document.querySelectorAll('#cardStack .card');
-  mobileCards.forEach(card => {
-    if (card.textContent.includes(catTitle(assignedBox))) {
-      const taskItem = document.createElement('div');
-      taskItem.className = 'task-item';
-      taskItem.textContent = taskText;
-      card.appendChild(taskItem);
-    }
-  });
-
-  // === Save and Reset ===
+  const taskElement = createTaskElement(taskText, assignedBox);
+  container.appendChild(taskElement);
   saveTask(taskText, assignedBox);
+
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
     const checkbox = document.getElementById(`${cat.id}Checkbox`);
@@ -75,10 +62,23 @@ function addTask() {
   });
 }
 
-// Helper to get category title from ID
-function catTitle(id) {
-  const match = categories.find(c => c.id === id);
-  return match ? match.title.replace(/^[^\w\s]/, '').trim() : '';
+function createTodoBox({ id, title, color }) {
+  const box = document.createElement("div");
+  box.className = "todo-box";
+  box.id = `${id}Box`;
+  box.style.background = `linear-gradient(135deg, ${color}, #ffffff)`;
+  box.setAttribute("data-emoji", title.trim().split(" ")[0]);
+
+  const boxTitle = document.createElement("div");
+  boxTitle.className = "box-title";
+  boxTitle.textContent = title;
+
+  const tasks = document.createElement("div");
+  tasks.className = "tasks";
+
+  box.appendChild(boxTitle);
+  box.appendChild(tasks);
+  return box;
 }
 
 function createTaskElement(text, category) {
@@ -97,7 +97,6 @@ function createTaskElement(text, category) {
   removeBtn.onclick = () => {
     taskDiv.remove();
     deleteTask(text, category);
-    updateTaskCount(); // Refresh count after deletion
   };
 
   taskDiv.appendChild(taskContent);
@@ -109,7 +108,6 @@ function saveTask(text, category) {
   const tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
   tasks.push({ text, category });
   localStorage.setItem("istosTasks", JSON.stringify(tasks));
-  updateTaskCount(); // Refresh count after save
 }
 
 function deleteTask(text, category) {
