@@ -187,6 +187,16 @@ stack.addEventListener('touchend', e => {
 
 showCard(currentIndex);
 
+
+// Remove from storage once deleted
+
+function removeTaskFromStorage(text, category) {
+  let tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
+  tasks = tasks.filter(task => !(task.text === text && task.category === category));
+  localStorage.setItem("istosTasks", JSON.stringify(tasks));
+}
+
+
 // Add task to mobile device
 
 function addTaskToMobileCard(taskText, category) {
