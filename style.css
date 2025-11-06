@@ -245,24 +245,63 @@ body {
   color: #333;
 }
 
-/* === Hide Carousel effect on larger screen === */
-
-.card-carousel {
-  display: none;
-}
+// For mobile screen
 
 @media screen and (max-width: 768px) {
-  .card-carousel {
-    display: flex;
+  body {
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo-container {
+    margin-top: 8px;
+  }
+
+  .task-input-section {
+    padding: 12px;
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .input-row input,
+  .input-row button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+  }
+
+  .task-count-panel {
+    overflow-x: auto;
+    font-size: 14px;
+  }
+
+  .todo-grid-wrapper {
+    padding: 8px;
+  }
+
+  .todo-grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .todo-grid .task-item {
+    font-size: 14px;
+    padding: 8px;
   }
 }
 
-.desktop-only {
-  display: block;
-}
-
-@media screen and (max-width: 768px) {
-  .desktop-only {
-    display: none;
-  }
-}
