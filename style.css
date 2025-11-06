@@ -1,3 +1,5 @@
+/* === Base Styles === */
+
 body {
   font-family: Arial, sans-serif;
   background: #f9f9f9;
@@ -84,33 +86,7 @@ body {
   cursor: pointer;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .checkbox-group label {
-    flex: 0 0 48%;
-  }
-
-  .input-row {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .input-row input[type="text"],
-  .input-row button {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  .task-item {
-    font-size: 12px;
-  }
-
-  .box-title {
-    font-size: 1em;
-  }
-}
-
-/* Grid wrapper and container */
+/* === Grid Layout === */
 
 .todo-grid-wrapper {
   width: 100%;
@@ -126,19 +102,19 @@ body {
 
 .todo-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* ✅ Exactly 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 28px;
   align-items: start;
   padding: 0 1rem;
 }
 
-/* Task box styling */
+/* === Task Box === */
 
 .todo-box {
   width: 100%;
   padding: 16px;
   margin: 12px 0;
-  min-height: 240px; /* ✅ Adjusted to fit ~5–6 tasks comfortably */
+  min-height: 240px;
   border: 2px solid #1976d2;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -184,6 +160,7 @@ body {
 }
 
 /* === Task Summary Panel === */
+
 .task-count-panel {
   position: absolute;
   top: 100px;
@@ -198,7 +175,6 @@ body {
   text-align: center;
 }
 
-/* === Header with Icon === */
 .task-summary-header {
   display: inline-flex;
   align-items: center;
@@ -213,7 +189,6 @@ body {
   color: #007bff;
 }
 
-/* === Icon Styling === */
 .task-icon {
   width: 20px;
   height: 20px;
@@ -221,7 +196,6 @@ body {
   vertical-align: middle;
 }
 
-/* === Task Table === */
 .task-count-table {
   width: 100%;
   border-collapse: collapse;
@@ -245,7 +219,7 @@ body {
   color: #333;
 }
 
-// For mobile screen
+/* === Mobile Responsiveness === */
 
 @media screen and (max-width: 768px) {
   body {
@@ -269,6 +243,7 @@ body {
 
   .input-row {
     flex-direction: column;
+    width: 100%;
     gap: 8px;
   }
 
@@ -276,6 +251,7 @@ body {
   .input-row button {
     width: 100%;
     font-size: 16px;
+    margin-bottom: 8px;
   }
 
   .checkbox-group {
@@ -284,24 +260,41 @@ body {
     gap: 8px;
   }
 
+  .checkbox-group label {
+    flex: 1 1 auto;
+  }
+
   .task-count-panel {
-    overflow-x: auto;
+    position: static;
+    width: 100%;
+    margin-top: 16px;
     font-size: 14px;
   }
 
-  .todo-grid-wrapper {
-    padding: 8px;
-  }
-
   .todo-grid-container {
+    margin-left: 0;
+    margin-right: 0;
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
   }
 
-  .todo-grid .task-item {
+  .todo-grid {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .task-item {
     font-size: 14px;
     padding: 8px;
   }
 }
+
+/* Hide task summary on mobile */
+@media screen and (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+}
+
 
