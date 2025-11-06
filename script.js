@@ -184,3 +184,13 @@ function addTaskToMobileCard(taskText, category) {
   }
 }
 
+const cards = document.querySelectorAll('#cardStack .card');
+
+cards.forEach((card, index) => {
+  card.style.setProperty('--index', index);
+  card.addEventListener('click', () => {
+    cards.forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+  });
+});
+
