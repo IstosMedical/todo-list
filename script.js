@@ -193,9 +193,19 @@ function addTaskToMobileCard(taskText, category) {
   const cards = document.querySelectorAll('#cardStack .card');
   for (let card of cards) {
     if (card.dataset.category === category) {
-      const taskItem = document.createElement('div');
-      taskItem.className = 'task-item';
+      const taskItem = document.createElement("div");
+      taskItem.className = "task-item";
+
+      const closeBtn = document.createElement("span");
+      closeBtn.textContent = "❌";
+      closeBtn.className = "close-btn";
+      closeBtn.onclick = () => {
+        taskItem.remove();
+        removeTaskFromStorage(taskText, category);
+      };
+
       taskItem.textContent = taskText;
+      taskItem.appendChild(closeBtn);
       card.appendChild(taskItem);
       break;
     }
