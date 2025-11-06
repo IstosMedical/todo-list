@@ -356,3 +356,27 @@ body {
   }
 }
 
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.checkbox-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Mobile layout: two columns side by side */
+@media screen and (max-width: 768px) {
+  .checkbox-group {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .checkbox-column {
+    width: 48%;
+  }
+}
