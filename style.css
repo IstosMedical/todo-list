@@ -350,4 +350,9 @@ body {
   }
 }
 
+@media screen and (min-width: 769px) {
+  .card-stack {
+    display: none;
+  }
+}
 
