@@ -1,3 +1,25 @@
+function handleLogin() {
+  const email = document.getElementById("emailInput").value;
+  const password = document.getElementById("passwordInput").value;
+
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(userCredential => {
+      const user = userCredential.user;
+      initUserSession(user.uid);
+    })
+    .catch(error => {
+      alert("Login failed: " + error.message);
+    });
+}
+
+function initUserSession(userId) {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("taskForm").style.display = "block";
+  loadTasks(userId);
+  document.getElementById("taskForm").onsubmit = e => handleSubmit(e, userId);
+}
+
+
 // 🔹 Category Definitions
 const categories = [
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
@@ -11,14 +33,15 @@ const categories = [
 ];
 
 // 🔹 Firebase Sync
-async function loadTasksFromCloud() {
-  const doc = await db.collection("todos").doc(TASK_DOC).get();
-  return doc.exists ? doc.data().tasks || [] : [];
+async function loadTasks(userId) {
+  const doc = await db.collection("todos").doc(userId).get();
+  const tasks = doc.exists ? doc.data().tasks || [] : [];
+  renderTasks(tasks);
 }
 
-async function saveTaskToCloud(text, category) {
+async function saveTaskToCloud(text, category, userId) {
   const task = { text, category };
-  await db.collection("todos").doc(TASK_DOC).set(
+  await db.collection("todos").doc(userId).set(
     { tasks: firebase.firestore.FieldValue.arrayUnion(task) },
     { merge: true }
   );
