@@ -1,6 +1,6 @@
 {
-  "name": "Itudo | ISTOS Medical",
-  "short_name": "todo_list",
+  "name": "Todo | ISTOS Medical",
+  "short_name": "Todo",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
