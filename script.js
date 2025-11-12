@@ -1,11 +1,12 @@
 // 🔹 Firebase Setup
+
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
+  authDomain: "istos-todo-sync.firebaseapp.com",
+  projectId: "istos-todo-sync",
+  storageBucket: "istos-todo-sync.firebasestorage.app",
+  messagingSenderId: "538717309457",
+  appId: "1:538717309457:web:95bd368388f6feea04bfb0"
 };
 
 firebase.initializeApp(firebaseConfig);
