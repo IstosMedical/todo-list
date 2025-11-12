@@ -309,11 +309,6 @@ body {
 }
 
 /* Hide task summary on mobile */
-@media screen and (max-width: 768px) {
-  .hide-on-mobile {
-    display: none !important;
-  }
-}
 
 .card-stack {
   display: flex;
@@ -348,10 +343,6 @@ body {
 .card[data-category="personal"]  { background: linear-gradient(135deg, #fc5c7d, #6a82fb); }
 
 /* Responsive tweaks */
-@media screen and (max-width: 768px) {
-  .todo-grid-wrapper {
-    display: none;
-  }
 
   .card-stack {
     padding: 16px;
