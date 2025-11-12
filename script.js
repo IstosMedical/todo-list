@@ -1,17 +1,3 @@
-// 🔹 Firebase SDK Setup
-const firebaseConfig = {
-  apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
-  authDomain: "istos-todo-sync.firebaseapp.com",
-  projectId: "istos-todo-sync",
-  storageBucket: "istos-todo-sync.firebasestorage.app",
-  messagingSenderId: "538717309457",
-  appId: "1:538717309457:web:95bd368388f6feea04bfb0"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const TASK_DOC = "sharedList";
-
 // 🔹 Category Definitions
 const categories = [
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
