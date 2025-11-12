@@ -1,26 +1,42 @@
+let currentUserId = null;
+
+// 🔹 Firebase Auth
 function handleLogin() {
   const email = document.getElementById("emailInput").value;
   const password = document.getElementById("passwordInput").value;
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(userCredential => {
-      const user = userCredential.user;
-      initUserSession(user.uid);
+      currentUserId = userCredential.user.uid;
+      initUserSession();
     })
     .catch(error => {
       alert("Login failed: " + error.message);
     });
 }
 
-function initUserSession(userId) {
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("taskForm").style.display = "block";
-  loadTasks(userId);
-  document.getElementById("taskForm").onsubmit = e => handleSubmit(e, userId);
+function handleLogout() {
+  firebase.auth().signOut().then(() => {
+    currentUserId = null;
+    document.getElementById("taskForm").style.display = "none";
+    document.getElementById("loginSection").style.display = "block";
+    document.getElementById("todoGrid").innerHTML = "";
+  });
 }
 
+function initUserSession() {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("taskForm").style.display = "block";
 
-// 🔹 Category Definitions
+  const grid = document.getElementById("todoGrid");
+  grid.innerHTML = "";
+  categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
+
+  loadTasks(currentUserId);
+  document.getElementById("taskForm").onsubmit = e => handleSubmit(e);
+}
+
+// 🔹 Categories
 const categories = [
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
   { id: "office", title: "🏢 Office", color: "#F3E5F5" },
@@ -32,25 +48,30 @@ const categories = [
   { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
-// 🔹 Firebase Sync
+// 🔹 Firestore Sync
 async function loadTasks(userId) {
   const doc = await db.collection("todos").doc(userId).get();
   const tasks = doc.exists ? doc.data().tasks || [] : [];
-  renderTasks(tasks);
+  tasks.forEach(({ text, category }) => {
+    const container = document.querySelector(`#${category}Box .tasks`);
+    if (container) container.appendChild(createTaskElement(text, category));
+    addTaskToCardStack(text, category);
+  });
 }
 
-async function saveTaskToCloud(text, category, userId) {
+async function saveTaskToCloud(text, category) {
   const task = { text, category };
-  await db.collection("todos").doc(userId).set(
+  await db.collection("todos").doc(currentUserId).set(
     { tasks: firebase.firestore.FieldValue.arrayUnion(task) },
     { merge: true }
   );
 }
 
 async function deleteTaskFromCloud(text, category) {
-  const currentTasks = await loadTasksFromCloud();
+  const doc = await db.collection("todos").doc(currentUserId).get();
+  const currentTasks = doc.exists ? doc.data().tasks || [] : [];
   const updated = currentTasks.filter(task => !(task.text === text && task.category === category));
-  await db.collection("todos").doc(TASK_DOC).set({ tasks: updated });
+  await db.collection("todos").doc(currentUserId).set({ tasks: updated });
 }
 
 // 🔹 UI Builders
@@ -59,7 +80,6 @@ function createTodoBox({ id, title, color }) {
   box.className = "todo-box";
   box.id = `${id}Box`;
   box.style.background = `linear-gradient(135deg, ${color}, #ffffff)`;
-  box.setAttribute("data-emoji", title.trim().split(" ")[0]);
 
   const boxTitle = document.createElement("div");
   boxTitle.className = "box-title";
@@ -170,15 +190,5 @@ function updateTaskCount() {
 }
 setInterval(updateTaskCount, 1000);
 
-// 🔹 Initialization
-window.onload = async () => {
-  const grid = document.getElementById("todoGrid");
-  categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
-
-  const savedTasks = await loadTasksFromCloud();
-  savedTasks.forEach(({ text, category }) => {
-    const container = document.querySelector(`#${category}Box .tasks`);
-    if (container) container.appendChild(createTaskElement(text, category));
-    addTaskToCardStack(text, category);
-  });
-};
+// 🔹 Auth Listener
+firebase.auth().onAuthStateChanged(user =>
