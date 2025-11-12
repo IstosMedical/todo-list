@@ -1,7 +1,7 @@
 {
   "name": "Todo | ISTOS Medical",
   "short_name": "Todo",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2980b9",
@@ -10,12 +10,14 @@
     {
       "src": "istos-logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "istos-logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
