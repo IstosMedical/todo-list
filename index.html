@@ -14,14 +14,6 @@
     </div>
   </header>
 
-    <!-- ✅ Logon logic -->
-    <div id="loginSection" class="centered-container">
-      <h2>Login</h2>
-      <input type="email" id="emailInput" placeholder="Email" required />
-      <input type="password" id="passwordInput" placeholder="Password" required />
-      <button onclick="handleLogin()">Login</button>
-    </div>
-
   <!-- ✅ Firebase SDK for browser -->
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
@@ -39,38 +31,15 @@
     const TASK_DOC = "sharedList";
   </script>
 
-  <main>
-    <form id="taskForm" onsubmit="handleSubmit(event)">
-      <section class="task-input-section centered-container">
-        <div class="input-row">
-          <input type="text" id="taskInput" placeholder="Enter new task" required />
-          <button type="submit">Add</button>
-        </div>
-        <hr class="divider" />
-        <div class="checkbox-group">
-          <div class="checkbox-column">
-            <label><input type="checkbox" id="orderCheckbox" /> 🚚 Process Orders</label>
-            <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
-            <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
-            <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
-          </div>
-          <div class="checkbox-column">
-            <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
-            <label><input type="checkbox" id="doCheckbox" /> 💰 Payments to Do</label>
-            <label><input type="checkbox" id="getCheckbox" /> 💵 Payments to Get</label>
-            <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
-          </div>
-        </div>
-      </section>
-    </form>
-
-    <hr class="section-divider" />
-
-    <!-- 🔧 Grid container for desktop boxes -->
-    <div id="todoGrid" class="todo-grid-wrapper">
-      <!-- Boxes will be injected here -->
-    </div>
-
+<main>
+  <!-- 🔹 Login Section -->
+  <section id="loginSection" class="centered-container">
+    <h2>Login</h2>
+    <input type="email" id="emailInput" placeholder="Email" required />
+    <input type="password" id="passwordInput" placeholder="Password" required />
+    <button onclick="handleLogin()">Login</button>
+  </section>
+  
     <!-- ✅ Desktop Task Summary -->
     <div class="desktop-only">
       <aside class="task-count-panel hide-on-mobile">
@@ -91,7 +60,39 @@
         </table>
       </aside>
     </div>
-  </main>
+
+  
+  <!-- 🔹 Task Form -->
+  <form id="taskForm" style="display:none;" onsubmit="handleSubmit(event)">
+    <section class="task-input-section centered-container">
+      <div class="input-row">
+        <input type="text" id="taskInput" placeholder="Enter new task" required />
+        <button type="submit">Add</button>
+        <button type="button" onclick="handleLogout()">Logout</button>
+      </div>
+      <hr class="divider" />
+      <div class="checkbox-group">
+        <div class="checkbox-column">
+          <label><input type="checkbox" id="orderCheckbox" /> 🚚 Orders</label>
+          <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
+          <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
+          <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
+        </div>
+        <div class="checkbox-column">
+          <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
+          <label><input type="checkbox" id="doCheckbox" /> 💰 Do-Payments</label>
+          <label><input type="checkbox" id="getCheckbox" /> 💵 Get-Payments</label>
+          <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
+        </div>
+      </div>
+    </section>
+  </form>
+
+<hr class="section-divider" />
+  
+  <!-- 🔹 Task Grid -->
+  <section id="todoGrid" class="todo-grid-wrapper"></section>
+</main>
 
   <script src="script.js"></script>
 </body>
