@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>ISTOS Todo List Grid</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />  
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="header">
@@ -14,27 +14,23 @@
     </div>
   </header>
 
+  <!-- ✅ Firebase SDK for browser -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
+      authDomain: "istos-todo-sync.firebaseapp.com",
+      projectId: "istos-todo-sync",
+      storageBucket: "istos-todo-sync.firebasestorage.app",
+      messagingSenderId: "538717309457",
+      appId: "1:538717309457:web:95bd368388f6feea04bfb0"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const TASK_DOC = "sharedList";
+  </script>
 
-  <!-- ✅ Correct Firebase SDK for browser -->
-<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore-compat.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
-    authDomain: "istos-todo-sync.firebaseapp.com",
-    projectId: "istos-todo-sync",
-    storageBucket: "istos-todo-sync.firebasestorage.app",
-    messagingSenderId: "538717309457",
-    appId: "1:538717309457:web:95bd368388f6feea04bfb0"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const TASK_DOC = "sharedList"; // 🔐 This is your Firestore document key
-</script>
-
-  
   <main>
     <form id="taskForm" onsubmit="handleSubmit(event)">
       <section class="task-input-section centered-container">
@@ -43,25 +39,38 @@
           <button type="submit">Add</button>
         </div>
         <hr class="divider" />
-          <div class="checkbox-group">
-            <div class="checkbox-column">
-              <label><input type="checkbox" id="orderCheckbox" /> 🚚 Process Orders</label>
-              <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
-              <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
-              <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
-            </div>
-            <div class="checkbox-column">
-              <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
-              <label><input type="checkbox" id="doCheckbox" /> 💰 Payments to Do</label>
-              <label><input type="checkbox" id="getCheckbox" /> 💵 Payments to Get</label>
-              <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
-            </div>
+        <div class="checkbox-group">
+          <div class="checkbox-column">
+            <label><input type="checkbox" id="orderCheckbox" /> 🚚 Process Orders</label>
+            <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
+            <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
+            <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
           </div>
+          <div class="checkbox-column">
+            <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
+            <label><input type="checkbox" id="doCheckbox" /> 💰 Payments to Do</label>
+            <label><input type="checkbox" id="getCheckbox" /> 💵 Payments to Get</label>
+            <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
+          </div>
+        </div>
       </section>
     </form>
 
     <hr class="section-divider" />
 
+    <!-- ✅ Mobile Card Stack -->
+    <section id="cardStack" class="mobile-card-stack">
+      <div class="card" data-category="leads"><h3>🎯 Leads</h3></div>
+      <div class="card" data-category="office"><h3>🏢 Office</h3></div>
+      <div class="card" data-category="order"><h3>🚚 Orders</h3></div>
+      <div class="card" data-category="personal"><h3>🔔 Personal</h3></div>
+      <div class="card" data-category="do"><h3>💰 Payments to Do</h3></div>
+      <div class="card" data-category="get"><h3>💵 Payments to Get</h3></div>
+      <div class="card" data-category="tobeorder"><h3>🧾 To be ordered</h3></div>
+      <div class="card" data-category="service"><h3>🛠️ Service</h3></div>
+    </section>
+
+    <!-- ✅ Desktop Task Summary -->
     <div class="desktop-only">
       <aside class="task-count-panel hide-on-mobile">
         <div class="task-summary-header">
@@ -81,7 +90,8 @@
         </table>
       </aside>
     </div>
-   
+  </main>
+
   <script src="script.js"></script>
 </body>
 </html>
