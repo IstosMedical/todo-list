@@ -1,4 +1,3 @@
-const TASK_DOC = "sharedList"; // 🔐 This is your Firestore document key
 
 // 🔹 Category Definitions
 const categories = [
