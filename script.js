@@ -17,9 +17,11 @@ async function loadTasksFromCloud() {
 }
 
 async function saveTaskToCloud(text, category) {
-  const currentTasks = await loadTasksFromCloud();
-  currentTasks.push({ text, category });
-  await db.collection("todos").doc(TASK_DOC).set({ tasks: currentTasks });
+  const task = { text, category };
+  await db.collection("todos").doc(TASK_DOC).set(
+    { tasks: firebase.firestore.FieldValue.arrayUnion(task) },
+    { merge: true }
+  );
 }
 
 async function deleteTaskFromCloud(text, category) {
