@@ -66,12 +66,20 @@ const categories = [
 async function loadTasks(userId) {
   const doc = await db.collection("todos").doc(userId).get();
   const tasks = doc.exists ? doc.data().tasks || [] : [];
+
+  // Clear all boxes before rendering
+  categories.forEach(cat => {
+    const container = document.querySelector(`#${cat.id}Box .tasks`);
+    if (container) container.innerHTML = "";
+  });
+
   tasks.forEach(({ text, category }) => {
     const container = document.querySelector(`#${category}Box .tasks`);
     if (container) container.appendChild(createTaskElement(text, category));
     addTaskToCardStack(text, category);
   });
 }
+
 
 async function saveTaskToCloud(text, category) {
   const task = { text, category };
