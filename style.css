@@ -86,27 +86,25 @@ body {
   cursor: pointer;
 }
 
-/* === Grid Container === */
 .todo-grid-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 24px;
 }
 
-/* === Responsive Grid Wrapper === */
 .todo-grid-wrapper {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
+  justify-content: center;
 }
 
-/* === Fixed Grid for Desktop (optional override) */
-@media screen and (min-width: 1024px) {
-  .todo-grid-wrapper.todo-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 28px;
-    padding: 0 1rem;
-    align-items: start;
+/* Optional: tighter spacing on small screens */
+@media screen and (max-width: 768px) {
+  .todo-grid-wrapper {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
   }
 }
 
