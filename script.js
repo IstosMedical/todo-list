@@ -1,4 +1,3 @@
-
 // 🔹 Category Definitions
 const categories = [
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
@@ -11,7 +10,7 @@ const categories = [
   { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
-// 🔹 Firebase Sync Functions
+// 🔹 Firebase Sync
 async function loadTasksFromCloud() {
   const doc = await db.collection("todos").doc(TASK_DOC).get();
   return doc.exists ? doc.data().tasks || [] : [];
@@ -95,7 +94,7 @@ async function addTask() {
 
   const container = document.querySelector(`#${assignedBox}Box .tasks`);
   if (container) container.appendChild(createTaskElement(taskText, assignedBox));
-  addTaskToMobileCard(taskText, assignedBox);
+  addTaskToCardStack(taskText, assignedBox);
   await saveTaskToCloud(taskText, assignedBox);
 
   document.getElementById("taskInput").value = "";
@@ -105,8 +104,8 @@ async function addTask() {
   });
 }
 
-// 🔹 Mobile Card Logic
-function addTaskToMobileCard(taskText, category) {
+// 🔹 Card Stack Logic
+function addTaskToCardStack(taskText, category) {
   const cards = document.querySelectorAll('#cardStack .card');
   for (let card of cards) {
     if (card.dataset.category === category) {
@@ -146,46 +145,7 @@ function updateTaskCount() {
 }
 setInterval(updateTaskCount, 1000);
 
-// 🔹 Swipe-to-Dismiss Mobile Cards
-const stack = document.getElementById('cardStack');
-let currentIndex = 0;
-
-function showCard(index) {
-  const cards = stack.querySelectorAll('.card');
-  cards.forEach((card, i) => {
-    card.style.zIndex = cards.length - i;
-    card.style.opacity = i === index ? '1' : '0';
-    card.style.transform = i === index ? 'translateX(0)' : 'translateX(100%)';
-  });
-}
-
-stack.addEventListener('touchstart', e => {
-  stack.startX = e.touches[0].clientX;
-});
-
-stack.addEventListener('touchend', e => {
-  const endX = e.changedTouches[0].clientX;
-  const deltaX = endX - stack.startX;
-
-  if (Math.abs(deltaX) > 50) {
-    currentIndex = (currentIndex + (deltaX < 0 ? 1 : -1) + stack.children.length) % stack.children.length;
-    showCard(currentIndex);
-  }
-});
-
-showCard(currentIndex);
-
-// 🔹 Card Activation
-const cards = document.querySelectorAll('#cardStack .card');
-cards.forEach((card, index) => {
-  card.style.setProperty('--index', index);
-  card.addEventListener('click', () => {
-    cards.forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-  });
-});
-
-// 🔹 Load Tasks on Page Load
+// 🔹 Initialization
 window.onload = async () => {
   const grid = document.getElementById("todoGrid");
   categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
@@ -194,6 +154,6 @@ window.onload = async () => {
   savedTasks.forEach(({ text, category }) => {
     const container = document.querySelector(`#${category}Box .tasks`);
     if (container) container.appendChild(createTaskElement(text, category));
-    addTaskToMobileCard(text, category);
+    addTaskToCardStack(text, category);
   });
 };
