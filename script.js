@@ -1,96 +1,41 @@
-const categories = [
-  { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
-  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
-  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
-  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
-  { id: "do", title: "💰 Do-Payments", color: "#E1F5FE" },
-  { id: "get", title: "💵 Get-Payments", color: "#E8F5E9" },
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
-  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
-];
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js"></script>
 
-window.onload = () => {
-  const grid = document.getElementById("todoGrid");
-
-  // Create desktop boxes
-  categories.forEach(cat => {
-    const box = createTodoBox(cat);
-    grid.appendChild(box);
-  });
-
-  // Load saved tasks
-  const savedTasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
-  savedTasks.forEach(({ text, category }) => {
-    // Desktop grid
-    const container = document.querySelector(`#${category}Box .tasks`);
-    if (container) {
-      const taskElement = createTaskElement(text, category);
-      container.appendChild(taskElement);
-    }
-
-    // Mobile stacked card
-    const mobileCard = document.querySelector(`#cardStack .card[data-category="${category}"]`);
-    if (mobileCard) {
-      const taskItem = document.createElement("div");
-      taskItem.className = "task-item";
-      taskItem.textContent = text;
-
-      const closeBtn = document.createElement("span");
-      closeBtn.textContent = "❌";
-      closeBtn.className = "close-btn";
-      closeBtn.onclick = () => {
-        taskItem.remove();
-        removeTaskFromStorage(text, category);
-      };
-
-      taskItem.appendChild(closeBtn);
-      mobileCard.appendChild(taskItem);
-    }
-  });
+// firebase.js
+const firebaseConfig = {
+  apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
+  authDomain: "istos-todo-sync.firebaseapp.com",
+  projectId: "istos-todo-sync",
+  storageBucket: "istos-todo-sync.firebasestorage.app",
+  messagingSenderId: "538717309457",
+  appId: "1:538717309457:web:95bd368388f6feea04bfb0"
 };
 
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-function handleSubmit(event) {
-  event.preventDefault();
-  addTask();
+
+// taskService.js
+const TASK_DOC = "sharedList"; // 🔐 Can be made user-specific later
+
+function saveTasksToCloud(tasks) {
+  return db.collection("todos").doc(TASK_DOC).set({ tasks });
 }
 
-function addTask() {
-  const taskText = document.getElementById("taskInput").value.trim();
-  if (!taskText) return;
+function loadTasksFromCloud() {
+  return db.collection("todos").doc(TASK_DOC).get()
+    .then(doc => doc.exists ? doc.data().tasks || [] : []);
+}
 
-  let assignedBox = null;
-  categories.forEach(cat => {
-    const checkbox = document.getElementById(`${cat.id}Checkbox`);
-    if (checkbox && checkbox.checked) {
-      assignedBox = cat.id;
-    }
-  });
-
-  if (!assignedBox) {
-    alert("Please select a category before adding a task.");
-    return;
-  }
-
-  // Desktop grid
-  const container = document.querySelector(`#${assignedBox}Box .tasks`);
-  if (container) {
-    const taskElement = createTaskElement(taskText, assignedBox);
-    container.appendChild(taskElement);
-  }
-
-  // Mobile stacked card
-  addTaskToMobileCard(taskText, assignedBox);
-
-  saveTask(taskText, assignedBox);
-  document.getElementById("taskInput").value = "";
-  categories.forEach(cat => {
-    const checkbox = document.getElementById(`${cat.id}Checkbox`);
-    if (checkbox) checkbox.checked = false;
+function deleteTaskFromCloud(text, category) {
+  return loadTasksFromCloud().then(tasks => {
+    const updated = tasks.filter(t => !(t.text === text && t.category === category));
+    return saveTasksToCloud(updated);
   });
 }
 
-
+// ui.js
 function createTodoBox({ id, title, color }) {
   const box = document.createElement("div");
   box.className = "todo-box";
@@ -125,7 +70,7 @@ function createTaskElement(text, category) {
   removeBtn.style.marginLeft = "12px";
   removeBtn.onclick = () => {
     taskDiv.remove();
-    deleteTask(text, category);
+    deleteTaskFromCloud(text, category);
   };
 
   taskDiv.appendChild(taskContent);
@@ -133,117 +78,52 @@ function createTaskElement(text, category) {
   return taskDiv;
 }
 
-function saveTask(text, category) {
-  const tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
-  tasks.push({ text, category });
-  localStorage.setItem("istosTasks", JSON.stringify(tasks));
+
+// main.js
+window.onload = async () => {
+  const grid = document.getElementById("todoGrid");
+  categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
+
+  const savedTasks = await loadTasksFromCloud();
+  savedTasks.forEach(({ text, category }) => {
+    const container = document.querySelector(`#${category}Box .tasks`);
+    if (container) container.appendChild(createTaskElement(text, category));
+    addTaskToMobileCard(text, category);
+  });
+};
+
+function handleSubmit(event) {
+  event.preventDefault();
+  addTask();
 }
 
-function deleteTask(text, category) {
-  let tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
-  tasks = tasks.filter(task => !(task.text === text && task.category === category));
-  localStorage.setItem("istosTasks", JSON.stringify(tasks));
-}
+async function addTask() {
+  const taskText = document.getElementById("taskInput").value.trim();
+  if (!taskText) return;
 
-
-// Category definitions with ID, label, and color
-// Updates the task count table based on current tasks in each category
-function updateTaskCount() {
-  const tbody = document.getElementById('taskCountBody');
-  if (!tbody) return;
-
-  tbody.innerHTML = '';
-
+  let assignedBox = null;
   categories.forEach(cat => {
-    const box = document.getElementById(`${cat.id}Box`);
-    const taskCount = box ? box.querySelectorAll('.task-item').length : 0;
+    const checkbox = document.getElementById(`${cat.id}Checkbox`);
+    if (checkbox?.checked) assignedBox = cat.id;
+  });
 
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
-    tbody.appendChild(row);
+  if (!assignedBox) return alert("Please select a category before adding a task.");
+
+  const task = { text: taskText, category: assignedBox };
+  const container = document.querySelector(`#${assignedBox}Box .tasks`);
+  if (container) container.appendChild(createTaskElement(taskText, assignedBox));
+  addTaskToMobileCard(taskText, assignedBox);
+
+  const currentTasks = await loadTasksFromCloud();
+  await saveTasksToCloud([...currentTasks, task]);
+
+  document.getElementById("taskInput").value = "";
+  categories.forEach(cat => {
+    const checkbox = document.getElementById(`${cat.id}Checkbox`);
+    if (checkbox) checkbox.checked = false;
   });
 }
 
-// Auto-refresh task count every second
-setInterval(updateTaskCount, 1000);
 
 
-// Swipe-to-Dismiss the cards on mobile device
-
-const stack = document.getElementById('cardStack');
-let currentIndex = 0;
-
-function showCard(index) {
-  const cards = stack.querySelectorAll('.card');
-  cards.forEach((card, i) => {
-    card.style.zIndex = cards.length - i;
-    card.style.opacity = i === index ? '1' : '0';
-    card.style.transform = i === index ? 'translateX(0)' : 'translateX(100%)';
-  });
-}
-
-stack.addEventListener('touchstart', e => {
-  stack.startX = e.touches[0].clientX;
-});
-
-stack.addEventListener('touchend', e => {
-  const endX = e.changedTouches[0].clientX;
-  const deltaX = endX - stack.startX;
-
-  if (Math.abs(deltaX) > 50) {
-    currentIndex = (currentIndex + (deltaX < 0 ? 1 : -1) + stack.children.length) % stack.children.length;
-    showCard(currentIndex);
-  }
-});
-
-showCard(currentIndex);
-
-
-// Remove from storage once deleted
-
-function removeTaskFromStorage(text, category) {
-  let tasks = JSON.parse(localStorage.getItem("istosTasks") || "[]");
-  tasks = tasks.filter(task => !(task.text === text && task.category === category));
-  localStorage.setItem("istosTasks", JSON.stringify(tasks));
-}
-
-
-// Add task to mobile device
-
-function addTaskToMobileCard(taskText, category) {
-  const cards = document.querySelectorAll('#cardStack .card');
-  for (let card of cards) {
-    if (card.dataset.category === category) {
-      const taskItem = document.createElement("div");
-      taskItem.className = "task-item";
-
-      const closeBtn = document.createElement("span");
-      closeBtn.textContent = "❌";
-      closeBtn.className = "close-btn";
-      closeBtn.onclick = () => {
-        taskItem.remove();
-        removeTaskFromStorage(taskText, category);
-      };
-
-      taskItem.textContent = taskText;
-      taskItem.appendChild(closeBtn);
-      card.appendChild(taskItem);
-
-      // ✅ Save to localStorage
-      saveTask(taskText, category);
-      break;
-    }
-  }
-}
-
-
-const cards = document.querySelectorAll('#cardStack .card');
-
-cards.forEach((card, index) => {
-  card.style.setProperty('--index', index);
-  card.addEventListener('click', () => {
-    cards.forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-  });
-});
 
