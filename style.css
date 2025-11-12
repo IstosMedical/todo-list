@@ -316,43 +316,28 @@ body {
 }
 
 .card-stack {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
   width: 100%;
-  height: 400px;
-  overflow: hidden;
-  padding-top: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow-y: auto;
+  height: auto;
 }
 
-.card-stack .card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 90%;
-  margin: 0 auto;
-  padding: 24px;
+.card {
+  background: #fff;
   border-radius: 12px;
+  padding: 24px;
   color: white;
   font-size: 18px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  cursor: pointer;
+  cursor: default;
 }
 
-/* Stack effect */
-.card-stack .card:nth-child(n) {
-  transform: translateY(calc(var(--index) * 40px));
-  z-index: calc(100 - var(--index));
-  opacity: 0.8;
-}
-
-/* Active card */
-.card.active {
-  transform: translateY(0);
-  z-index: 999;
-  opacity: 1;
-}
-
-/* Gradient backgrounds (unchanged) */
+/* Gradient backgrounds */
 .card[data-category="leads"]     { background: linear-gradient(135deg, #ff6a00, #ee0979); }
 .card[data-category="office"]    { background: linear-gradient(135deg, #3f2b96, #a8c0ff); }
 .card[data-category="orders"]    { background: linear-gradient(135deg, #00c6ff, #0072ff); }
@@ -362,15 +347,20 @@ body {
 .card[data-category="service"]   { background: linear-gradient(135deg, #ff512f, #dd2476); }
 .card[data-category="personal"]  { background: linear-gradient(135deg, #fc5c7d, #6a82fb); }
 
+/* Responsive tweaks */
 @media screen and (max-width: 768px) {
   .todo-grid-wrapper {
     display: none;
   }
-}
 
-@media screen and (min-width: 769px) {
   .card-stack {
-    display: none;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .card {
+    font-size: 16px;
+    padding: 20px;
   }
 }
 
