@@ -228,3 +228,15 @@ firebase.auth().onAuthStateChanged(user => {
     document.getElementById("loginSection").style.display = "block";
   }
 });
+
+
+// Save on resize
+textarea.addEventListener('mouseup', () => {
+  localStorage.setItem('textareaW', textarea.style.width);
+  localStorage.setItem('textareaH', textarea.style.height);
+});
+// Restore on load
+window.addEventListener('DOMContentLoaded', () => {
+  if(localStorage.getItem('textareaW')) textarea.style.width = localStorage.getItem('textareaW');
+  if(localStorage.getItem('textareaH')) textarea.style.height = localStorage.getItem('textareaH');
+});
