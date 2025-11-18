@@ -320,22 +320,37 @@ body {
     padding: 12px;
   }
 
-    #taskInput {
-    width: 98%;
-    height: 140px;
-    min-height: 90px;
-    max-width: 100%;
-    font-size: 1.08rem;
-    padding: 0.7rem 1rem;
-    border-radius: 7px;
-    border: 1.3px solid #d9b99b;
-  } 
+.task-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
 
-  .input-row button {
-    width: 100%;
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
+.checkbox-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.spacer-line {
+  height: 12px;
+}
+
+#taskInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+}
 
   .checkbox-group {
     display: grid;
