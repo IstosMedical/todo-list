@@ -393,7 +393,7 @@ body {
 }
 
 /* Gradient backgrounds */
-.card[data-category="Top"]       { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+.card[data-category="Toppriority"]       { background: linear-gradient(135deg, #56ab2f, #a8e063); }
 .card[data-category="leads"]     { background: linear-gradient(135deg, #ff6a00, #ee0979); }
 .card[data-category="office"]    { background: linear-gradient(135deg, #3f2b96, #a8c0ff); }
 .card[data-category="orders"]    { background: linear-gradient(135deg, #d0f0c0, #a8e6cf); }
