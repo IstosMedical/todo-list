@@ -145,8 +145,8 @@ function handleSubmit(event) {
 }
 
 async function addTask() {
-  const taskText = document.getElementById("taskInput").value.trim();
-  if (!taskText) return;
+  const rawInput = document.getElementById("taskInput").value.trim();
+  if (!rawInput) return;
 
   let assignedBox = null;
   categories.forEach(cat => {
@@ -155,14 +155,18 @@ async function addTask() {
   });
 
   if (!assignedBox) {
-    alert("Please select a category before adding a task.");
+    alert("Please select a category before adding tasks.");
     return;
   }
 
-  const container = document.querySelector(`#${assignedBox}Box .tasks`);
-  if (container) container.appendChild(createTaskElement(taskText, assignedBox));
-  addTaskToCardStack(taskText, assignedBox);
-  await saveTaskToCloud(taskText, assignedBox);
+  const taskLines = rawInput.split(/\r?\n/).map(line => line.trim()).filter(line => line);
+
+  for (const taskText of taskLines) {
+    const container = document.querySelector(`#${assignedBox}Box .tasks`);
+    if (container) container.appendChild(createTaskElement(taskText, assignedBox));
+    addTaskToCardStack(taskText, assignedBox);
+    await saveTaskToCloud(taskText, assignedBox);
+  }
 
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
