@@ -159,6 +159,7 @@ async function addTask() {
     return;
   }
 
+  // Split by newline and filter out empty lines
   const taskLines = rawInput.split(/\r?\n/).map(line => line.trim()).filter(line => line);
 
   for (const taskText of taskLines) {
@@ -168,6 +169,7 @@ async function addTask() {
     await saveTaskToCloud(taskText, assignedBox);
   }
 
+  // Clear input and checkboxes
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
     const checkbox = document.getElementById(`${cat.id}Checkbox`);
