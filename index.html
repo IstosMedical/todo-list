@@ -59,16 +59,7 @@
       </aside>
     </div>
 
-    <!-- 🔹 Task Form -->
-    <form id="taskForm" style="display:none;" onsubmit="handleSubmit(event)">
-      <section class="task-input-section centered-container">
-        <div class="input-row">
-          <input type="text" id="taskInput" placeholder="Enter new task" required />
-          <button type="submit">Add</button>
-          <button type="button" class="logout-button" onclick="handleLogout()">Logout</button>
-        </div>
-        <hr class="divider" />
-        <div class="checkbox-group">
+      <div class="checkbox-group">
           <label><input type="checkbox" id="orderCheckbox" /> 🚚 Orders</label>
           <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
           <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
@@ -82,6 +73,17 @@
     </form>
 
     <hr class="section-divider" />
+
+    <!-- 🔹 Task Form -->
+    <form id="taskForm" style="display:none;" onsubmit="handleSubmit(event)">
+      <section class="task-input-section centered-container">
+        <div class="input-row">
+          <input type="text" id="taskInput" placeholder="Enter new task" required />
+          <button type="submit">Add</button>
+          <button type="button" class="logout-button" onclick="handleLogout()">Logout</button>
+        </div>
+        
+        <hr class="divider" />
 
     <!-- 🔹 Task Grid -->
     <section id="todoGrid" class="todo-grid-wrapper"></section>
