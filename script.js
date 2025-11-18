@@ -54,11 +54,11 @@ function initUserSession() {
 const categories = [
   { id: "Toppriority", title: "🔹 Top-Priority", color: "#E8F5E9" },
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
-  { id: "office", title: "🏢 Office", color: "#FFFDE7" },
-  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
+  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
+  { id: "order", title: "📤 Orders", color: "#E3F2FD" },
   { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
   { id: "doget", title: "💰 Do | Get Payments", color: "#E1F5FE" },  
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#F3E5F5" },
+  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
   { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
