@@ -52,7 +52,7 @@ function initUserSession() {
 
 // 🔹 Categories
 const categories = [
-  { id: "Top-Priority", title: "🔹 Top-Priority", color: "#E8F5E9" },
+  { id: "Toppriority", title: "🔹 Top-Priority", color: "#E8F5E9" },
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
   { id: "office", title: "🏢 Office", color: "#FFFDE7" },
   { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
