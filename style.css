@@ -448,3 +448,7 @@ body {
 textarea {
   resize: both; /* or: vertical, horizontal, none */
 }
+
+#taskInput {
+  margin-bottom: 12px;
+}
