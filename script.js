@@ -230,13 +230,24 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 
-// Save on resize
-textarea.addEventListener('mouseup', () => {
-  localStorage.setItem('textareaW', textarea.style.width);
-  localStorage.setItem('textareaH', textarea.style.height);
-});
-// Restore on load
-window.addEventListener('DOMContentLoaded', () => {
-  if(localStorage.getItem('textareaW')) textarea.style.width = localStorage.getItem('textareaW');
-  if(localStorage.getItem('textareaH')) textarea.style.height = localStorage.getItem('textareaH');
+document.addEventListener("DOMContentLoaded", function() {
+  const textarea = document.getElementById('taskInput');
+  // Restore width and height from localStorage
+  const savedWidth = localStorage.getItem('taskInputWidth');
+  const savedHeight = localStorage.getItem('taskInputHeight');
+  if (savedWidth) textarea.style.width = savedWidth;
+  if (savedHeight) textarea.style.height = savedHeight;
+
+  // Save size after user resizes
+  textarea.addEventListener('mouseup', function() {
+    // Only run if mouseup happened on resize
+    localStorage.setItem('taskInputWidth', textarea.style.width);
+    localStorage.setItem('taskInputHeight', textarea.style.height);
+  });
+
+  // Optional: Also save on touchend for tablets
+  textarea.addEventListener('touchend', function() {
+    localStorage.setItem('taskInputWidth', textarea.style.width);
+    localStorage.setItem('taskInputHeight', textarea.style.height);
+  });
 });
