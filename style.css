@@ -102,6 +102,7 @@ body {
 .input-row input[type="text"] {
   flex: 1;
   margin-right: 8px;
+  min-width: 340px;
   padding: 12px;
   font-size: 14px;
   box-sizing: border-box;
