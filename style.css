@@ -430,6 +430,10 @@ body {
   border: 1px solid #1976D2;
 }
 
+.button-row button[type="submit"]:hover {
+  background-color: #1976D2; /* Slightly darker blue */
+}
+
 /* Orange Logout button */
 .button-row .logout-button {
   background-color: #FF9800;
@@ -437,6 +441,10 @@ body {
   border: 1px solid #F57C00;
 }
 
-.logout-button:hover {
-  background-color: #e67e22; /* Slightly darker on hover */
+.button-row .logout-button:hover {
+  background-color: #e67e22; /* Slightly darker orange */
+}
+
+textarea {
+  resize: both; /* or: vertical, horizontal, none */
 }
