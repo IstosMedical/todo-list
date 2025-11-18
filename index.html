@@ -44,13 +44,7 @@
         <div class="task-summary-header">
           <img src="istosmini.png" alt="Task Icon" class="task-icon" />
           <h3>Task Summary</h3>
-    </div>
-        <table class="task-count-table">
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Tasks</th>
-            </tr>
+        </div>
         <table class="task-count-table">
           <thead>
             <tr>
@@ -58,27 +52,12 @@
               <th>Tasks</th>
             </tr>
           </thead>
-          <tbody id="taskForm">
+          <tbody id="taskCountBody">
             <!-- Rows will be injected dynamically -->
           </tbody>
         </table>
       </aside>
     </div>
-
-      <div class="checkbox-group">
-          <label><input type="checkbox" id="ToppriorityCheckbox" /> 🔹 Top-Priority</label>  
-          <label><input type="checkbox" id="orderCheckbox" /> 📊 Orders</label>
-          <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
-          <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
-          <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
-          <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
-          <label><input type="checkbox" id="dogetCheckbox" /> 💰 Do | Get Payments</label>          
-          <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
-        </div>
-      </section>
-    </form>
-
-    <hr class="section-divider" />
 
     <!-- 🔹 Task Form -->
     <form id="taskForm" style="display:none;" onsubmit="handleSubmit(event)">
@@ -88,8 +67,21 @@
           <button type="submit">Add</button>
           <button type="button" class="logout-button" onclick="handleLogout()">Logout</button>
         </div>
-        
         <hr class="divider" />
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="orderCheckbox" /> 🚚 Orders</label>
+          <label><input type="checkbox" id="leadsCheckbox" /> 🎯 Leads</label>
+          <label><input type="checkbox" id="serviceCheckbox" /> 🛠️ Service</label>
+          <label><input type="checkbox" id="officeCheckbox" /> 🏢 Office</label>
+          <label><input type="checkbox" id="personalCheckbox" /> 🔔 Personal</label>
+          <label><input type="checkbox" id="doCheckbox" /> 💰 Do-Payments</label>
+          <label><input type="checkbox" id="getCheckbox" /> 💵 Get-Payments</label>
+          <label><input type="checkbox" id="tobeorderCheckbox" /> 🧾 To be ordered</label>
+        </div>
+      </section>
+    </form>
+
+    <hr class="section-divider" />
 
     <!-- 🔹 Task Grid -->
     <section id="todoGrid" class="todo-grid-wrapper"></section>
