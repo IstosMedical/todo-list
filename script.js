@@ -161,7 +161,13 @@ async function addTask() {
   updateTaskCount();
 }
 
-// 🔹 Task Count, Badge, Toast & Rain Logic
+const milestoneTitles = [
+  { threshold: 30, title: "Overachiever" },
+  { threshold: 20, title: "Champion" },
+  { threshold: 10, title: "Brilliant" }
+  // You can add more titles and thresholds if you want
+];
+
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
   if (!tbody) return;
@@ -176,75 +182,52 @@ function updateTaskCount() {
     row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
 
-    // Badge, Toast & Dot Rain logic
+    // --- Milestone Title Logic ---
     const boxTitle = box.querySelector('.box-title');
     if (!boxTitle) return;
 
+    // Remove previous badge if you don't want that feature
     let badge = boxTitle.querySelector('.badge-medal');
-    const milestoneReached = boxTitle.getAttribute('data-milestone') === 'true';
+    if (badge) badge.remove();
 
-    if (taskCount >= 10) {
-      if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'badge-medal';
-        badge.title = 'Medal for 10+ tasks';
-        badge.style.marginLeft = '8px';
-        badge.style.color = '#FFD700';
-        badge.textContent = '🏅';
-        boxTitle.appendChild(badge);
+    // Remove previous playful title if any
+    let titleSpan = boxTitle.querySelector('.playful-title');
+    if (titleSpan) titleSpan.remove();
+
+    // Find the highest title for this count
+    let playfulTitle = "";
+    let milestoneKey = ""; // for toast logic
+    for (let i = 0; i < milestoneTitles.length; i++) {
+      if (taskCount >= milestoneTitles[i].threshold) {
+        playfulTitle = milestoneTitles[i].title;
+        milestoneKey = milestoneTitles[i].threshold + '';
+        break;
       }
-      // Show rain & toast only the FIRST time milestone is achieved
-      if (!milestoneReached) {
-        showDotRain(cat.id);
-        showToast();
-        boxTitle.setAttribute('data-milestone', 'true');
+    }
+
+    // If milestone is hit, display playful title
+    if (playfulTitle) {
+      titleSpan = document.createElement('span');
+      titleSpan.className = 'playful-title';
+      titleSpan.textContent = ` • ${playfulTitle}`;
+      titleSpan.style.fontWeight = "bold";
+      titleSpan.style.color = "#6A1B9A"; // accent color
+      titleSpan.style.fontSize = "1rem";
+      titleSpan.style.marginLeft = "8px";
+      boxTitle.appendChild(titleSpan);
+
+      // Show toast only first time after reaching this milestone threshold
+      if (boxTitle.getAttribute('data-milestone') !== milestoneKey) {
+        showToast(playfulTitle);
+        boxTitle.setAttribute('data-milestone', milestoneKey);
       }
     } else {
-      if (badge) badge.remove();
-      boxTitle.setAttribute('data-milestone', 'false');
+      // No milestone title, clear marker
+      boxTitle.removeAttribute('data-milestone');
     }
   });
 }
 
-function showDotRain(categoryId) {
-  const box = document.getElementById(`${categoryId}Box`);
-  if (!box) return;
-
-  // Remove any previous rain container
-  const prevContainer = box.querySelector('.rain-dot-container');
-  if (prevContainer) prevContainer.remove();
-
-  // Make a new container for this rain event
-  const rainContainer = document.createElement('div');
-  rainContainer.className = 'rain-dot-container';
-  box.appendChild(rainContainer);
-
-  // Generate 14 rain dots with random colors/positions/delays
-  for (let i = 0; i < 14; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'rain-dot';
-    dot.style.left = (Math.random() * 90) + '%';
-    dot.style.background = `radial-gradient(circle at 30% 40%, 
-      ${['#40c4ff','#ffd600','#ff4081','#69f0ae','#ffd600','#ffab00'][Math.floor(Math.random() * 6)]} 0%,
-      #fffde7 100%)`;
-    dot.style.animationDelay = (Math.random() * 1.35) + 's';
-    rainContainer.appendChild(dot);
-  }
-
-  // Remove the rain container after the longest animation (max 3s)
-  setTimeout(() => {
-    rainContainer.remove();
-  }, 3000);
-}
-
-// 🔹 Toast Logic
-function showToast() {
-  const toast = document.getElementById('toast');
-  toast.classList.remove('toast-hidden');
-  setTimeout(() => {
-    toast.classList.add('toast-hidden');
-  }, 3200);
-}
 
 // 🔹 User Session
 async function initUserSession() {
