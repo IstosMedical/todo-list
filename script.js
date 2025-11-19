@@ -161,7 +161,7 @@ async function addTask() {
   updateTaskCount();
 }
 
-// 🔹 Task Count & Badge Logic
+// 🔹 Task Count, Badge, Toast & Rain Logic
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
   if (!tbody) return;
@@ -176,12 +176,11 @@ function updateTaskCount() {
     row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
 
-    // Badge logic
+    // Badge, Toast & Dot Rain logic
     const boxTitle = box.querySelector('.box-title');
     if (!boxTitle) return;
 
     let badge = boxTitle.querySelector('.badge-medal');
-    // Track card milestone with a custom attribute
     const milestoneReached = boxTitle.getAttribute('data-milestone') === 'true';
 
     if (taskCount >= 10) {
@@ -194,72 +193,57 @@ function updateTaskCount() {
         badge.textContent = '🏅';
         boxTitle.appendChild(badge);
       }
-      // Show rain only when milestone is newly reached!
+      // Show rain & toast only on FIRST milestone
       if (!milestoneReached) {
-        showTaskRain(cat.id);
+        showDotRain(cat.id);
+        showToast();
         boxTitle.setAttribute('data-milestone', 'true');
       }
     } else {
       if (badge) badge.remove();
-      // If the count falls below 10, reset milestone for next time
-      if (milestoneReached) {
-        boxTitle.setAttribute('data-milestone', 'false');
-      }
+      boxTitle.setAttribute('data-milestone', 'false');
     }
   });
 }
 
+// Toast message with fireworks emoji
 function showToast() {
   const toast = document.getElementById('toast');
   toast.classList.remove('toast-hidden');
   setTimeout(() => {
     toast.classList.add('toast-hidden');
-  }, 3200); // Toast visible for 3.2 seconds
+  }, 3200);
 }
 
-// In updateTaskCount()
-if (taskCount >= 10) {
-  if (!badge) {
-    // ... badge creation code ...
-    boxTitle.appendChild(badge);
-    showToast(); // Show toast ONLY when badge is newly unlocked
-  }
-} else if (badge) {
-  badge.remove();
-}
-
-function showTaskRain(categoryId) {
+// Rain 'dot' animation, not task text!
+function showDotRain(categoryId) {
   const box = document.getElementById(`${categoryId}Box`);
   if (!box) return;
 
-  let rainContainer = box.querySelector('.task-rain-container');
+  let rainContainer = box.querySelector('.rain-dot-container');
   if (!rainContainer) {
     rainContainer = document.createElement('div');
-    rainContainer.className = 'task-rain-container';
+    rainContainer.className = 'rain-dot-container';
     box.appendChild(rainContainer);
   }
   rainContainer.innerHTML = '';
 
-  // Find completed task texts in this card
-  const tasks = Array.from(box.querySelectorAll('.task-item span:first-child')).map(e => e.textContent);
-  // Only show up to 10 at once for clarity
-  const rainTexts = tasks.slice(-10);
+  // Show 14 colorful dots with random X positions and color
+  for (let i = 0; i < 14; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'rain-dot';
+    dot.style.left = (Math.random() * 90) + '%';
+    dot.style.background = `radial-gradient(circle at 30% 40%, 
+      ${['#40c4ff','#ffd600','#ff4081','#69f0ae','#ffd600','#ffab00'][Math.floor(Math.random()*6)]} 0%,
+      #fffde7 100%)`;
+    dot.style.animationDelay = (Math.random() * 0.9) + 's';
+    rainContainer.appendChild(dot);
+  }
 
-  rainTexts.forEach((text, i) => {
-    const rainItem = document.createElement('div');
-    rainItem.className = 'task-rain';
-    rainItem.textContent = text;
-    // Randomize horizontal start
-    rainItem.style.left = ((i/rainTexts.length) * 80 + 10) + '%';
-    // Randomize animation delay for a more realistic rain
-    rainItem.style.animationDelay = (i * 0.12 + Math.random()*0.18) + 's';
-    rainContainer.appendChild(rainItem);
-  });
-
-  // Remove rain after animation is done
+  // Remove dots after animation
   setTimeout(() => {
-    if (rainContainer) rainContainer.innerHTML = '';
-  }, 2000);
+    rainContainer.innerHTML = '';
+  }, 1500);
 }
 
 // 🔹 User Session
