@@ -471,7 +471,7 @@ textarea {
   align-items: center;
   font-size: 1.3rem;
   color: #FFD700;
-  background: linear-gradient(90deg, #FFFACD, #FFE066, #FFD700);
+  background: linear-gradient(90deg, #442c2e, #311b1b, #6b4f3e); /* chocolate 
   border-radius: 50%;
   padding: 2px 7px;
   box-shadow: 0 3px 8px 0 rgba(255, 200, 71, 0.18);
