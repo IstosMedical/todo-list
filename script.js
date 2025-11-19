@@ -214,7 +214,7 @@ function showToast() {
   toast.classList.remove('toast-hidden');
   setTimeout(() => {
     toast.classList.add('toast-hidden');
-  }, 5200); // Toast visible for 3.2 seconds
+  }, 3200); // Toast visible for 3.2 seconds
 }
 
 // In updateTaskCount()
@@ -259,7 +259,7 @@ function showTaskRain(categoryId) {
   // Remove rain after animation is done
   setTimeout(() => {
     if (rainContainer) rainContainer.innerHTML = '';
-  }, 10000);
+  }, 2000);
 }
 
 // 🔹 User Session
