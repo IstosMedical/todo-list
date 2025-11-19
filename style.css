@@ -489,3 +489,45 @@ textarea {
   100% { transform: scale(1); }
 }
 
+
+.toast-hidden {
+  display: none !important;
+}
+
+#toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(31, 31, 31, 0.94);
+  color: #fffde7;
+  padding: 20px 40px;
+  border-radius: 14px;
+  z-index: 9999;
+  text-align: center;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 20px 0 rgba(110, 71, 255, 0.18);
+  animation: toastPop 0.9s cubic-bezier(.47,1.64,.41,.8);
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.toast-fireworks {
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  animation: fireworks 1.6s linear;
+}
+
+@keyframes fireworks {
+  0% { opacity: 0; transform: scale(1.6) rotate(-10deg);}
+  40% { opacity: 1 }
+  60% { transform: scale(1.22) rotate(9deg);}
+  100% { opacity: 1; transform: scale(1);}
+}
+@keyframes toastPop {
+  0% { transform: translateX(-50%) scale(0.6); opacity: 0;}
+  70% { transform: translateX(-50%) scale(1.17); opacity: 1;}
+  100% {transform: translateX(-50%) scale(1); opacity: 1;}
+}
