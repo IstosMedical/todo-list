@@ -164,7 +164,7 @@ async function addTask() {
 const milestoneTitles = [
   { threshold: 30, title: "Overachiever", badge: "🏆" },
   { threshold: 20, title: "Champion", badge: "🥇" },
-  { threshold: 10, title: "Task Master", badge: "🏅" }
+  { threshold: 10, title: "Brilliant", badge: "🏅" }
   // Add more if needed
 ];
 
