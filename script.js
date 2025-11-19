@@ -233,15 +233,14 @@ function updateTaskCount() {
   });
 }
 
-function showToast(title) {
+function showToast(title, badge) {
   const toast = document.getElementById('toast');
-  toast.innerHTML = `<span class="toast-message">🎉 New Milestone: <b>${title}</b>!</span>`;
+  toast.innerHTML = `<span class="toast-message">${badge} <b>${title}</b> milestone unlocked!</span>`;
   toast.classList.remove('toast-hidden');
   setTimeout(() => {
     toast.classList.add('toast-hidden');
-  }, 3200);
+  }, 4200);
 }
-
 
 // 🔹 User Session
 async function initUserSession() {
