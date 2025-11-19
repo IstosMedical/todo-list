@@ -181,6 +181,9 @@ function updateTaskCount() {
     if (!boxTitle) return;
 
     let badge = boxTitle.querySelector('.badge-medal');
+    // Track card milestone with a custom attribute
+    const milestoneReached = boxTitle.getAttribute('data-milestone') === 'true';
+
     if (taskCount >= 10) {
       if (!badge) {
         badge = document.createElement('span');
@@ -191,8 +194,17 @@ function updateTaskCount() {
         badge.textContent = '🏅';
         boxTitle.appendChild(badge);
       }
+      // Show rain only when milestone is newly reached!
+      if (!milestoneReached) {
+        showTaskRain(cat.id);
+        boxTitle.setAttribute('data-milestone', 'true');
+      }
     } else {
       if (badge) badge.remove();
+      // If the count falls below 10, reset milestone for next time
+      if (milestoneReached) {
+        boxTitle.setAttribute('data-milestone', 'false');
+      }
     }
   });
 }
@@ -214,6 +226,40 @@ if (taskCount >= 10) {
   }
 } else if (badge) {
   badge.remove();
+}
+
+function showTaskRain(categoryId) {
+  const box = document.getElementById(`${categoryId}Box`);
+  if (!box) return;
+
+  let rainContainer = box.querySelector('.task-rain-container');
+  if (!rainContainer) {
+    rainContainer = document.createElement('div');
+    rainContainer.className = 'task-rain-container';
+    box.appendChild(rainContainer);
+  }
+  rainContainer.innerHTML = '';
+
+  // Find completed task texts in this card
+  const tasks = Array.from(box.querySelectorAll('.task-item span:first-child')).map(e => e.textContent);
+  // Only show up to 10 at once for clarity
+  const rainTexts = tasks.slice(-10);
+
+  rainTexts.forEach((text, i) => {
+    const rainItem = document.createElement('div');
+    rainItem.className = 'task-rain';
+    rainItem.textContent = text;
+    // Randomize horizontal start
+    rainItem.style.left = ((i/rainTexts.length) * 80 + 10) + '%';
+    // Randomize animation delay for a more realistic rain
+    rainItem.style.animationDelay = (i * 0.12 + Math.random()*0.18) + 's';
+    rainContainer.appendChild(rainItem);
+  });
+
+  // Remove rain after animation is done
+  setTimeout(() => {
+    if (rainContainer) rainContainer.innerHTML = '';
+  }, 1700);
 }
 
 // 🔹 User Session
