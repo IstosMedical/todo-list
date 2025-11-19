@@ -162,10 +162,10 @@ async function addTask() {
 }
 
 const milestoneTitles = [
-  { threshold: 30, title: "Overachiever" },
-  { threshold: 20, title: "Champion" },
-  { threshold: 10, title: "Brilliant" }
-  // You can add more titles and thresholds if you want
+  { threshold: 30, title: "Overachiever", badge: "🏆" },
+  { threshold: 20, title: "Champion", badge: "🥇" },
+  { threshold: 10, title: "Task Master", badge: "🏅" }
+  // Add more if needed
 ];
 
 function updateTaskCount() {
@@ -177,52 +177,57 @@ function updateTaskCount() {
     const box = document.getElementById(`${cat.id}Box`);
     const taskCount = box ? box.querySelectorAll('.task-item').length : 0;
 
-    // Update the summary row
+    // --- Update summary row ---
     const row = document.createElement('tr');
     row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
 
-    // --- Milestone Title Logic ---
+    // --- Milestone Badge & Title Logic ---
     const boxTitle = box.querySelector('.box-title');
     if (!boxTitle) return;
 
-    // Remove previous badge if you don't want that feature
-    let badge = boxTitle.querySelector('.badge-medal');
-    if (badge) badge.remove();
+    // Remove previous badge/title
+    const prevBadge = boxTitle.querySelector('.badge-medal');
+    if (prevBadge) prevBadge.remove();
+    const prevTitle = boxTitle.querySelector('.playful-title');
+    if (prevTitle) prevTitle.remove();
 
-    // Remove previous playful title if any
-    let titleSpan = boxTitle.querySelector('.playful-title');
-    if (titleSpan) titleSpan.remove();
-
-    // Find the highest title for this count
-    let playfulTitle = "";
-    let milestoneKey = ""; // for toast logic
-    for (let i = 0; i < milestoneTitles.length; i++) {
-      if (taskCount >= milestoneTitles[i].threshold) {
-        playfulTitle = milestoneTitles[i].title;
-        milestoneKey = milestoneTitles[i].threshold + '';
-        break;
+    // Find highest achieved milestone
+    let assignedMilestone = null;
+    for (let milestone of milestoneTitles) {
+      if (taskCount >= milestone.threshold) {
+        assignedMilestone = milestone;
+        break; // highest threshold appears first
       }
     }
 
-    // If milestone is hit, display playful title
-    if (playfulTitle) {
-      titleSpan = document.createElement('span');
+    if (assignedMilestone) {
+      // Create badge (emoji shown)
+      const badgeSpan = document.createElement('span');
+      badgeSpan.className = 'badge-medal';
+      badgeSpan.title = `Milestone: ${assignedMilestone.title}`;
+      badgeSpan.style.marginLeft = '8px';
+      badgeSpan.style.fontSize = '1.3rem';
+      badgeSpan.style.color = '#FFD700';
+      badgeSpan.textContent = assignedMilestone.badge;
+      boxTitle.appendChild(badgeSpan);
+
+      // Show playful milestone title
+      const titleSpan = document.createElement('span');
       titleSpan.className = 'playful-title';
-      titleSpan.textContent = ` • ${playfulTitle}`;
+      titleSpan.textContent = ` • ${assignedMilestone.title}`;
       titleSpan.style.fontWeight = "bold";
-      titleSpan.style.color = "#6A1B9A"; // accent color
+      titleSpan.style.color = "#6A1B9A";
       titleSpan.style.fontSize = "1rem";
       titleSpan.style.marginLeft = "8px";
       boxTitle.appendChild(titleSpan);
 
-      // Show toast only first time after reaching this milestone threshold
-      if (boxTitle.getAttribute('data-milestone') !== milestoneKey) {
-        showToast(playfulTitle);
-        boxTitle.setAttribute('data-milestone', milestoneKey);
+      // Toast: Only if new milestone reached
+      if (boxTitle.getAttribute('data-milestone') !== String(assignedMilestone.threshold)) {
+        showToast(assignedMilestone.title, assignedMilestone.badge);
+        boxTitle.setAttribute('data-milestone', String(assignedMilestone.threshold));
       }
     } else {
-      // No milestone title, clear marker
       boxTitle.removeAttribute('data-milestone');
     }
   });
