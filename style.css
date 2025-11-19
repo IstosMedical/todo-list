@@ -557,12 +557,12 @@ textarea {
   position: absolute;
   left: 0;
   width: 100%;
-  font-size: 1rem;
+  font-size: 3rem;
   opacity: 0.85;
   text-align: center;
-  animation: rainFall 1.4s linear;
+  animation: rainFall 1.6s linear;
   white-space: nowrap;
-  color: #6A1B9A;
+  color: #614385;
   font-weight: bold;
   text-shadow: 0 2px 9px #ffe066;
 }
