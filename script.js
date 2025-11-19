@@ -206,29 +206,20 @@ function updateTaskCount() {
   });
 }
 
-// Toast message with fireworks emoji
-function showToast() {
-  const toast = document.getElementById('toast');
-  toast.classList.remove('toast-hidden');
-  setTimeout(() => {
-    toast.classList.add('toast-hidden');
-  }, 3200);
-}
-
-// Rain 'dot' animation, not task text!
 function showDotRain(categoryId) {
   const box = document.getElementById(`${categoryId}Box`);
   if (!box) return;
 
-  let rainContainer = box.querySelector('.rain-dot-container');
-  if (!rainContainer) {
-    rainContainer = document.createElement('div');
-    rainContainer.className = 'rain-dot-container';
-    box.appendChild(rainContainer);
-  }
-  rainContainer.innerHTML = '';
+  // Remove any previous container
+  const prevContainer = box.querySelector('.rain-dot-container');
+  if (prevContainer) prevContainer.remove();
 
-  // Show 14 colorful dots with random X positions and color
+  // Create a new container
+  const rainContainer = document.createElement('div');
+  rainContainer.className = 'rain-dot-container';
+  box.appendChild(rainContainer);
+
+  // Create the dots (customize quantity and colors as needed)
   for (let i = 0; i < 14; i++) {
     const dot = document.createElement('div');
     dot.className = 'rain-dot';
@@ -236,14 +227,14 @@ function showDotRain(categoryId) {
     dot.style.background = `radial-gradient(circle at 30% 40%, 
       ${['#40c4ff','#ffd600','#ff4081','#69f0ae','#ffd600','#ffab00'][Math.floor(Math.random()*6)]} 0%,
       #fffde7 100%)`;
-    dot.style.animationDelay = (Math.random() * 0.9) + 's';
+    dot.style.animationDelay = (Math.random() * 1.4) + 's';  // spread over animation
     rainContainer.appendChild(dot);
   }
 
-  // Remove dots after animation
+  // Ensure dots are removed after max animation time
   setTimeout(() => {
-    rainContainer.innerHTML = '';
-  }, 1500);
+    rainContainer.remove();
+  }, 5000); // 5 seconds, matches animation duration
 }
 
 // 🔹 User Session
