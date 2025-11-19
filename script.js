@@ -287,22 +287,32 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 // 🔹 UI: Restore textarea size only (optional, not data), after cache clear
+
 document.addEventListener("DOMContentLoaded", function() {
   const textarea = document.getElementById('taskInput');
+  // Restore from localStorage
   const savedWidth = localStorage.getItem('taskInputWidth');
   const savedHeight = localStorage.getItem('taskInputHeight');
   if (savedWidth) textarea.style.width = savedWidth;
   if (savedHeight) textarea.style.height = savedHeight;
 
-  textarea.addEventListener('mouseup', function() {
-    localStorage.setItem('taskInputWidth', textarea.style.width);
-    localStorage.setItem('taskInputHeight', textarea.style.height);
-  });
-  textarea.addEventListener('touchend', function() {
-    localStorage.setItem('taskInputWidth', textarea.style.width);
-    localStorage.setItem('taskInputHeight', textarea.style.height);
-  });
+  // Save current computed size on resize
+  
+  function saveTextareaSize() {
+    const style = window.getComputedStyle(textarea);
+    localStorage.setItem('taskInputWidth', style.width);
+    localStorage.setItem('taskInputHeight', style.height);
+  }
+  // Listen for resize - "mouseup" works, but also consider "mouseleave" for best coverage
+  
+  textarea.addEventListener('mouseup', saveTextareaSize);
+  textarea.addEventListener('mouseleave', saveTextareaSize);
+  textarea.addEventListener('touchend', saveTextareaSize);
+
+  // Optional: Listen for window unload to capture any last changes
+  window.addEventListener('beforeunload', saveTextareaSize);
 });
+
 
 // 🔹 Periodic Sync (for real-time edits)
 setInterval(updateTaskCount, 1000);
