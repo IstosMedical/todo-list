@@ -159,6 +159,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   background: linear-gradient(135deg, #ffffff, #f9f9f9);
+  position: relative; /* ensures rain overlays correctly */
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
