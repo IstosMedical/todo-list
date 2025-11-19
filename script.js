@@ -197,6 +197,25 @@ function updateTaskCount() {
   });
 }
 
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.remove('toast-hidden');
+  setTimeout(() => {
+    toast.classList.add('toast-hidden');
+  }, 3200); // Toast visible for 3.2 seconds
+}
+
+// In updateTaskCount()
+if (taskCount >= 10) {
+  if (!badge) {
+    // ... badge creation code ...
+    boxTitle.appendChild(badge);
+    showToast(); // Show toast ONLY when badge is newly unlocked
+  }
+} else if (badge) {
+  badge.remove();
+}
+
 // 🔹 User Session
 async function initUserSession() {
   document.getElementById("loginSection").style.display = "none";
