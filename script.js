@@ -202,6 +202,7 @@ function addTaskToCardStack(taskText, category) {
 }
 
 // 🔹 Task Count Table
+
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
   if (!tbody) return;
@@ -211,12 +212,36 @@ function updateTaskCount() {
     const box = document.getElementById(`${cat.id}Box`);
     const taskCount = box ? box.querySelectorAll('.task-item').length : 0;
 
+    // Update the count table row
     const row = document.createElement('tr');
     row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
+
+    // Manage badge next to box title
+    const boxTitle = box.querySelector('.box-title');
+    if (!boxTitle) return;
+
+    // Check if badge exists already
+    let badge = boxTitle.querySelector('.badge-medal');
+
+    if (taskCount >= 10) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'badge-medal';
+        badge.title = 'Medal awarded for 10+ tasks';
+        badge.style.marginLeft = '8px';
+        badge.style.color = '#FFD700'; // gold color
+        badge.textContent = '🏅';     // medal emoji or you can use any icon
+        boxTitle.appendChild(badge);
+      }
+    } else {
+      if (badge) {
+        badge.remove();
+      }
+    }
   });
 }
-setInterval(updateTaskCount, 1000);
+
 
 // 🔹 Auth Listener
 firebase.auth().onAuthStateChanged(user => {
