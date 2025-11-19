@@ -1,5 +1,4 @@
 // 🔹 Firebase Setup
-
 const firebaseConfig = {
   apiKey: "AIzaSyA7gVA0edDxcs3x0P_IqozAAVNnUMXacVU",
   authDomain: "istos-todo-sync.firebaseapp.com",
@@ -8,17 +7,27 @@ const firebaseConfig = {
   messagingSenderId: "538717309457",
   appId: "1:538717309457:web:95bd368388f6feea04bfb0"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 let currentUserId = null;
 
-// 🔹 Firebase Auth
+// 🔹 Categories
+const categories = [
+  { id: "Toppriority", title: "🔹 Top-Priority", color: "#E8F5E9" },
+  { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
+  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
+  { id: "order", title: "📤 Orders", color: "#E3F2FD" },
+  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
+  { id: "doget", title: "💰 Do | Get Payments", color: "#E1F5FE" },  
+  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
+  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
+];
+
+// 🔹 Auth
 function handleLogin() {
   const email = document.getElementById("emailInput").value;
   const password = document.getElementById("passwordInput").value;
-
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(userCredential => {
       currentUserId = userCredential.user.uid;
@@ -38,48 +47,23 @@ function handleLogout() {
   });
 }
 
-function initUserSession() {
-  document.getElementById("loginSection").style.display = "none";
-  document.getElementById("taskForm").style.display = "block";
-
-  const grid = document.getElementById("todoGrid");
-  grid.innerHTML = "";
-  categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
-
-  loadTasks(currentUserId);
-  document.getElementById("taskForm").onsubmit = e => handleSubmit(e);
-}
-
-// 🔹 Categories
-const categories = [
-  { id: "Toppriority", title: "🔹 Top-Priority", color: "#E8F5E9" },
-  { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
-  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
-  { id: "order", title: "📤 Orders", color: "#E3F2FD" },
-  { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
-  { id: "doget", title: "💰 Do | Get Payments", color: "#E1F5FE" },  
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
-  { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
-];
-
-// 🔹 Firestore Sync
+// 🔹 Task CRUD (Cloud)
 async function loadTasks(userId) {
   const doc = await db.collection("todos").doc(userId).get();
   const tasks = doc.exists ? doc.data().tasks || [] : [];
 
-  // Clear all boxes before rendering
+  // Clear all boxes
   categories.forEach(cat => {
     const container = document.querySelector(`#${cat.id}Box .tasks`);
     if (container) container.innerHTML = "";
   });
 
+  // Render tasks into boxes
   tasks.forEach(({ text, category }) => {
     const container = document.querySelector(`#${category}Box .tasks`);
     if (container) container.appendChild(createTaskElement(text, category));
-    addTaskToCardStack(text, category);
   });
 }
-
 
 async function saveTaskToCloud(text, category) {
   const task = { text, category };
@@ -96,7 +80,7 @@ async function deleteTaskFromCloud(text, category) {
   await db.collection("todos").doc(currentUserId).set({ tasks: updated });
 }
 
-// 🔹 UI Builders
+// 🔹 UI Renderers
 function createTodoBox({ id, title, color }) {
   const box = document.createElement("div");
   box.className = "todo-box";
@@ -131,6 +115,7 @@ function createTaskElement(text, category) {
   removeBtn.onclick = async () => {
     taskDiv.remove();
     await deleteTaskFromCloud(text, category);
+    updateTaskCount();
   };
 
   taskDiv.appendChild(taskContent);
@@ -138,7 +123,7 @@ function createTaskElement(text, category) {
   return taskDiv;
 }
 
-// 🔹 Task Creation
+// 🔹 Tasks: Add, Submit Handler
 function handleSubmit(event) {
   event.preventDefault();
   addTask();
@@ -159,91 +144,73 @@ async function addTask() {
     return;
   }
 
-  // Split by newline and filter out empty lines
+  // Split by newline and filter empty lines
   const taskLines = rawInput.split(/\r?\n/).map(line => line.trim()).filter(line => line);
 
   for (const taskText of taskLines) {
     const container = document.querySelector(`#${assignedBox}Box .tasks`);
     if (container) container.appendChild(createTaskElement(taskText, assignedBox));
-    addTaskToCardStack(taskText, assignedBox);
     await saveTaskToCloud(taskText, assignedBox);
   }
 
-  // Clear input and checkboxes
   document.getElementById("taskInput").value = "";
   categories.forEach(cat => {
     const checkbox = document.getElementById(`${cat.id}Checkbox`);
     if (checkbox) checkbox.checked = false;
   });
+  updateTaskCount();
 }
 
-// 🔹 Card Stack Logic
-function addTaskToCardStack(taskText, category) {
-  const cards = document.querySelectorAll('#cardStack .card');
-  for (let card of cards) {
-    if (card.dataset.category === category) {
-      const taskItem = document.createElement("div");
-      taskItem.className = "task-item";
-
-      const closeBtn = document.createElement("span");
-      closeBtn.textContent = "❌";
-      closeBtn.className = "close-btn";
-      closeBtn.onclick = async () => {
-        taskItem.remove();
-        await deleteTaskFromCloud(taskText, category);
-      };
-
-      taskItem.textContent = taskText;
-      taskItem.appendChild(closeBtn);
-      card.appendChild(taskItem);
-      break;
-    }
-  }
-}
-
-// 🔹 Task Count Table
-
+// 🔹 Task Count & Badge Logic
 function updateTaskCount() {
   const tbody = document.getElementById('taskCountBody');
   if (!tbody) return;
-
   tbody.innerHTML = '';
+
   categories.forEach(cat => {
     const box = document.getElementById(`${cat.id}Box`);
     const taskCount = box ? box.querySelectorAll('.task-item').length : 0;
 
-    // Update the count table row
+    // Update the summary row
     const row = document.createElement('tr');
     row.innerHTML = `<td>${cat.title}</td><td>${taskCount}</td>`;
     tbody.appendChild(row);
 
-    // Manage badge next to box title
+    // Badge logic
     const boxTitle = box.querySelector('.box-title');
     if (!boxTitle) return;
 
-    // Check if badge exists already
     let badge = boxTitle.querySelector('.badge-medal');
-
     if (taskCount >= 10) {
       if (!badge) {
         badge = document.createElement('span');
         badge.className = 'badge-medal';
-        badge.title = 'Medal awarded for 10+ tasks';
+        badge.title = 'Medal for 10+ tasks';
         badge.style.marginLeft = '8px';
-        badge.style.color = '#FFD700'; // gold color
-        badge.textContent = '🏅';     // medal emoji or you can use any icon
+        badge.style.color = '#FFD700';
+        badge.textContent = '🏅';
         boxTitle.appendChild(badge);
       }
     } else {
-      if (badge) {
-        badge.remove();
-      }
+      if (badge) badge.remove();
     }
   });
 }
 
+// 🔹 User Session
+async function initUserSession() {
+  document.getElementById("loginSection").style.display = "none";
+  document.getElementById("taskForm").style.display = "block";
 
-// 🔹 Auth Listener
+  const grid = document.getElementById("todoGrid");
+  grid.innerHTML = '';
+  categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
+
+  await loadTasks(currentUserId); // Ensure tasks are loaded into DOM
+  updateTaskCount();              // Immediately sync table and badges
+  document.getElementById("taskForm").onsubmit = e => handleSubmit(e);
+}
+
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     currentUserId = user.uid;
@@ -254,25 +221,23 @@ firebase.auth().onAuthStateChanged(user => {
   }
 });
 
-
+// 🔹 UI: Restore textarea size only (optional, not data), after cache clear
 document.addEventListener("DOMContentLoaded", function() {
   const textarea = document.getElementById('taskInput');
-  // Restore width and height from localStorage
   const savedWidth = localStorage.getItem('taskInputWidth');
   const savedHeight = localStorage.getItem('taskInputHeight');
   if (savedWidth) textarea.style.width = savedWidth;
   if (savedHeight) textarea.style.height = savedHeight;
 
-  // Save size after user resizes
   textarea.addEventListener('mouseup', function() {
-    // Only run if mouseup happened on resize
     localStorage.setItem('taskInputWidth', textarea.style.width);
     localStorage.setItem('taskInputHeight', textarea.style.height);
   });
-
-  // Optional: Also save on touchend for tablets
   textarea.addEventListener('touchend', function() {
     localStorage.setItem('taskInputWidth', textarea.style.width);
     localStorage.setItem('taskInputHeight', textarea.style.height);
   });
 });
+
+// 🔹 Periodic Sync (for real-time edits)
+setInterval(updateTaskCount, 1000);
