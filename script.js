@@ -228,6 +228,15 @@ function updateTaskCount() {
   });
 }
 
+function showToast(title) {
+  const toast = document.getElementById('toast');
+  toast.innerHTML = `<span class="toast-message">🎉 New Milestone: <b>${title}</b>!</span>`;
+  toast.classList.remove('toast-hidden');
+  setTimeout(() => {
+    toast.classList.add('toast-hidden');
+  }, 3200);
+}
+
 
 // 🔹 User Session
 async function initUserSession() {
