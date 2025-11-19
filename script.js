@@ -193,7 +193,7 @@ function updateTaskCount() {
         badge.textContent = '🏅';
         boxTitle.appendChild(badge);
       }
-      // Show rain & toast only on FIRST milestone
+      // Show rain & toast only the FIRST time milestone is achieved
       if (!milestoneReached) {
         showDotRain(cat.id);
         showToast();
@@ -210,31 +210,40 @@ function showDotRain(categoryId) {
   const box = document.getElementById(`${categoryId}Box`);
   if (!box) return;
 
-  // Remove any previous container
+  // Remove any previous rain container
   const prevContainer = box.querySelector('.rain-dot-container');
   if (prevContainer) prevContainer.remove();
 
-  // Create a new container
+  // Make a new container for this rain event
   const rainContainer = document.createElement('div');
   rainContainer.className = 'rain-dot-container';
   box.appendChild(rainContainer);
 
-  // Create the dots (customize quantity and colors as needed)
+  // Generate 14 rain dots with random colors/positions/delays
   for (let i = 0; i < 14; i++) {
     const dot = document.createElement('div');
     dot.className = 'rain-dot';
     dot.style.left = (Math.random() * 90) + '%';
     dot.style.background = `radial-gradient(circle at 30% 40%, 
-      ${['#40c4ff','#ffd600','#ff4081','#69f0ae','#ffd600','#ffab00'][Math.floor(Math.random()*6)]} 0%,
+      ${['#40c4ff','#ffd600','#ff4081','#69f0ae','#ffd600','#ffab00'][Math.floor(Math.random() * 6)]} 0%,
       #fffde7 100%)`;
-    dot.style.animationDelay = (Math.random() * 1.4) + 's';  // spread over animation
+    dot.style.animationDelay = (Math.random() * 1.35) + 's';
     rainContainer.appendChild(dot);
   }
 
-  // Ensure dots are removed after max animation time
+  // Remove the rain container after the longest animation (max 3s)
   setTimeout(() => {
     rainContainer.remove();
-  }, 5000); // 5 seconds, matches animation duration
+  }, 3000);
+}
+
+// 🔹 Toast Logic
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.remove('toast-hidden');
+  setTimeout(() => {
+    toast.classList.add('toast-hidden');
+  }, 3200);
 }
 
 // 🔹 User Session
@@ -246,11 +255,12 @@ async function initUserSession() {
   grid.innerHTML = '';
   categories.forEach(cat => grid.appendChild(createTodoBox(cat)));
 
-  await loadTasks(currentUserId); // Ensure tasks are loaded into DOM
-  updateTaskCount();              // Immediately sync table and badges
+  await loadTasks(currentUserId);
+  updateTaskCount();
   document.getElementById("taskForm").onsubmit = e => handleSubmit(e);
 }
 
+// 🔹 Firebase Session
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     currentUserId = user.uid;
