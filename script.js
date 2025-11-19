@@ -104,7 +104,8 @@ function createTaskElement(text, category) {
   taskDiv.className = "task-item";
 
   const taskContent = document.createElement("span");
-  taskContent.textContent = text;
+  // Use 🔹 for Toppriority, else normal
+  taskContent.textContent = category === "Toppriority" ? `🔹 ${text}` : text;
 
   const removeBtn = document.createElement("span");
   removeBtn.textContent = "✕";
