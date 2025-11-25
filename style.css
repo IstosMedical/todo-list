@@ -208,7 +208,6 @@ body {
 }
 
 .task-item::before {
-  content: "•";
   position: absolute;
   left: 8px;
   color: #888;
