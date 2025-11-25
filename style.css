@@ -1,5 +1,17 @@
 /* === Base Styles === */
 
+.task-list li {
+  padding-left: 1.5em; /* creates space between bullet and text */
+  position: relative;
+}
+
+.task-list li::before {
+  content: "•"; /* or use a checkbox icon */
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+}
+
 .auth-input-group {
   display: flex;
   flex-direction: column;
