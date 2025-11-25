@@ -52,7 +52,6 @@
 }
 
 .task-list li::before {
-  content: "•"; /* or use a checkbox icon */
   position: absolute;
   left: 0;
   top: 0.2em;
@@ -222,7 +221,6 @@ body {
 }
 
 .task-item::before {
-  content: "•";
   position: absolute;
   left: 8px;
   color: #888;
@@ -242,7 +240,6 @@ body {
 .task-item .close-btn:hover {
   color: #d32f2f;
 }
-
 
 /* === Task Summary Panel === */
 
