@@ -46,6 +46,17 @@
   background-color: #2471a3;
 }
 
+.task-list li {
+  padding-left: 1.5em; /* creates space between bullet and text */
+  position: relative;
+}
+
+.task-list li::before {
+  content: "•"; /* or use a checkbox icon */
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+}
 
 body {
   font-family: Arial, sans-serif;
