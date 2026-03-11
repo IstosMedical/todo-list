@@ -14,13 +14,14 @@ let currentUserId = null;
 
 // 🔹 Categories
 const categories = [
-  { id: "Toppriority", title: "🔹 Top-Priority", color: "#E8F5E9" },
+  { id: "Toppriority", title: "🔹 Top-Priority", color: "#FFD54F" }, // new category
   { id: "leads", title: "🎯 Leads", color: "#FCE4EC" },
-  { id: "office", title: "🏢 Office", color: "#F3E5F5" },
-  { id: "order", title: "📤 Orders", color: "#E3F2FD" },
+  { id: "office", title: "🏢 Office", color: "#FFFDE7" },
+  { id: "order", title: "🚚 Orders", color: "#E3F2FD" },
   { id: "personal", title: "🔔 Personal", color: "#FFEBEE" },
-  { id: "payments", title: "💰 Payments", color: "#E1F5FE" },  
-  { id: "tobeorder", title: "🧾 To be ordered", color: "#FFFDE7" },
+  { id: "paydo", title: "💰 Do-Payments", color: "#E1F5FE" },
+  { id: "get", title: "💵 Get-Payments", color: "#E8F5E9" },
+  { id: "tobeorder", title: "🧾 To be ordered", color: "#F3E5F5" },
   { id: "service", title: "🛠️ Service", color: "#FFF3E0" }
 ];
 
